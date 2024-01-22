@@ -1,4 +1,4 @@
-module Data (
+module mdr (
 	//MDMux
 	input [31:0]BusMuxOut, input [31:0]Mdatain, Read
 	//MDR
