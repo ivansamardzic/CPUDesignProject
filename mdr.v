@@ -1,6 +1,6 @@
 module mdr (
 	//MDMux
-	input [31:0]BusMuxOut, input [31:0]Mdatain, Read
+	input wire [31:0]BusMuxOut, input [31:0]Mdatain, Read
 	//MDR
 	input Clear, Clock, MDRin,
 
@@ -12,9 +12,12 @@ module mdr (
 reg [31:0]q;
 
 always @ (*) begin
-	if(Read) MDMuxout = Mdatain;
-	else 
-	MDMuxout = BusMuxOut;
-
+	if(Read) begin 
+		MDMuxout[31:0] = Mdatain[31:0];
+	end
+	else begin
+		MDMuxout[31:0] = BusMuxOut[31:0];
+	end
 end
+	
 endmodule
