@@ -21,4 +21,9 @@ always@(A or B)
 		end
 	end
 	c_out = LocalCarry[4]
+<<<<<<< patch-7
+endmodule 
 
+=======
+endmodule
+>>>>>>> main
