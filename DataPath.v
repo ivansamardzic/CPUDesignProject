@@ -1,4 +1,5 @@
 module DataPath(
+//test
 	input wire clock, clear,
 	input wire [7:0] A, 
 	input wire [7:0] RegisterAImmediate,
