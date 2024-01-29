@@ -21,5 +21,4 @@ always@(A or B)
 		end
 	end
 	c_out = LocalCarry[4]
-endmodule 
 
