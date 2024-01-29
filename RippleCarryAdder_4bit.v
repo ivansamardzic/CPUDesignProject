@@ -1,5 +1,4 @@
 // Ripple Carry Adder
-//Test Comment
 module RippleCarryAdder_4bit(A, B, Result, c_out);
 
 	input [3:0] A, B;
@@ -21,6 +20,6 @@ always@(A or B)
 			LocalCarry[i+1] = (A[i]&B[i]) | (LocalCarry[i]&A[I]) | (LocalCarry[i]&B[i]);
 		end
 	end
-	c_out = LocalCarry[4]
+	c_out = LocalCarry[4];
 endmodule 
 
