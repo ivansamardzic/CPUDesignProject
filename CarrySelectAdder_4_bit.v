@@ -13,7 +13,7 @@ module CarrySelectAdder_4_bit(
     FullAdder F3(S0[2], C0[2], C0[1], [2]a, [2]b);
     FullAdder F4(S0[3], C0[3], C0[2], [3]a, [3]b);
 
-    FullAdder F5(S1[0], C1[0], 1b'0, [0]a, [0]b);
+    FullAdder F5(S1[0], C1[0], 1b'1, [0]a, [0]b);
     FullAdder F6(S1[1], C1[1], C1[0], [1]a, [1]b);
     FullAdder F7(S1[2], C1[2], C1[1], [2]a, [2]b);
     FullAdder F8(S1[3], C1[3], C1[2], [3]a, [3]b);
