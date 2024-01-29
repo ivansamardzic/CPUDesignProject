@@ -1,5 +1,4 @@
 // Ripple Carry Adder
-//Test Comment
 module RippleCarryAdder_4bit(A, B, Result, c_out);
 
 	input [3:0] A, B;
