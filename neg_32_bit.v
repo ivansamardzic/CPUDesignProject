@@ -1,4 +1,4 @@
-module NEG_32_bit(
+module neg_32_bit(
     input wire [31:0]Ra,
     output wire [31:0]Rz
 );
@@ -8,6 +8,5 @@ module NEG_32_bit(
 	end
 
     assign Rz = Rz + 1'b1;
-
 
 endmodule
