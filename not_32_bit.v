@@ -1,4 +1,4 @@
-module And_32_bit(
+module not_32_bit(
     input [31:0]Ra,
     output [31:0]Rz
 );
