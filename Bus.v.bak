@@ -78,8 +78,8 @@ always @ (*) begin
 	
 	if(HIout) q = BMInHI; 
 	if(LOout) q = BMInLO;
-	if(Zhighout) q = BMInZhigh;
-	if(Zlowout) q = BMInZlow;
+	if(zhighout) q = BMInZhigh;
+	if(zlowout) q = BMInZlow;
 	if(PCout) q = BMInPC; 
 	if(MDRout) q = BMInMDR;
 	if(InPortout) q = BMInInPort;
