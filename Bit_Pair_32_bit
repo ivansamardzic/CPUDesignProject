@@ -9,7 +9,7 @@ reg [31:0] q;
 //{a[31], a} fills from a[31] to a
 
 wire [31:0] compliment_b; 
-assign compliment_b = ~b[31:0] + 1; 
+assign compliment_b = !b[31:0] + 1; 
 reg [63:0] product = 32'b0;
 
 
