@@ -1,6 +1,6 @@
 //Needs work -----> Using AND_tb to implement this tb
 `timescale 1ns/10ps
-module ADD_tb;
+module add_tb;
     reg PCout, Zlowout, MDRout, R2out, R3out; // add any other signals to see in your simulation
     reg MARin, Zin, PCin, MDRin, IRin, Yin;
     reg IncPC, Read, AND, R1in, R2in, R3in;
