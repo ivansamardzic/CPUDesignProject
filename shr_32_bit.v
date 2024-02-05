@@ -1,5 +1,9 @@
-module shr_32_bit(input wire [31:0] in, [31:0] shift, output wire[31:0] out);
+module shr_32_bit(input [31:0] in, shift, output wire[31:0] out);
 
-assign out = in >> shift; 
-
+  reg [31:0] temp; 
+  always @(in)
+    begin 
+      temp[31:0] = in[31:0] / (2 ** shift);  
+    end 
+  assign out = temp [31:0]; 
 endmodule
