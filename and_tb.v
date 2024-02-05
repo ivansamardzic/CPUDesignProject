@@ -11,7 +11,7 @@ module and_tb;
                 T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100;
     reg [3:0] Present_state = Default;
 
-DataPath DUT(PCout, Zlowout, MDRout, R2out, R3out, MARin, Zin, PCin, MDRin, IRin, Yin, IncPC, Read, AND, R1in,
+DataPath DUT(PCout, Zlowout, MDRout, R2out, R3out, MARin, Zin, PCin, MDRin, Yin, IncPC, Read, AND, R1in,
 R2in, R3in, Clock, Mdatain);
 // add test logic here
 initial
@@ -50,10 +50,10 @@ always @(Present_state) // do the required job in each state
                     R1in <= 0; R2in <= 0; R3in <= 0; Mdatain <= 32'h00000000;
             end
             Reg_load1a: begin
-                    Mdatain <= 32'h00000012;
+						  Mdatain <= 32'h00000014;
                     Read = 0; MDRin = 0; // the first zero is there for completeness
-                    #10 Read <= 1; MDRin <= 1;
-                    #15 Read <= 0; MDRin <= 0;
+                    #10 Read <= 0; MDRin <= 1;
+                    #15 Read <= 1; MDRin <= 0;
             end
             Reg_load1b: begin
                     #10 MDRout <= 1; R2in <= 1;
@@ -80,23 +80,30 @@ always @(Present_state) // do the required job in each state
 
 
             T0: begin // see if you need to de-assert these signals
-                    PCout <= 1; MARin <= 1; IncPC <= 1; Zin <= 1;
+                    #10 PCout <= 1; MARin <= 1; IncPC <= 1; Zin <= 1;
+						  #15 PCout <= 0; MARin <= 0; IncPC <= 0; Zin <= 0;
+						  
             end
             T1: begin
-                    Zlowout <= 1; PCin <= 1; Read <= 1; MDRin <= 1;
+                    #10 Zlowout <= 1; PCin <= 1; Read <= 1; MDRin <= 1;
                     Mdatain <= 32'h28918000; // opcode for “and R1, R2, R3”
+						  #15 Zlowout <= 0; PCin <= 0; Read <= 0; MDRin <= 0;
             end
             T2: begin
-                    MDRout <= 1; IRin <= 1;
+                    #10 MDRout <= 1; IRin <= 1;
+						  #15 MDRout <= 0; IRin <= 0;
             end
             T3: begin
-                    R2out <= 1; Yin <= 1;
+                    #10 R2out <= 1; Yin <= 1;
+						  #15 R2out <= 0; Yin <= 0;
             end
             T4: begin
-                    R3out <= 1; AND <= 1; Zin <= 1;
+                    #10 R3out <= 1; AND <= 1; Zin <= 1;
+						  #15 R3out <= 0; AND <= 0; Zin <= 0;
             end
             T5: begin
-                    Zlowout <= 1; R1in <= 1;
+                    #10 Zlowout <= 1; R1in <= 1;
+						  #15 Zlowout <= 0; R1in <= 0;
             end
         endcase
     end
