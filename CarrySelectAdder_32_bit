@@ -1,9 +1,9 @@
 module CarrySelectAdder_32_bit(
     input Cin, 
-    [31:0]a, 
-    [31:0]b, 
+    input [31:0]a, 
+    input [31:0]b, 
     output Cout, 
-    [31:0]sum
+    output [31:0]sum
     );
     wire [7:0]M; 
     //input Cin is optional, it will most likely be 0
