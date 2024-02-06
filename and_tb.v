@@ -50,7 +50,7 @@ always @(Present_state) // do the required job in each state
                     R1in <= 0; R2in <= 0; R3in <= 0; Mdatain <= 32'h00000000;
             end
             Reg_load1a: begin
-						  Mdatain <= 32'h00000014;
+						  Mdatain <= 32'h00000011;
                     Read = 0; MDRin = 0; // the first zero is there for completeness
                     #10 Read <= 0; MDRin <= 1;
                     #15 Read <= 1; MDRin <= 0;

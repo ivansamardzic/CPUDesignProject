@@ -1,15 +1,24 @@
 module DataPath(
-//test
+
+	//declarations
+	input wire Clock, clear,
+	input wire R0in, R1in, R2in, R3in, R4in, R5in, R6in, R7in, R8in, R9in, R10in, R11in, R12in, R13in, R14in, R15in,
+	input wire HIin, LOin, ZHIin, ZLOin, PCin, MDRin, MARin, InPortin, Cin, MD_read,
 	
-	input wire PCout, Zlowout, MDRout, R2out, R3out, // add any other signals to see in your simulation
-   input wire MARin, Zin,
-   input wire IncPC, Read, AND, R0in, R1in, R2in, R3in, R4in, R5in, R6in, R7in, R8in, R9in, R10in, R11in, R12in, R13in, R14in, R15in, PCin, IRin, MDRin, InPortin, OutPortin, Cin, Yin, HIin, LOin, ZHIin, ZLOin,
-   input wire Clock, clear,
+
+	//not sure whats acc being used of this below
+   input wire  Zin,
+   input wire IncPC, IRin,  OutPortin,  Yin,  
+	
+	
+	
+	
+
    input wire [31:0] Mdatain
 );
 
 wire [31:0] BusMuxOut, BMInR0, BMInR1, BMInR2, BMInR3, BMInR4, BMInR5, BMInR6, BMInR7, BMInR8, BMInR9, 
-BMInR10, BMInR11, BMInR12, BMInR13, BMInR14, BMInR15, BMInPC, BMInMDR, BMInCSign, BMInHI, BMInLO, BMInZhigh, BMInZlow, BusMuxInMDR; 
+BMInR10, BMInR11, BMInR12, BMInR13, BMInR14, BMInR15, BMInPC, BMInMDR, BMInCSign, BMInHI, BMInLO, BMInZhigh, BMInZlow; 
 
 wire [31:0] Zregin;
 
@@ -31,26 +40,33 @@ register R13(clear, clock, R13in, BusMuxOut, BMInR13);
 register R14(clear, clock, R14in, BusMuxOut, BMInR14);
 register R15(clear, clock, R15in, BusMuxOut, BMInR15);
 
-register PC_reg(IncPC, clock, PCin, BusMuxOut, BMInPC);
-//register IR_reg(clear, clock, IRin, BusMuxOut, BMInPC)*
-//register InPort_reg(clear, clock, InPortin, BusMuxOut, BMInInPort)*
-//register OutPort_reg(clear, clock, OutPortin, BusMuxOut, BMInPC)*
-register C_reg(clear, clock, Cin, BusMuxOut, BMInCSign);
-//register Y_reg(clear, clock, Yin, BusMuxOut, BMInPC)*
 register HI_reg(clear, clock, HIin, BusMuxOut, BMInHI);
 register LO_reg(clear, clock, LOin, BusMuxOut, BMInLO);
 register Z_HI_reg(clear, clock, ZHIin, BusMuxOut, BMInZhigh);
 register Z_LO_reg(clear, clock, ZLOin, BusMuxOut, BMInZlow);
-
-
-// adder
-
-and_32_bit and_32(RA, RB, RZ);
-MDR mdr(BuxMuxOut, Mdatain, Read, clear, clock, MDRin, BusMuxInMDR);
+register PC_reg(IncPC, clock, PCin, BusMuxOut, BMInPC);
+register InPort_reg(clear, clock, InPortin, BusMuxOut, BMInInPort);
+register C_reg(clear, clock, Cin, BusMuxOut, BMInCSign);
 
 
 
-//register RZ(clear, clock, RZin, Zregin, BusMuxInRZ);
+
+//register MDR()
+//register IR_reg(clear, clock, IRin, BusMuxOut, BMInPC)
+//register OutPort_reg(clear, clock, OutPortin, BusMuxOut, BMInPC)
+//register Y_reg(clear, clock, Yin, BusMuxOut, BMInPC)
+register RZ(clear, clock, RZin, Zregin, BusMuxInRZ);
+
+// and
+and_32_bit and_32(BMInR1, BMInR2, BMInR3);
+
+
+//
+
+MDR mdr(BuxMuxOut, Mdatain, MD_read, clear, clock, MDRin, MDRout);
+
+
+
 
 //Bus
 Bus bus(

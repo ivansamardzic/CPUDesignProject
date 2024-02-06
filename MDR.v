@@ -8,7 +8,7 @@ module MDR (
 	input wire Clock, 
 	input wire MDRin,
 
-	output wire [31:0]BusMuxInMDR 
+	output wire [31:0]MDRout 
 );
 
 	wire [31:0]MDMuxout;
