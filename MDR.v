@@ -16,19 +16,10 @@ module MDR (
 	reg [31:0]q;
 
 	//call register 
-//	register MDR(Clear, Clock, MDRin, MDMuxout, BusMuxInMDR);
 	
-//	always @ (*) begin
-//		if(Read) begin 
-//			q = Mdatain;
-//		end
-//		else begin
-//			q = BusMuxOut;
-//		end
-//		end 
-//	assign MDMuxout = q; 
+	
 	always @ (posedge Clock) begin
-		if(Read == 0) begin 
+		if(Read) begin 
 			q = Mdatain;
 		end
 		else begin
@@ -36,4 +27,16 @@ module MDR (
 		end
 		end 
 	assign MDMuxout = q; 
+	
+	register MDR(Clear, Clock, MDRin, MDMuxout, BusMuxInMDR);
+	
+//	always @ (posedge Clock) begin
+//		if(Read == 1) begin 
+//			q = Mdatain;
+//		end
+//		else begin
+//			q = BusMuxOut;
+//		end
+//		end 
+//	assign MDMuxout = q; 
 endmodule
