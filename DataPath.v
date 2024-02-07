@@ -9,11 +9,12 @@ module DataPath(
 );
 
 	wire [31:0] BMInR0, BMInR1, BMInR2, BMInR3, BMInR4, BMInR5, BMInR6, BMInR7, BMInR8, BMInR9, BMInR10, BMInR11, BMInR12, BMInR13, BMInR14, BMInR15, 
-	wire [31:0] BMout, BMInPC, BMInMDR, BMInCSign, BMInHI, BMInLO, BMInZhigh, BMInZlow; 
+	wire [31:0] BMout, BMInPC, BusMuxInMDR, BMInCSign, BMInHI, BMInLO, BMInZhigh, BMInZlow; 
 
 	wire [31:0] Zregin;
 
 	//Register Assignment
+	//clear, clock, enable, input, output 
 	register R0(clear, clock, R0in, BusMuxOut, BMInR0);
 	register R1(clear, clock, R1in, BusMuxOut, BMInR1);
 	register R2(clear, clock, R2in, BusMuxOut, BMInR2);
@@ -56,7 +57,8 @@ module DataPath(
 		
 		.BusMuxOut(BusMuxOut)
 		);
-		//and_32_bit and_32(.Ra(BMInR1), .Rb(BMInR2), .Rz(BMInR3));
+	
+		and_32_bit and_32(.Ra(BMInR1), .Rb(BMInR2), .Rz(BMInR3));
 		
 	//MDR mdr(BuxMuxOut, Mdatain, MD_read, clear, clock, MDRin, MDRout);
 	MDR mdr(.clear(clear), .clock(clock), .MDRin(MDRin), .BusMuxOut(BusMuxOut), .Mdatain(Mdatain), .read(MD_read), .BusMuxInMDR(BusMuxInMDR));
