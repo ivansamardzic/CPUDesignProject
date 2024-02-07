@@ -3,7 +3,7 @@ module and_tb;
     reg PCout, Zlowout, MDRout, R2out, R3out; // add any other signals to see in your simulation
     reg MARin, Zin, PCin, MDRin, IRin, Yin;
     reg IncPC, Read, AND, R1in, R2in, R3in;
-    reg Clock;
+    reg Clock, clear;
     reg [31:0] Mdatain;
 
     parameter   Default = 4'b0000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load2a = 4'b0011,
@@ -11,12 +11,13 @@ module and_tb;
                 T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100;
     reg [3:0] Present_state = Default;
 
-DataPath DUT(PCout, Zlowout, MDRout, R2out, R3out, MARin, Zin, PCin, MDRin, Yin, IncPC, Read, AND, R1in,
-R2in, R3in, Clock, Mdatain);
+DataPath DUT(.clear(clear), .clock(Clock), .MARin(MARin), .Zin(Zin), .PCin(PCin), .MDRin(MDRin), .Yin(Yin), .IncPC(IncPC), .R1in(R1in), .R2in(R2in), .R3in(R3in), .Mdatain(Mdatain), .MD_read(Read));
 // add test logic here
+		
 initial
     begin
         Clock = 0;
+		  clear = 0;
         forever #10 Clock = ~ Clock;
 end
 
@@ -52,8 +53,8 @@ always @(Present_state) // do the required job in each state
             Reg_load1a: begin
 						  Mdatain <= 32'h00000011;
                     Read = 0; MDRin = 0; // the first zero is there for completeness
-                    #10 Read <= 0; MDRin <= 1;
-                    #15 Read <= 1; MDRin <= 0;
+                    #10 Read <= 1; MDRin <= 1;
+                    #15 Read <= 0; MDRin <= 0;
             end
             Reg_load1b: begin
                     #10 MDRout <= 1; R2in <= 1;
@@ -81,25 +82,25 @@ always @(Present_state) // do the required job in each state
 
             T0: begin // see if you need to de-assert these signals
                     #10 PCout <= 1; MARin <= 1; IncPC <= 1; Zin <= 1;
-						  #15 PCout <= 0; MARin <= 0; IncPC <= 0; Zin <= 0;
+						  //#15 PCout <= 0; MARin <= 0; IncPC <= 0; Zin <= 0;
 						  
             end
             T1: begin
                     #10 Zlowout <= 1; PCin <= 1; Read <= 1; MDRin <= 1;
                     Mdatain <= 32'h28918000; // opcode for “and R1, R2, R3”
-						  #15 Zlowout <= 0; PCin <= 0; Read <= 0; MDRin <= 0;
+						  //#15 Zlowout <= 0; PCin <= 0; Read <= 0; MDRin <= 0;
             end
             T2: begin
                     #10 MDRout <= 1; IRin <= 1;
-						  #15 MDRout <= 0; IRin <= 0;
+						  //#15 MDRout <= 0; IRin <= 0;
             end
             T3: begin
                     #10 R2out <= 1; Yin <= 1;
-						  #15 R2out <= 0; Yin <= 0;
+						  //#15 R2out <= 0; Yin <= 0;
             end
             T4: begin
                     #10 R3out <= 1; AND <= 1; Zin <= 1;
-						  #15 R3out <= 0; AND <= 0; Zin <= 0;
+						  //#15 R3out <= 0; AND <= 0; Zin <= 0;
             end
             T5: begin
                     #10 Zlowout <= 1; R1in <= 1;
