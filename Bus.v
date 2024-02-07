@@ -54,7 +54,7 @@ module Bus (
 	input InPortout, 
 	input Cout,
 
-	output wire [31:0]BusMuxOut
+	output wire [31:0]BMout
 );
 	reg [31:0]q;
 
@@ -85,5 +85,5 @@ always @ (*) begin
 	if(InPortout) q = BMInInPort;
 	if(Cout) q = BMInCSign; 
 end
-assign BusMuxOut = q;
+assign BMout = q;
 endmodule
