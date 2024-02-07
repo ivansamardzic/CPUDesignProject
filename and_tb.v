@@ -54,29 +54,29 @@ always @(Present_state) // do the required job in each state
 						  Mdatain <= 32'h00000011;
                     Read = 0; MDRin = 0; // the first zero is there for completeness
                     #10 Read <= 1; MDRin <= 1;
-                    #15 Read <= 0; MDRin <= 0;
+                    //#15 Read <= 0; MDRin <= 0;
             end
             Reg_load1b: begin
                     #10 MDRout <= 1; R2in <= 1;
-                    #15 MDRout <= 0; R2in <= 0; // initialize R2 with the value $12
+                    //#15 MDRout <= 0; R2in <= 0; // initialize R2 with the value $12
             end
             Reg_load2a: begin
                     Mdatain <= 32'h00000014;
                     #10 Read <= 1; MDRin <= 1;
-                    #15 Read <= 0; MDRin <= 0;
+                    //#15 Read <= 0; MDRin <= 0;
             end
             Reg_load2b: begin
                     #10 MDRout <= 1; R3in <= 1;
-                    #15 MDRout <= 0; R3in <= 0; // initialize R3 with the value $14
+                    //#15 MDRout <= 0; R3in <= 0; // initialize R3 with the value $14
             end
             Reg_load3a: begin
                     Mdatain <= 32'h00000018;
                     #10 Read <= 1; MDRin <= 1;
-                    #15 Read <= 0; MDRin <= 0;
+                    //#15 Read <= 0; MDRin <= 0;
             end
             Reg_load3b: begin
                     #10 MDRout <= 1; R1in <= 1;
-                    #15 MDRout <= 0; R1in <= 0; // initialize R1 with the value $18
+                    //#15 MDRout <= 0; R1in <= 0; // initialize R1 with the value $18
             end
 
 
@@ -104,7 +104,7 @@ always @(Present_state) // do the required job in each state
             end
             T5: begin
                     #10 Zlowout <= 1; R1in <= 1;
-						  #15 Zlowout <= 0; R1in <= 0;
+						  //#15 Zlowout <= 0; R1in <= 0;
             end
         endcase
     end

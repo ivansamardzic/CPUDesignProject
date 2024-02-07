@@ -134,6 +134,6 @@ Bus bus(
 			and_32_bit and_32(.Ra(BMInR1), .Rb(BMInR2), .Rz(BMInR3));
 			
 			//MDR mdr(BuxMuxOut, Mdatain, MD_read, clear, clock, MDRin, MDRout);
-			MDR mdr(clear, clock, MDRin, BuxMuxOut, Mdatain, MD_read, MDRout);
+			MDR mdr(clear, clock, MDRin, BuxMuxOut, Mdatain, MD_read, BMInMDR);
 
 endmodule
