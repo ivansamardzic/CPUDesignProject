@@ -9,7 +9,7 @@ module DataPath(
 );
 
 	wire [31:0] BMInR0, BMInR1, BMInR2, BMInR3, BMInR4, BMInR5, BMInR6, BMInR7, BMInR8, BMInR9, BMInR10, BMInR11, BMInR12, BMInR13, BMInR14, BMInR15; 
-	wire [31:0] BMout, BMInPC, BusMuxInMDR, BMInCSign, BMInHI, BMInLO, BMInZhigh, BMInZlow; 
+	wire [31:0] BusMuxOut, BMInPC, BusMuxInMDR, BMInCSign, BMInHI, BMInLO, BMInZhigh, BMInZlow; 
 
 	wire [31:0] Zregin;
 

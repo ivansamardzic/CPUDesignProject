@@ -28,18 +28,18 @@ module and_tb;
 always @(posedge clock) // finite state machine; if clock rising-edge
     begin
         case (Present_state)
-            Default : #50 Present_state = Reg_load1a;
-            Reg_load1a : #50 Present_state = Reg_load1b;
-            Reg_load1b : #50 Present_state = Reg_load2a;
-            Reg_load2a : #50 Present_state = Reg_load2b;
-            Reg_load2b : #50 Present_state = Reg_load3a;
-            Reg_load3a : #50 Present_state = Reg_load3b;
-            Reg_load3b : #50 Present_state = T0;
-            T0 : #50 Present_state = T1;
-            T1 : #50 Present_state = T2;
-            T2 : #50 Present_state = T3;
-            T3 : #50 Present_state = T4;
-            T4 : #50 Present_state = T5;
+            Default : #30 Present_state = Reg_load1a;
+            Reg_load1a : #30 Present_state = Reg_load1b;
+            Reg_load1b : #30 Present_state = Reg_load2a;
+            Reg_load2a : #30 Present_state = Reg_load2b;
+            Reg_load2b : #30 Present_state = Reg_load3a;
+            Reg_load3a : #30 Present_state = Reg_load3b;
+            Reg_load3b : #30 Present_state = T0;
+            T0 : #30 Present_state = T1;
+            T1 : #30 Present_state = T2;
+            T2 : #30 Present_state = T3;
+            T3 : #30 Present_state = T4;
+            T4 : #30 Present_state = T5;
         endcase
     end
 
@@ -93,29 +93,29 @@ always @(Present_state) // do the required job in each state
 		
             T0: begin // see if you need to de-assert these signals
                     #10 PCout <= 1; MARin <= 1; IncPC <= 1; Zin <= 1;
-		    #15 PCout <= 0; MARin <= 0; IncPC <= 0; Zin <= 0;
+							//#15 PCout <= 0; MARin <= 0; IncPC <= 0; Zin <= 0;
 						  
             end
             T1: begin
                     #10 Zlowout <= 1; PCin <= 1; Read <= 1; MDRin <= 1;
                     Mdatain <= 32'h28918000; // opcode for “and R1, R2, R3”
-		    #15 Zlowout <= 0; PCin <= 0; Read <= 0; MDRin <= 0;
+							//#15 Zlowout <= 0; PCin <= 0; Read <= 0; MDRin <= 0;
             end
             T2: begin
                     #10 MDRout <= 1; IRin <= 1;
-		    #15 MDRout <= 0; IRin <= 0;
+							//#15 MDRout <= 0; IRin <= 0;
             end
             T3: begin
                     #10 R2out <= 1; Yin <= 1;
-		    #15 R2out <= 0; Yin <= 0;
+							//#15 R2out <= 0; Yin <= 0;
             end
             T4: begin
                     #10 R3out <= 1; AND <= 1; Zin <= 1;
-		    #15 R3out <= 0; AND <= 0; Zin <= 0;
+							//#15 R3out <= 0; AND <= 0; Zin <= 0;
             end
             T5: begin
                     #10 Zlowout <= 1; R1in <= 1;
-		    #15 Zlowout <= 0; R1in <= 0;
+							//#15 Zlowout <= 0; R1in <= 0;
             end
         endcase
     end
