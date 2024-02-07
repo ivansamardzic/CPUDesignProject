@@ -1,25 +1,22 @@
 module MDR(
 	input clear, clock, MDRin,
-	input [32-1:0]BusMuxOut, Mdatain, //MDR register has extra Mdatain input
-	input read,												// extra signal for MDMux select, see Phase 1 documentation
+	input [31:0]BusMuxOut, Mdatain,
+	input read,												
 	
-	output wire [32-1:0]BusMuxIn 		// '02/01', output to memory chip should prob also be here 
-);
-
-reg [32-1:0]q;
-
-initial q = 8'h00000002;
-
-always @ (posedge clock)
+	output wire [31:0]BusMuxInMDR 		
+	);
+	
+	reg [31:0]q;
+	initial q = 8'h00000000;
+	
+	always @ (posedge clock)
 		begin
-			if (clear) begin
-				q <= {32{1'b0}};
-			end
-			else if (MDRin) begin
-				if(read) q <= Mdatain; //assuming read=1 means read from mem chip
-				else q <= BusMuxOut; // otherwise set q to data from bus
-			end
+			if (clear) q <= {32{1'b0}};
+			else if (MDRin) 
+				begin
+					if(read) q <= Mdatain; 
+					else q <= BusMuxOut; 
+				end
 		end
-		
-	assign BusMuxIn = q[32-1:0];
+	assign BusMuxInMDR = q[31:0];
 endmodule
