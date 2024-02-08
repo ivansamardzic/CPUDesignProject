@@ -15,31 +15,31 @@ module and_tb;
 		     .R1in(R1in), .R2in(R2in), .R3in(R3in), 
 		     .MARin(MARin), .MDRin(MDRin), .PCin(PCin), .MD_read(Read),
 		     .Zin(Zin), .IncPC(IncPC), .Yin(Yin),  
-		     .Mdatain(Mdatain));
+		     .Mdatain(Mdatain), .MDRout(MDRout));
 // add test logic here
 		
 	initial
 		begin
-		        clock = 0;
+		   clock = 0;
 			clear = 0;
-		        forever #10 clock = ~ clock;
+		   forever #10 clock = ~ clock;
 		end
 
 always @(posedge clock) // finite state machine; if clock rising-edge
     begin
         case (Present_state)
-            Default : #30 Present_state = Reg_load1a;
-            Reg_load1a : #30 Present_state = Reg_load1b;
-            Reg_load1b : #30 Present_state = Reg_load2a;
-            Reg_load2a : #30 Present_state = Reg_load2b;
-            Reg_load2b : #30 Present_state = Reg_load3a;
-            Reg_load3a : #30 Present_state = Reg_load3b;
-            Reg_load3b : #30 Present_state = T0;
-            T0 : #30 Present_state = T1;
-            T1 : #30 Present_state = T2;
-            T2 : #30 Present_state = T3;
-            T3 : #30 Present_state = T4;
-            T4 : #30 Present_state = T5;
+            Default : #40 Present_state = Reg_load1a;
+            Reg_load1a : #40 Present_state = Reg_load1b;
+            Reg_load1b : #40 Present_state = Reg_load2a;
+            Reg_load2a : #40 Present_state = Reg_load2b;
+            Reg_load2b : #40 Present_state = Reg_load3a;
+            Reg_load3a : #40 Present_state = Reg_load3b;
+            Reg_load3b : #40 Present_state = T0;
+            T0 : #40 Present_state = T1;
+            T1 : #40 Present_state = T2;
+            T2 : #40 Present_state = T3;
+            T3 : #40 Present_state = T4;
+            T4 : #40 Present_state = T5;
         endcase
     end
 
@@ -55,39 +55,39 @@ always @(Present_state) // do the required job in each state
             end
 		//------------------------------------------------------------
             Reg_load1a: begin
-		    Mdatain <= 32'h00000011; //sends data to MDMux
-                    Read = 0; MDRin = 0; // does nothing
-                    #10 Read <= 1; MDRin <= 1; //sets BusMuxInMDR to Mdatain 
-                    #15 Read <= 0; MDRin <= 0; //read selects Busmux out, MDRin disables MDR
+							Mdatain <= 32'h00000012; //sends data to MDMux
+							Read = 0; MDRin = 0; // does nothing
+							#10 Read <= 1; MDRin <= 1; //sets BusMuxInMDR to Mdatain 
+							#15 Read <= 0; MDRin <= 0; //read selects Busmux out, MDRin disables MDR
             end
             Reg_load1b: begin
-		    #10 MDRout <= 1; R2in <= 1; //MDRout = 1 sets BusMuxOut to BusMuxInMDR aka Mdatain
-		    //R2in = 1 enables R2in, sets BMInR2 to BusMuxOut 
-                    #15 MDRout <= 0; R2in <= 0; //MDRout dissables bus change, R2in dissables register R2 change
+							#10 MDRout <= 1; R2in <= 1; //MDRout = 1 sets BusMuxOut to BusMuxInMDR aka Mdatain
+							//R2in = 1 enables R2in, sets BMInR2 to BusMuxOut 
+							#15 MDRout <= 0; R2in <= 0; //MDRout dissables bus change, R2in dissables register R2 change
             end
 		//------------------------------------------------------------
             Reg_load2a: begin
                     Mdatain <= 32'h00000014;
                     #10 Read <= 1; MDRin <= 1;
                     #15 Read <= 0; MDRin <= 0;
-		    //puts Mdatain to BusMuxInMDR
+						  //puts Mdatain to BusMuxInMDR
             end
             Reg_load2b: begin
                     #10 MDRout <= 1; R3in <= 1;
                     #15 MDRout <= 0; R3in <= 0; // initialize R3 with the value $14
-		    //puts BusMuxInMDR to BusMuxOut to Register 3 (BMInR3)
+						  //puts BusMuxInMDR to BusMuxOut to Register 3 (BMInR3)
             end
 		//------------------------------------------------------------
             Reg_load3a: begin
                     Mdatain <= 32'h00000018;
                     #10 Read <= 1; MDRin <= 1;
                     #15 Read <= 0; MDRin <= 0;
-		    //puts Mdatain to BusMuxInMDR
+							//puts Mdatain to BusMuxInMDR
             end
             Reg_load3b: begin
                     #10 MDRout <= 1; R1in <= 1;
                     #15 MDRout <= 0; R1in <= 0; // initialize R1 with the value $18
-		    //puts BusMuxInMDR to BusMuxOut to Register 1 (BMInR1)
+						  //puts BusMuxInMDR to BusMuxOut to Register 1 (BMInR1)
             end
 		//------------------------------------------------------------
 		
