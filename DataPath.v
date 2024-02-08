@@ -30,7 +30,9 @@ module DataPath(
 	register R0(clear, clock, R0in, BusMuxOut, BMInR0);
 	register R1(clear, clock, R1in, BusMuxOut, BMInR1);
 	register R2(clear, clock, R2in, BusMuxOut, BMInR2);
+	
 	register R3(clear, clock, R3in, BusMuxOut, BMInR3);
+	
 	register R4(clear, clock, R4in, BusMuxOut, BMInR4);
 	register R5(clear, clock, R5in, BusMuxOut, BMInR5);
 	register R6(clear, clock, R6in, BusMuxOut, BMInR6);
@@ -71,7 +73,7 @@ module DataPath(
 		.BusMuxOut(BusMuxOut)
 		);
 	
-		and_32_bit and_32(.Ra(BMInR1), .Rb(BMInR2), .Rz(BMInR3));
+		//and_32_bit and_32(.Ra(BMInR1), .Rb(BMInR2), .Rz(BMInR4));
 		
 
 endmodule

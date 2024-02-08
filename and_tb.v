@@ -1,8 +1,8 @@
 `timescale 1ns/10ps
 module and_tb;
-    reg PCout, Zlowout, MDRout, R2out, R3out; // add any other signals to see in your simulation
+    reg PCout, Zlowout, MDRout, R2out, R3out, R4out; // add any other signals to see in your simulation
     reg MARin, Zin, PCin, MDRin, IRin, Yin;
-    reg IncPC, Read, AND, R1in, R2in, R3in;
+    reg IncPC, Read, AND, R1in, R2in, R3in, R4in;
     reg clock, clear;
     reg [31:0] Mdatain;
 
@@ -12,7 +12,7 @@ module and_tb;
     reg [3:0] Present_state = Default;
 
 	DataPath DUT(.clock(clock), .clear(clear), 
-		     .R1in(R1in), .R2in(R2in), .R3in(R3in), 
+		     .R1in(R1in), .R2in(R2in), .R3in(R3in), .R4in(R4in), 
 		     .MARin(MARin), .MDRin(MDRin), .PCin(PCin), .MD_read(Read),
 		     .Zin(Zin), .IncPC(IncPC), .Yin(Yin),  
 		     .Mdatain(Mdatain), .MDRout(MDRout));
