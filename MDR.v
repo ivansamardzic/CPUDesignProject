@@ -18,5 +18,6 @@ module MDR(
 					else q <= BusMuxOut; 
 				end
 		end
+		
 	assign BusMuxInMDR = q[31:0];
 endmodule
