@@ -1,7 +1,7 @@
-module ALU(input wire [31:0] A, B, Y, input wire [3:0] op, output reg[63:0] C);
+module ALU(input wire [31:0] Y, BusMuxOut, input wire [3:0] op, output reg[63:0] C);
 	
 	
-	wire [31:0] and_result, or_result, neg_result, shr_result, shra_result, shl_result, ror_result, rol_result, add_result, sub_result;
+	wire [31:0] and_result, or_result, neg_result, not_result, shr_result, shra_result, shl_result, ror_result, rol_result, add_result, sub_result;
 	wire [63:0] mul_result, div_result;
 
 	parameter AND = 4'b0000, OR = 4'b0001, NEGATE = 4'b0010, NOT = 4'b0011, ADD = 4'b0100, SUB = 4'b0101,
@@ -10,8 +10,8 @@ module ALU(input wire [31:0] A, B, Y, input wire [3:0] op, output reg[63:0] C);
 	//All uncommented operations work
 	
 	//And/Or
-	and_32_bit and_32(Y, B, and_result);
-	or_32_bit or_32(Y, B, or_result);
+	and_32_bit and_32(Y, BusMuxOut, and_result);
+	or_32_bit or_32(Y, BusMuxOut, or_result);
 	
 	//Neg/Not
 	//Note: There is no sign extension when preforming the operation
