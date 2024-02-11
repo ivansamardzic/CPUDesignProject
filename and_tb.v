@@ -12,7 +12,8 @@ module and_tb;
     reg [3:0] Present_state = Default;
 
 	DataPath DUT(.clock(clock), .clear(clear), 
-		     .R1in(R1in), .R2in(R2in), .R3in(R3in), .R4in(R4in), 
+		     .R1in(R1in), .R2in(R2in), .R3in(R3in), .R4in(R4in),
+			  .R2out(R2out), .R3out(R3out),  
 		     .MDRin(MDRin), 
 		     .MARin(MARin), .PCin(PCin), .MD_read(Read),
 		     .Zlowin(Zlowin), .Zlowout(Zlowout), .IncPC(IncPC), .Yin(Yin), .IRin(IRin),  
@@ -99,7 +100,7 @@ always @(Present_state) // do the required job in each state
             end
             T1: begin
                     #10 Zlowout <= 1; PCin <= 1; Read <= 1; MDRin <= 1;
-                    Mdatain <= 32'h28918000; // opcode for “and R1, R2, R3”
+                    Mdatain <= 4'b0000; // opcode for “and R1, R2, R3”
 		    #15 Zlowout <= 0; PCin <= 0; Read <= 0; MDRin <= 0;
             end
             T2: begin
@@ -108,7 +109,7 @@ always @(Present_state) // do the required job in each state
             end
             T3: begin
                     #10 R2out <= 1; Yin <= 1; //transfers R2 contents to Y reg
-		    #15 R2out <= 0; Yin <= 0;
+			#15 R2out <= 0; Yin <= 0;
             end
             T4: begin
                     #10 R3out <= 1; AND <= 1; Zlowin <= 1; //transfers R3 to bus, does AND, Z takes in AND result
@@ -121,3 +122,4 @@ always @(Present_state) // do the required job in each state
         endcase
     end
 endmodule
+
