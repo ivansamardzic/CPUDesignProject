@@ -4,7 +4,7 @@ module DataPath(
 	input wire clock, clear,
 	input wire R0in, R1in, R2in, R3in, R4in, R5in, R6in, R7in, R8in, R9in, R10in, R11in, R12in, R13in, R14in, R15in,
 	input wire HIin, LOin, Zlowin, Zhighin, PCin, MDRin, MARin, InPortin, Cin, MD_read,
-	input wire Zlowin, IncPC, IRin, OutPortin, Yin, 
+	input wire IncPC, IRin, OutPortin, Yin, 
 	
 	input wire R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, R8out, R9out, R10out, R11out, R12out, R13out, R14out, R15out,
 	input wire HIout, LOout, Zhighout, Zlowout, PCout, MDRout, MARout, InPortout, Cout,
@@ -15,7 +15,7 @@ module DataPath(
 );
 
 	wire [31:0] BMInR0, BMInR1, BMInR2, BMInR3, BMInR4, BMInR5, BMInR6, BMInR7, BMInR8, BMInR9, BMInR10, BMInR11, BMInR12, BMInR13, BMInR14, BMInR15; 
-	wire [31:0] BusMuxOut, BMInPC, BMInIR, BusMuxInMDR, BusMuxInMAR, BMInCSign, BMInHI, BMInLO, BMInZhigh, BMInZlow, BMInY, 
+	wire [31:0] BusMuxOut, BMInPC, BMInIR, BusMuxInMDR, BusMuxInMAR, BMInCSign, BMInHI, BMInLO, BMInZhigh, BMInZlow, BMInY; 
 	wire [63:0] C; 
 
 	
@@ -49,7 +49,7 @@ module DataPath(
 	register LO_reg(clear, clock, LOin, BusMuxOut, BMInLO);
 	register PC_reg(IncPC, clock, PCin, BusMuxOut, BMInPC);
 	register InPort_reg(clear, clock, InPortin, BusMuxOut, BMInInPort);
-	register C_reg(clear, clock, Cin, BusMuxOut, BMInCSign);
+	//register C_reg(clear, clock, Cin, BusMuxOut, BMInCSign);
 	register IR_reg(clear, clock, IRin, BusMuxOut, BMInIR); 
 	//register OutPort_reg(clear, clock, OutPortin, BusMuxOut, BMInPC)
 	register Y_reg(clear, clock, Yin, BusMuxOut, BMInY);
@@ -67,3 +67,4 @@ module DataPath(
 	
 	ALU alu(.Y(BMInY), .BusMuxOut(BusMuxOut), .op(BMInIR), .C(C));
 endmodule
+
