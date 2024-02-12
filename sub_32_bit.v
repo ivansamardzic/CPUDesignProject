@@ -7,6 +7,6 @@ module sub_32_bit(
 );
     wire [31:0] temp; 
     neg_32_bit neg(b, temp);
-    CarrySelectAdder_32_bit add(Cin, a, temp, Cout, sum);
+    CarrySelectAdder_32_bit add(0, a, temp, Cout, sum);
 
 endmodule
