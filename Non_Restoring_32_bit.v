@@ -8,31 +8,35 @@ module Non_Restoring_32_bit(
     integer Qbit = $bits(Q); 
 
     reg [31:0] t_Q; 
+    reg [31:0] A = 32'b0; 
 
     always @(*) 
         begin
         t_Q = Q; 
             for(i = 0; i < Qbit; i++)
                 begin
+                    A = A << 1; 
+                    A[0] = t_Q[Qbit-1]; 
                     t_Q = t_Q << 1; 
-                    if (t_Q[Qbit * 2] == 0) 
-                        t_Q = t_Q - (M << Qbit); 
+                    //shift 
+                    if (A >= 0) 
+                        A = A - M; 
                     else 
-                        t_Q = t_Q + (M << Qbit); 
-                    
-                    if (t_Q[Qbit * 2] == 0)
+                        A = A + M; 
+                    //q0
+                    if (A >= 0)
                         t_Q[0] = 1;
                     else
                         t_Q[0] = 0;
                 end 
-            Quotient = t_Q[Qbit - 1:0];
+            Quotient = 32'b0 | t_Q[Qbit - 1:0];
 
-            if(Q[Qbit * 2] == 1)
+            if(A < 0)
                 begin
-                    t_Q = t_Q + (M << Qbit);
-                    Remainder = t_Q >> Qbit;
+                    A = A + M;
+                    Remainder = A;
                 end 
             else
-                Remainder = t_Q >> Qbit;
+                Remainder = A;
         end
 endmodule 
