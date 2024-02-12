@@ -1,8 +1,8 @@
 module ALU(input wire [31:0] Y, BusMuxOut, input wire [3:0] op, output reg[63:0] C);
 	
 	
-	wire [31:0] and_result, or_result, neg_result, not_result, shr_result, shra_result, shl_result, ror_result, rol_result, add_result, sub_result;
-	wire [63:0] mul_result, div_result;
+	wire [31:0] and_result, or_result, neg_result, not_result, shr_result, shra_result, shl_result, ror_result, rol_result, add_result, sub_result, Quotient, Remainder;
+	wire [63:0] mul_result;
 
 	parameter AND = 4'b0000, OR = 4'b0001, NEGATE = 4'b0010, NOT = 4'b0011, ADD = 4'b0100, SUB = 4'b0101,
 	MUL = 4'b0110, DIV = 4'b0111, SHR = 4'b1000, SHRA = 4'b1001, SHL = 4'b1010, ROR = 4'b1011, ROL = 4'b1100;
@@ -33,7 +33,7 @@ module ALU(input wire [31:0] Y, BusMuxOut, input wire [3:0] op, output reg[63:0]
 	
 	//Mul/Div
 	//Bit_Pair_32_bit mul_32(Y, BusMuxOut, mul_result);
-	//Non_Restoring_32_bit div_32(Y, BusMuxOut, div_result);
+	Non_Restoring_32_bit div_32(Y, BusMuxOut, Quotient, Remainder);
     
 
 	
@@ -61,8 +61,8 @@ module ALU(input wire [31:0] Y, BusMuxOut, input wire [3:0] op, output reg[63:0]
 				C [31:0] <= mul_result [31:0];
 				C [63:32] <= mul_result [63:32]; end 
 			DIV	: begin
-				C [31:0] <= div_result [31:0];
-				C [63:32] <= div_result [63:32]; end 
+				C [31:0] <= Quotient [31:0];
+				C [63:32] <= Remainder [31:0]; end 
 			SHR	: begin
 				C [31:0] <= shr_result;
 				C [63:32] <= 32'd0; end 
