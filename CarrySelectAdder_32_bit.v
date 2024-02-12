@@ -1,16 +1,16 @@
 module CarrySelectAdder_32_bit(
     input Cin, 
-    input [31:0]a, 
-    input [31:0]b, 
+    input wire [31:0]a, 
+    input wire [31:0]b, 
     output Cout, 
-    output [31:0]sum
+    output wire [31:0]sum
     );
     wire [7:0]M; 
     //input Cin is optional, it will most likely be 0
 
     //cin, a, b, cout, sum 
 
-    CarrySelectAdder_4_bit C1(Cin, a[3:0], b[3:0], M[0], sum[3:0]);
+    CarrySelectAdder_4_bit C1(0, a[3:0], b[3:0], M[0], sum[3:0]);
     CarrySelectAdder_4_bit C2(M[0], a[7:4], b[7:4], M[1], sum[7:4]); 
     CarrySelectAdder_4_bit C3(M[1], a[11:8], b[11:8], M[2], sum[11:8]); 
     CarrySelectAdder_4_bit C4(M[2], a[15:12], b[15:12], M[3], sum[15:12]); 

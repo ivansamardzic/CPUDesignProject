@@ -3,7 +3,7 @@ module CarrySelectAdder_4_bit(
     input [3:0]a, 
     input [3:0]b, 
     output Cout, 
-    output sum
+    output [3:0]sum
     );
     wire [3:0]S0, S1, C0, C1;
 
