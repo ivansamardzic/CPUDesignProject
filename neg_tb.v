@@ -1,8 +1,8 @@
 `timescale 1ns/10ps
-module and_tb;
+module neg_tb;
     reg PCout, Zlowout, MDRout, R2out, R3out, R4out; // add any other signals to see in your simulation
     reg MARin, Zlowin, PCin, MDRin, IRin, Yin;
-    reg IncPC, Read, AND, R1in, R2in, R3in, R4in;
+    reg IncPC, Read, NEGATE, R1in, R2in, R3in, R4in;
     reg clock, clear;
     reg [31:0] Mdatain;
 
@@ -52,12 +52,12 @@ always @(Present_state) // do the required job in each state
                     PCout <= 0; Zlowout <= 0; MDRout <= 0; // initialize the signals
                     R2out <= 0; R3out <= 0; MARin <= 0; Zlowin <= 0;
                     PCin <=0; MDRin <= 0; IRin <= 0; Yin <= 0;
-                    IncPC <= 0; Read <= 0; AND <= 0;
+                    IncPC <= 0; Read <= 0; NEGATE <= 0;
                     R1in <= 0; R2in <= 0; R3in <= 0; Mdatain <= 32'h00000000;
             end
 		//------------------------------------------------------------
             Reg_load1a: begin
-			Mdatain <= 32'h00000012; //sends data to MDMux
+			Mdatain <= 32'h00000006; //sends data to MDMux
 			Read = 0; MDRin = 0; // does nothing
 			#10 Read <= 1; MDRin <= 1; //sets BusMuxInMDR to Mdatain 
 			#15 Read <= 0; MDRin <= 0; //read selects Busmux out, MDRin disables MDR
@@ -100,7 +100,7 @@ always @(Present_state) // do the required job in each state
             end
             T1: begin
                     #10 Zlowout <= 1; PCin <= 1; Read <= 1; MDRin <= 1;
-                    Mdatain <= 4'b0000; // opcode for “and R1, R2, R3”
+                    Mdatain <= 4'b0010; // opcode for “negate R2”
 		    #15 Zlowout <= 0; PCin <= 0; Read <= 0; MDRin <= 0;
             end
             T2: begin
@@ -112,8 +112,8 @@ always @(Present_state) // do the required job in each state
 			#15 R2out <= 0; Yin <= 0;
             end
             T4: begin
-                    #10 R3out <= 1; AND <= 1; Zlowin <= 1; //transfers R3 to bus, does AND, Z takes in AND result
-		    #15 R3out <= 0; AND <= 0; Zlowin <= 0;
+                    #10 R3out <= 1; NEGATE <= 1; Zlowin <= 1; //transfers R3 to bus, does OR, Z takes in OR result
+		    #15 R3out <= 0; NEGATE <= 0; Zlowin <= 0;
             end
             T5: begin
                     #10 Zlowout <= 1; R1in <= 1; //transfers zlow contents into R1 
@@ -122,4 +122,3 @@ always @(Present_state) // do the required job in each state
         endcase
     end
 endmodule
-
