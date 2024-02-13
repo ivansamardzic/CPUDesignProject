@@ -1,42 +1,50 @@
 module Non_Restoring_32_bit(
-    input reg [31:0] M, 
-    input reg [31:0] Q, 
+    input wire [31:0] M, 
+    input wire [31:0] Q, 
     output reg [31:0] Quotient,
     output reg [31:0] Remainder); 
 
-    integer i; 
-    integer Qbit = $bits(Q); 
-
-    reg [31:0] t_Q; 
-    reg [31:0] A = 32'b0; 
-
-    always @(*) 
-        begin
-        t_Q = Q; 
-            for(i = 0; i < Qbit; i++)
+    integer i;
+    reg [64:0] AQ;
+	  
+	 wire [31:0] M_not; 
+    assign M_not = ~M + 1'b1;
+	 //Q/W R2/R3
+	 
+	 
+	 always @(*) 
+        begin	
+		  AQ = {33'b0, Q}; 
+            for(i = 0; i < 32; i = i + 1)
                 begin
-                    A = A << 1; 
-                    A[0] = t_Q[Qbit-1]; 
-                    t_Q = t_Q << 1; 
-                    //shift 
-                    if (A >= 0) 
-                        A = A - M; 
+						
+                    AQ = AQ << 1; 
+						
+                    	 ////shift 
+                    if (AQ[63] == 1) 
+								begin
+                        AQ = {AQ[64:32] + M, AQ[31:0]};
+								end 
                     else 
-                        A = A + M; 
+								begin
+								AQ = {AQ[64:32] + M_not, AQ[31:0]};
+								end
+   
                     //q0
-                    if (A >= 0)
-                        t_Q[0] = 1;
-                    else
-                        t_Q[0] = 0;
+                    if (AQ[63] == 1)
+								AQ[0] = 0;
+						  else 
+								AQ = AQ + 1;
                 end 
-            Quotient = 32'b0 | t_Q[Qbit - 1:0];
+            Quotient = AQ[31:0];
 
-            if(A < 0)
+            if(AQ[63] == 1)
                 begin
-                    A = A + M;
-                    Remainder = A;
+                    AQ = {AQ[64:32] + M, AQ[31:0]};
+                    Remainder = AQ[64:32];
                 end 
             else
-                Remainder = A;
+				Remainder = AQ[64:32];
         end
 endmodule 
+
