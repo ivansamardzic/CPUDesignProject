@@ -12,9 +12,8 @@ module ALU(input wire [31:0] Y, BusMuxOut, input wire [3:0] op, output reg[63:0]
 	//or_32_bit or_32(Y, BusMuxOut, or_result);
 	
 	//Neg/Not WORKS
-	//Note: There is no sign extension when preforming the operation
-	neg_32_bit neg_32(Y, neg_result);
-	not_32_bit not_32(Y, not_result);
+	//neg_32_bit neg_32(Y, neg_result);
+	//not_32_bit not_32(Y, not_result);
 	
 	//Shifts WORK
 	//shr_32_bit shr_32(Y, BusMuxOut, shr_result);
@@ -30,7 +29,7 @@ module ALU(input wire [31:0] Y, BusMuxOut, input wire [3:0] op, output reg[63:0]
 	//sub_32_bit sub_32(Y, BusMuxOut, sub_result);
 	
 	//Mul/Div WORKS
-	Bit_Pair_32_bit mul_32(Y, BusMuxOut, mul_result);
+	//Bit_Pair_32_bit mul_32(Y, BusMuxOut, mul_result);
 	//Non_Restoring_32_bit div_32(Y, BusMuxOut, Quotient, Remainder);
     
 
