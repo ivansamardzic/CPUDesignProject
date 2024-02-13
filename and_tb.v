@@ -1,8 +1,8 @@
 `timescale 1ns/10ps
 module and_tb;
-    reg PCout, Zlowout, MDRout, R2out, R3out, R4out; // add any other signals to see in your simulation
+    reg PCout, Zlowout, MDRout, R2out, R3out; // add any other signals to see in your simulation
     reg MARin, Zlowin, PCin, MDRin, IRin, Yin;
-    reg IncPC, Read, AND, R1in, R2in, R3in, R4in;
+    reg IncPC, Read, AND, R1in, R2in, R3in;
     reg clock, clear;
     reg [31:0] Mdatain;
 
@@ -12,7 +12,7 @@ module and_tb;
     reg [3:0] Present_state = Default;
 
 	DataPath DUT(.clock(clock), .clear(clear), 
-		     .R1in(R1in), .R2in(R2in), .R3in(R3in), .R4in(R4in),
+		     .R1in(R1in), .R2in(R2in), .R3in(R3in),
 			  .R2out(R2out), .R3out(R3out),  
 		     .MDRin(MDRin), 
 		     .MARin(MARin), .PCin(PCin), .MD_read(Read),
@@ -57,7 +57,7 @@ always @(Present_state) // do the required job in each state
             end
 		//------------------------------------------------------------
             Reg_load1a: begin
-			Mdatain <= 32'h00000012; //sends data to MDMux
+			Mdatain <= 32'h00000003; //sends data to MDMux
 			Read = 0; MDRin = 0; // does nothing
 			#10 Read <= 1; MDRin <= 1; //sets BusMuxInMDR to Mdatain 
 			#15 Read <= 0; MDRin <= 0; //read selects Busmux out, MDRin disables MDR
@@ -69,7 +69,7 @@ always @(Present_state) // do the required job in each state
             end
 		//------------------------------------------------------------
             Reg_load2a: begin
-                    Mdatain <= 32'h00000014;
+                    Mdatain <= 32'h000000D;
                     #10 Read <= 1; MDRin <= 1;
                     #15 Read <= 0; MDRin <= 0;
 						  //puts Mdatain to BusMuxInMDR
@@ -81,7 +81,7 @@ always @(Present_state) // do the required job in each state
             end
 		//------------------------------------------------------------
             Reg_load3a: begin
-                    Mdatain <= 32'h00000018;
+                    Mdatain <= 32'h00000000;
                     #10 Read <= 1; MDRin <= 1;
                     #15 Read <= 0; MDRin <= 0;
 							//puts Mdatain to BusMuxInMDR
