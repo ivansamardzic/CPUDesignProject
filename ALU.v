@@ -8,8 +8,8 @@ module ALU(input wire [31:0] Y, BusMuxOut, input wire [3:0] op, output reg[63:0]
 	MUL = 4'b0110, DIV = 4'b0111, SHR = 4'b1000, SHRA = 4'b1001, SHL = 4'b1010, ROR = 4'b1011, ROL = 4'b1100;
 	
 	//And/Or WORKS
-	//and_32_bit and_32(Y, BusMuxOut, and_result);
-	//or_32_bit or_32(Y, BusMuxOut, or_result);
+	and_32_bit and_32(Y, BusMuxOut, and_result);
+	or_32_bit or_32(Y, BusMuxOut, or_result);
 	
 	//Neg/Not WORKS
 	//Note: There is no sign extension when preforming the operation
@@ -17,21 +17,21 @@ module ALU(input wire [31:0] Y, BusMuxOut, input wire [3:0] op, output reg[63:0]
 	not_32_bit not_32(Y, not_result);
 	
 	//Shifts WORK
-	//shr_32_bit shr_32(Y, BusMuxOut, shr_result);
-	//shra_32_bit shra_32(Y, BusMuxOut, shra_result);
-	//shl_32_bit shl_32(Y, BusMuxOut, shl_result);
+	shr_32_bit shr_32(Y, BusMuxOut, shr_result);
+	shra_32_bit shra_32(Y, BusMuxOut, shra_result);
+	shl_32_bit shl_32(Y, BusMuxOut, shl_result);
 	
 	//Rotates WORK
-	//ror_32_bit ror_32(Y, BusMuxOut, ror_result);
-	//rol_32_bit rol_32(Y, BusMuxOut, rol_result);
+	ror_32_bit ror_32(Y, BusMuxOut, ror_result);
+	rol_32_bit rol_32(Y, BusMuxOut, rol_result);
 	
 	//Add/Sub WORKS
-	//CarrySelectAdder_32_bit add_32(Y, BusMuxOut, add_result);
-	//sub_32_bit sub_32(Y, BusMuxOut, sub_result);
+	CarrySelectAdder_32_bit add_32(.a(Y), .b(BusMuxOut), .sum(add_result));
+	sub_32_bit sub_32(.a(Y), .b(BusMuxOut), .sum(sub_result));
 	
 	//Mul/Div WORKS
 	Bit_Pair_32_bit mul_32(Y, BusMuxOut, mul_result);
-	//Non_Restoring_32_bit div_32(Y, BusMuxOut, Quotient, Remainder);
+	Non_Restoring_32_bit div_32(Y, BusMuxOut, Quotient, Remainder);
     
 
 	
