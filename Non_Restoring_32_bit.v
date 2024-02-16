@@ -6,57 +6,75 @@ module Non_Restoring_32_bit(
 
     integer i, flagQ, flagM;
     reg [64:0] AQ;
-	 
-	  
-	 reg [31:0] M_not;
-	 reg [31:0] M, Q;	 
-    //assign M_not = ~M + 1'b1;
+    reg [31:0] M_not;
+    reg [31:0] M, Q;	 
 	 //Q/M R2/R3
-	 
-	 
-	 always @(*) 
+	always @(*) 
         begin	
 		  //NEG CASE
-		   if(Min[31] == 1)
+		   if(Min[31] && Qin[31])
 			begin
 				M = -Min;
-				flagM = 1; 
-			end
-			if(Qin[31] == 1)
-			begin
+				M_not = Min; 
+				flagM = 1;
 				Q = -Qin;
-				flagQ = 1; 
+				flagQ = 1;
 			end
-			else
+			else if((Min[31] == 1) && (Qin[31] == 0))
+			begin
+				M = -Min;
+				M_not = Min; 
+				flagM = 1;
+				flagQ = 0;
+				Q = Qin; 
+			end 
+			else if((Qin[31] == 1) && (Min[31] == 0))
+			begin
+				M = Min;
+				M_not = -Min; 
+				flagM = 0;
+				Q = -Qin;
+				flagQ = 1;
+			end 
+			else if((Min[31] == 0) && (Qin[31] == 0))
 			begin
 				M = Min; 
 				Q = Qin;
 				M_not = -Min;
+				flagM = 0;
+				flagQ = 0; 
 			end
-			
-		  AQ = {33'b0, Q}; 
+		
+	    AQ = {33'b0, Q}; 
             for(i = 0; i < 32; i = i + 1)
-                begin
-						
+                begin		
                     AQ = AQ << 1; 
 						
                     	 ////shift 
                     if (AQ[63] == 1) 
-								begin
+			begin
                         AQ = {AQ[64:32] + M, AQ[31:0]};
-								end 
+			end 
                     else 
-								begin
-								AQ = {AQ[64:32] + M_not, AQ[31:0]};
-								end
+			begin
+			AQ = {AQ[64:32] + M_not, AQ[31:0]};
+			end
    
                     //q0
                     if (AQ[63] == 1)
-								AQ[0] = 0;
-						  else 
-								AQ = AQ + 1;
+			AQ[0] = 0;
+		    else 
+			AQ = AQ + 1;
                 end 
-            Quotient = AQ[31:0];
+                Quotient = AQ[31:0];
+				
+		if(flagQ && flagM)
+			Quotient = AQ[31:0];
+				
+		else if(flagQ || flagM)
+			Quotient = -AQ[31:0];
+		else
+			Quotient = AQ[31:0];
 
             if(AQ[63] == 1)
                 begin
@@ -64,7 +82,7 @@ module Non_Restoring_32_bit(
                     Remainder = AQ[64:32];
                 end 
             else
-				Remainder = AQ[64:32];
+		Remainder = AQ[64:32];
         end
 endmodule 
 
