@@ -2,6 +2,9 @@
 module div_tb;
     reg PCout, Zlowout, Zhighout, MDRout, R2out, R3out, R4out; // add any other signals to see in your simulation
     reg MARin, Zlowin, Zhighin, PCin, MDRin, IRin, Yin;
+=======
+    reg PCout, Zlowout, MDRout, R2out, R3out, R4out; // add any other signals to see in your simulation
+    reg MARin, Zlowin, PCin, MDRin, IRin, Yin;
     reg IncPC, Read, AND, R1in, R2in, R3in, R4in;
     reg clock, clear;
     reg [31:0] Mdatain;
@@ -99,7 +102,11 @@ always @(Present_state) // do the required job in each state
 						  
             end
             T1: begin
+<<<<<<< HEAD
                     #10 Zlowout <= 1; Zhighout <= 1;PCin <= 1; Read <= 1; MDRin <= 1;
+=======
+                    #10 Zlowout <= 1; PCin <= 1; Read <= 1; MDRin <= 1;
+>>>>>>> 86ba8cb7588ccf90706dc6c85989992974200c38
                     Mdatain <= 4'b0111; // opcode for “and R1, R2, R3”
 		    #15 Zlowout <= 0; PCin <= 0; Read <= 0; MDRin <= 0;
             end
@@ -121,4 +128,8 @@ always @(Present_state) // do the required job in each state
             end
         endcase
     end
+<<<<<<< HEAD
 endmodule
+=======
+endmodule
+>>>>>>> 86ba8cb7588ccf90706dc6c85989992974200c38
