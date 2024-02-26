@@ -69,7 +69,7 @@ always @(Present_state) // do the required job in each state
             end
 		//------------------------------------------------------------
             Reg_load2a: begin
-                    Mdatain <= 32'hD;
+                    Mdatain <= -13;
                     #10 Read <= 1; MDRin <= 1;
                     #15 Read <= 0; MDRin <= 0;
 						  //puts Mdatain to BusMuxInMDR
