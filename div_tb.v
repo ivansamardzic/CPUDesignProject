@@ -16,7 +16,7 @@ module div_tb;
 			  .R2out(R2out), .R3out(R3out),  
 		     .MDRin(MDRin), 
 		     .MARin(MARin), .PCin(PCin), .MD_read(Read),
-		     .Zlowin(Zlowin), .Zlowout(Zlowout), .IncPC(IncPC), .Yin(Yin), .IRin(IRin),  
+		     .Zlowin(Zlowin), .Zhighin(Zhighin), .Zlowout(Zlowout), .Zhighout(Zhighout), .IncPC(IncPC), .Yin(Yin), .IRin(IRin),  
 		     .Mdatain(Mdatain), .MDRout(MDRout));
 // add test logic here
 		
@@ -94,8 +94,8 @@ always @(Present_state) // do the required job in each state
 		//------------------------------------------------------------
 		
             T0: begin // see if you need to de-assert these signals
-                    #10 PCout <= 1; MARin <= 1; IncPC <= 1; Zlowin <= 1;
-		    #15 PCout <= 0; MARin <= 0; IncPC <= 0; Zlowin <= 0;
+                    #10 PCout <= 1; MARin <= 1; IncPC <= 1; Zlowin <= 1; Zhighin <= 1;
+		    #15 PCout <= 0; MARin <= 0; IncPC <= 0; Zlowin <= 0; Zhighin <= 0;
 						  
             end
             T1: begin
@@ -121,4 +121,5 @@ always @(Present_state) // do the required job in each state
             end
         endcase
     end
+
 endmodule
