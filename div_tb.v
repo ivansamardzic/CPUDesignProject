@@ -3,9 +3,6 @@ module div_tb;
     reg PCout, Zlowout, MDRout, R2out, R3out; // add any other signals to see in your simulation
     reg MARin, Zlowin, PCin, MDRin, IRin, Yin;
     reg IncPC, Read, DIV, R1in, R2in, R3in;
-    reg PCout, Zlowout, MDRout, R2out, R3out; // add any other signals to see in your simulation
-    reg MARin, Zlowin, PCin, MDRin, IRin, Yin;
-    reg IncPC, Read, DIV, R1in, R2in, R3in;
     reg clock, clear;
     reg [31:0] Mdatain;
 
@@ -15,7 +12,6 @@ module div_tb;
     reg [3:0] Present_state = Default;
 
 	DataPath DUT(.clock(clock), .clear(clear), 
-		     .R1in(R1in), .R2in(R2in), .R3in(R3in),
 		     .R1in(R1in), .R2in(R2in), .R3in(R3in),
 			  .R2out(R2out), .R3out(R3out),  
 		     .MDRin(MDRin), 
@@ -57,12 +53,10 @@ always @(Present_state) // do the required job in each state
                     R2out <= 0; R3out <= 0; MARin <= 0; Zlowin <= 0;
                     PCin <=0; MDRin <= 0; IRin <= 0; Yin <= 0;
                     IncPC <= 0; Read <= 0; DIV <= 0;
-                    IncPC <= 0; Read <= 0; DIV <= 0;
                     R1in <= 0; R2in <= 0; R3in <= 0; Mdatain <= 32'h00000000;
             end
 		//------------------------------------------------------------
             Reg_load1a: begin
-			Mdatain <= 32'h000033; //sends data to MDMux
 			Mdatain <= 32'h000033; //sends data to MDMux
 			Read = 0; MDRin = 0; // does nothing
 			#10 Read <= 1; MDRin <= 1; //sets BusMuxInMDR to Mdatain 
@@ -76,7 +70,6 @@ always @(Present_state) // do the required job in each state
 		//------------------------------------------------------------
             Reg_load2a: begin
                     Mdatain <= 32'h0000005635;
-                    Mdatain <= 32'h0000005635;
                     #10 Read <= 1; MDRin <= 1;
                     #15 Read <= 0; MDRin <= 0;
 						  //puts Mdatain to BusMuxInMDR
@@ -88,7 +81,6 @@ always @(Present_state) // do the required job in each state
             end
 		//------------------------------------------------------------
             Reg_load3a: begin
-                    Mdatain <= 32'h00000018;
                     Mdatain <= 32'h00000018;
                     #10 Read <= 1; MDRin <= 1;
                     #15 Read <= 0; MDRin <= 0;
@@ -109,8 +101,6 @@ always @(Present_state) // do the required job in each state
             T1: begin
                     #10 Zlowout <= 1; PCin <= 1; Read <= 1; MDRin <= 1;
                     Mdatain <= 4'b0111; // opcode for “DIV R1, R2, R3”
-                    #10 Zlowout <= 1; PCin <= 1; Read <= 1; MDRin <= 1;
-                    Mdatain <= 4'b0111; // opcode for “DIV R1, R2, R3”
 		    #15 Zlowout <= 0; PCin <= 0; Read <= 0; MDRin <= 0;
             end
             T2: begin
@@ -122,8 +112,6 @@ always @(Present_state) // do the required job in each state
 			#15 R2out <= 0; Yin <= 0;
             end
             T4: begin
-                    #10 R3out <= 1; DIV <= 1; Zlowin <= 1; //transfers R3 to bus, does DIV, Z takes in DIV result
-		    #15 R3out <= 0; DIV <= 0; Zlowin <= 0;
                     #10 R3out <= 1; DIV <= 1; Zlowin <= 1; //transfers R3 to bus, does DIV, Z takes in DIV result
 		    #15 R3out <= 0; DIV <= 0; Zlowin <= 0;
             end
