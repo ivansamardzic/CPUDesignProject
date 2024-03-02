@@ -1,7 +1,7 @@
 `timescale 1ns/10ps
 module mul_tb;
     reg PCout, Zlowout, MDRout, R2out, R3out; // MUL any other signals to see in your simulation
-    reg MARin, Zlowin, PCin, MDRin, IRin, Yin;
+    reg MARin, Zlowin, Zhighin, PCin, MDRin, IRin, Yin;
     reg IncPC, Read, MUL, R1in, R2in, R3in;
     reg clock, clear;
     reg [31:0] Mdatain;
@@ -16,7 +16,7 @@ module mul_tb;
 			  .R2out(R2out), .R3out(R3out),  
 		     .MDRin(MDRin), 
 		     .MARin(MARin), .PCin(PCin), .MD_read(Read),
-		     .Zlowin(Zlowin), .Zlowout(Zlowout), .IncPC(IncPC), .Yin(Yin), .IRin(IRin),  
+		     .Zlowin(Zlowin), .Zhighin(Zhighin), .Zlowout(Zlowout), .IncPC(IncPC), .Yin(Yin), .IRin(IRin),  
 		     .Mdatain(Mdatain), .MDRout(MDRout));
 // MUL test logic here
 		
@@ -112,8 +112,8 @@ always @(Present_state) // do the required job in each state
 			#15 R2out <= 0; Yin <= 0;
             end
             T4: begin
-                    #10 R3out <= 1; MUL <= 1; Zlowin <= 1; //transfers R3 to bus, does MUL, Z takes in MUL result
-		    #15 R3out <= 0; MUL <= 0; Zlowin <= 0;
+                    #10 R3out <= 1; MUL <= 1; Zhighin <= 1; Zlowin <= 1; //transfers R3 to bus, does MUL, Z takes in MUL result
+		    #15 R3out <= 0; MUL <= 0; Zhighin <= 0; Zlowin <= 0;
             end
             T5: begin
                     #10 Zlowout <= 1; R1in <= 1; //transfers zlow contents into R1 
