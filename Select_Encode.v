@@ -2,7 +2,8 @@ module Select_Encode (
 	input wire [31:0] BMInIR, 
 	input wire Gra, Grb, Grc, Rin, Rout, BAout, 
 	
-	output reg [15:0] IN, OUT
+	output reg [15:0] IN, OUT, 
+	output [31:0] C_sign_extended
 	);
 	
 	wire [3:0] Ra, Rb, Rc;  
@@ -11,7 +12,7 @@ module Select_Encode (
 	wire [3:0] Gra_and, Grb_and, Grc_and, enc_sel;
 	 
 	
-	
+	assign C_sign_extended = {{13{BMInIR[18]}},BMInIR[18:0]};
 	assign Opcode[4:0] = BMInIR[31:27]; 
 	assign Ra = BMInIR[26:23];
 	assign Rb = BMInIR[22:19];
