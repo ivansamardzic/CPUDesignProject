@@ -1,0 +1,27 @@
+`timescale 1ns/10ps
+module ld(input [31:0] BMInIR, BusMuxOut, Rb, output [31:0] Ra);
+	wire Read = 1; 
+	wire [8:0]address; 
+	wire [31:0] DataOut, C_sign_extended;	
+	wire Gra, Grb; 
+	reg Rin, Rout; 
+	
+	always @(*)
+		begin
+			#10 Rout <= 1; 
+			#15 Rin <= 1; 
+			#20 Rout <= 0; 
+			#25 Rin <= 0; 
+		end
+	
+	assign Gra = 1;
+	assign Grb = 1; 
+	assign address = C_sign_extended + Rb; 
+	
+	RAM r1(.Read(Read), .Clock(Clock), .address(address), .DataOut(DataOut));
+	
+	
+	Select_Encode E1(.BMInIR(BMInIR), .Gra(Gra), .Grb(Grb), .Rin(Rin), .Rout(Rout), .BAout(BAout), .IN(IN), .OUT(OUT), .C_sign_extended(C_sign_extended)); 
+	
+	
+endmodule
