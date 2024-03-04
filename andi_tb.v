@@ -50,7 +50,7 @@ always @(Present_state) // do the required job in each state
         case (Present_state) // assert the required signals in each clock cycle
             Default: begin
                     PCout <= 0; Zlowout <= 0; MDRout <= 0; // initialize the signals
-                    R2out <= 0; R3out <= 0; MARin <= 0; Zlowin <= 0;
+                    MARin <= 0; Zlowin <= 0;
                     PCin <=0; MDRin <= 0; IRin <= 0; Yin <= 0;
                     IncPC <= 0; Read <= 0; AND <= 0;
                     Mdatain <= 32'h00000000;
@@ -64,9 +64,9 @@ always @(Present_state) // do the required job in each state
 			#15 Read <= 0; MDRin <= 0; //read selects Busmux out, MDRin disables MDR
             end
             Reg_load1b: begin
-			#10 MDRout <= 1; R2in <= 1; //MDRout = 1 sets BusMuxOut to BusMuxInMDR aka Mdatain
+			#10 MDRout <= 1; Rin <= 1; //MDRout = 1 sets BusMuxOut to BusMuxInMDR aka Mdatain
 			//R2in = 1 enables R2in, sets BMInR2 to BusMuxOut 
-			#15 MDRout <= 0; R2in <= 0; //MDRout dissables bus change, R2in dissables register R2 change
+			#15 MDRout <= 0; Rin <= 0; //MDRout dissables bus change, R2in dissables register R2 change
             end
 		//------------------------------------------------------------
             Reg_load2a: begin
@@ -76,8 +76,8 @@ always @(Present_state) // do the required job in each state
 						  //puts Mdatain to BusMuxInMDR
             end
             Reg_load2b: begin
-                    #10 MDRout <= 1; R3in <= 1;
-                    #15 MDRout <= 0; R3in <= 0; // initialize R3 with the value $14
+                    #10 MDRout <= 1; Rin <= 1;
+                    #15 MDRout <= 0; Rin <= 0; // initialize R3 with the value $14
 						  //puts BusMuxInMDR to BusMuxOut to Register 3 (BMInR3)
             end
 		//------------------------------------------------------------
@@ -88,8 +88,8 @@ always @(Present_state) // do the required job in each state
 							//puts Mdatain to BusMuxInMDR
             end
             Reg_load3b: begin
-                    #10 MDRout <= 1; R1in <= 1;
-                    #15 MDRout <= 0; R1in <= 0; // initialize R1 with the value $18
+                    #10 MDRout <= 1; Rin <= 1;
+                    #15 MDRout <= 0; Rin <= 0; // initialize R1 with the value $18
 						  //puts BusMuxInMDR to BusMuxOut to Register 1 (BMInR1)
             end
 		//------------------------------------------------------------
@@ -101,7 +101,6 @@ always @(Present_state) // do the required job in each state
             end
             T1: begin
                     #10 Zlowout <= 1; PCin <= 1; Read <= 1; MDRin <= 1;
-                    Mdatain <= 4'b0000; // opcode for “and R1, R2, R3”
 		    #15 Zlowout <= 0; PCin <= 0; Read <= 0; MDRin <= 0;
             end
             T2: begin
@@ -109,16 +108,16 @@ always @(Present_state) // do the required job in each state
 		    #15 MDRout <= 0; IRin <= 0;
             end
             T3: begin
-                    #10 R2out <= 1; Yin <= 1; Grb <= 1; //transfers R2 contents to Y reg
-			#15 R2out <= 0; Yin <= 0; Grb <= 0;;
+                    #10 Rout <= 1; Yin <= 1; Grb <= 1; //transfers R2 contents to Y reg
+			#15 Rout <= 0; Yin <= 0; Grb <= 0;;
             end
             T4: begin
                     #10 Cout <= 1; AND <= 1; Zlowin <= 1;
 		    #15 Cout <= 0; AND <= 0; Zlowin <= 0;
             end
             T5: begin
-                    #10 Zlowout <= 1; R1in <= 1; Gra <= 1;//transfers zlow contents into R1 
-		    #15 Zlowout <= 0; R1in <= 0; Gra <= 1;
+                    #10 Zlowout <= 1; Rin <= 1; Gra <= 1;//transfers zlow contents into R1 
+		    #15 Zlowout <= 0; Rin <= 0; Gra <= 1;
             end
         endcase
     end
