@@ -1,7 +1,7 @@
 module MAR(
     input wire clear, clock, MARIn,
     input wire [31:0] BusMuxOut,
-    output wire [8:0] MAROut
+    output wire [8:0] address
 );
     
         reg [8:0] q;
@@ -14,5 +14,5 @@ module MAR(
                 q <= BusMuxOut[8:0];
             end
         end
-        assign MAROut = q;
+        assign address = q;
 endmodule
