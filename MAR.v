@@ -1,13 +1,13 @@
 module MAR(
-    input wire clear, clock, MARIn,
+    input wire Clear, Clock, MARIn,
     input wire [31:0] BusMuxOut,
     output wire [8:0] address
 );
     
         reg [8:0] q;
     
-        always @(posedge clock) begin
-            if(clear) begin
+        always @(posedge Clock) begin
+            if(Clear) begin
                 q <= 9'b0;
             end
             else if (MARIn) begin
