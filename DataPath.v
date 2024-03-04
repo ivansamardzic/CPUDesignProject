@@ -5,6 +5,7 @@ module DataPath(
 	
 	input wire HIin, LOin, Zlowin, Zhighin, PCin, MDRin, MARin, InPortin, Cin, MD_read,
 	input wire IncPC, IRin, OutPortin, Yin, 
+	input wire Out_Portin, Strobe, 
 	
 	input wire HIout, LOout, Zhighout, Zlowout, PCout, MDRout, MARout, InPortout, Cout,
 	
@@ -12,11 +13,14 @@ module DataPath(
 	
 	//change to outs later
    //input wire Zin, IncPC, IRin,  OutPortin,  Yin,  	
-	input wire [31:0] Mdatain
+	input wire [31:0] Mdatain,
+	input wire [31:0] INPUT_UNIT,
+	input wire [31:0] OUTPUT_UNIT
 );
 
 	wire [31:0] BMInR0, BMInR1, BMInR2, BMInR3, BMInR4, BMInR5, BMInR6, BMInR7, BMInR8, BMInR9, BMInR10, BMInR11, BMInR12, BMInR13, BMInR14, BMInR15; 
-	wire [31:0] BusMuxOut, BMInPC, BMInIR, BusMuxInMDR, BusMuxInMAR, BMInCSign, BMInHI, BMInLO, BMInZhigh, BMInZlow, BMInY; 
+	wire [31:0] BMInINPORT;
+	wire [31:0] BusMuxOut, C_sign_extended, BMInPC, BMInIR, BusMuxInMDR, BusMuxInMAR, BMInCSign, BMInHI, BMInLO, BMInZhigh, BMInZlow, BMInY; 
 	wire [63:0] C; 
 	
 	wire [15:0] IN, OUT; 
@@ -26,11 +30,15 @@ module DataPath(
 	MDR mdr(.clear(clear), .clock(clock), .MDRin(MDRin), .BusMuxOut(BusMuxOut), .Mdatain(Mdatain), .read(MD_read), .BusMuxInMDR(BusMuxInMDR));
 	
 	register IR_reg(clear, clock, IRin, BusMuxOut, BMInIR); 
-	Select_Encode E1(.BMInIR(BMInIR), .Gra(Gra), .Grb(Grb), .Grc(Grc), .Rin(Rin), .Rout(Rout), .BAout(BAout), .IN(IN), .OUT(OUT)); 
+	Select_Encode E1(.BMInIR(BMInIR), .Gra(Gra), .Grb(Grb), .Grc(Grc), .Rin(Rin), .Rout(Rout), .BAout(BAout), .IN(IN), .OUT(OUT), .C_sign_extended(C_sign_extended)); 
+	
+	I_O E2(.clear(clear), .clock(clock), .Out_Portin(Out_Portin), .Strobe(Strobe), .BusMuxOut(BusMuxOut), .OUTPUT_UNIT(OUTPUT_UNIT), .INPUT_UNIT(INPUT_UNIT), .BMInINPORT(BMInINPORT));
 	
 	register MAR(clear, clock, MARin, BusMuxOut, BusMuxInMAR);
 	//Register Assignment
 	//clear, clock, enable, input, output 
+	
+	
 	
 	//register R0
 	reg [31:0]q;
@@ -77,6 +85,7 @@ module DataPath(
 
 	
 	Bus bus(
+		.C_sign_extended(C_sign_extended), .Strobe(Strobe), .BMInINPORT(BMInINPORT), 
 		.BMInR0(BMInR0), .BMInR1(BMInR1), .BMInR2(BMInR2), .BMInR3(BMInR3), .BMInR4(BMInR4), .BMInR5(BMInR5), .BMInR6(BMInR6), .BMInR7(BMInR7), .BMInR8(BMInR8), .BMInR9(BMInR9), .BMInR10(BMInR10), .BMInR11(BMInR11), .BMInR12(BMInR12), .BMInR13(BMInR13), .BMInR14(BMInR14), .BMInR15(BMInR15),
 		.BMInHI(BMInHI), .BMInLO(BMInLO), .BMInZhigh(BMInZhigh), .BMInZlow(BMInZlow), .BMInPC(BMInPC), .BusMuxInMDR(BusMuxInMDR), .BMInInPort(BMInInPort), .BMInCSign(BMInCSign),
 
