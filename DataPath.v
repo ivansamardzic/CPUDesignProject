@@ -3,10 +3,11 @@
 module DataPath(
 	input wire clock, clear,
 	
-	input wire HIin, LOin, Zlowin, Zhighin, PCin, MDRin, MARin, InPortin, Cin, MD_read,
+	input wire HIin, LOin, Zlowin, Zhighin, PCin, MDRin, InPortin, Cin, MD_read,
 	input wire IncPC, IRin, OutPortin, Yin, 
 	input wire Out_Portin, Strobe, 
-	
+	input wire MARin,
+
 	input wire HIout, LOout, Zhighout, Zlowout, PCout, MDRout, MARout, InPortout, Cout,
 	
 	input wire Gra, Grb, Grc, Rin, Rout, BAout, 
@@ -34,7 +35,7 @@ module DataPath(
 	
 	I_O E2(.clear(clear), .clock(clock), .Out_Portin(Out_Portin), .Strobe(Strobe), .BusMuxOut(BusMuxOut), .OUTPUT_UNIT(OUTPUT_UNIT), .INPUT_UNIT(INPUT_UNIT), .BMInINPORT(BMInINPORT));
 	
-	register MAR(clear, clock, MARin, BusMuxOut, BusMuxInMAR);
+	MAR mar(.clear(Clear), .clock(Clock), .MARin(MARIn), .BusMuxOut(BusMuxOut), .BusMuxInMAR(address));
 	//Register Assignment
 	//clear, clock, enable, input, output 
 	
