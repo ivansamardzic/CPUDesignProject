@@ -6,7 +6,7 @@ module DataPath(
 	input wire HIin, LOin, Zlowin, Zhighin, PCin, MDRin, InPortin, Cin, MD_read,
 	input wire IncPC, IRin, OutPortin, Yin, 
 	input wire Out_Portin, Strobe, 
-	input wire MARin,
+	input wire MARIn,
 
 	input wire HIout, LOout, Zhighout, Zlowout, PCout, MDRout, MARout, InPortout, Cout,
 	
@@ -16,12 +16,13 @@ module DataPath(
    //input wire Zin, IncPC, IRin,  OutPortin,  Yin,  	
 	input wire [31:0] Mdatain,
 	input wire [31:0] INPUT_UNIT,
-	input wire [31:0] OUTPUT_UNIT
+	input wire [31:0] OUTPUT_UNIT,
+	input wire [8:0] address
 );
 
 	wire [31:0] BMInR0, BMInR1, BMInR2, BMInR3, BMInR4, BMInR5, BMInR6, BMInR7, BMInR8, BMInR9, BMInR10, BMInR11, BMInR12, BMInR13, BMInR14, BMInR15; 
 	wire [31:0] BMInINPORT;
-	wire [31:0] BusMuxOut, C_sign_extended, BMInPC, BMInIR, BusMuxInMDR, BusMuxInMAR, BMInCSign, BMInHI, BMInLO, BMInZhigh, BMInZlow, BMInY; 
+	wire [31:0] BusMuxOut, C_sign_extended, BMInPC, BMInIR, BusMuxInMDR, BMInCSign, BMInHI, BMInLO, BMInZhigh, BMInZlow, BMInY, BMInMAR; 
 	wire [63:0] C; 
 	
 	wire [15:0] IN, OUT; 
@@ -35,7 +36,7 @@ module DataPath(
 	
 	I_O E2(.clear(clear), .clock(clock), .Out_Portin(Out_Portin), .Strobe(Strobe), .BusMuxOut(BusMuxOut), .OUTPUT_UNIT(OUTPUT_UNIT), .INPUT_UNIT(INPUT_UNIT), .BMInINPORT(BMInINPORT));
 	
-	MAR mar(.clear(Clear), .clock(Clock), .MARin(MARIn), .BusMuxOut(BusMuxOut), .BusMuxInMAR(address));
+	MAR mar(.clear(clear), .clock(clock), .MARIn(MARIn), .BusMuxOut(BusMuxOut), .address(address));
 	//Register Assignment
 	//clear, clock, enable, input, output 
 	
@@ -93,7 +94,7 @@ module DataPath(
 		.R0out(OUT[0]), .R1out(OUT[1]), .R2out(OUT[2]), .R3out(OUT[3]), .R4out(OUT[4]), .R5out(OUT[5]), .R6out(OUT[6]), .R7out(OUT[7]), .R8out(OUT[8]), .R9out(OUT[9]), .R10out(OUT[10]), .R11out(OUT[11]), .R12out(OUT[12]), .R13out(OUT[13]), .R14out(OUT[14]), .R15out(OUT[15]),
 		.HIout(HIout), .LOout(LOout), .Zhighout(Zhighout), .Zlowout(Zlowout), .PCout(PCout), .MDRout(MDRout), .InPortout(InPortout), .Cout(Cout),
 		
-		.BusMuxOut(BusMuxOut)
+		.BusMuxOut(BusMuxOut), .BMInMAR(BMInMAR)
 		);
 	
 	ALU alu(.Y(BMInY), .BusMuxOut(BusMuxOut), .op(BMInIR), .C(C));

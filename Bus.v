@@ -13,7 +13,7 @@ module Bus (
 	
 	input Strobe, 
 	
-	input HIout, LOout, Zhighout, Zlowout, PCout, MDRout, InPortout, Cout, Csignout, MARout
+	input HIout, LOout, Zhighout, Zlowout, PCout, MDRout, InPortout, Cout, Csignout, MARout,
 
 	output wire [31:0]BusMuxOut
 	);

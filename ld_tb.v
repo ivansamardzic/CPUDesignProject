@@ -5,6 +5,7 @@ module ld_tb;
     reg IncPC, Read, Gra, Grb, Grc, BAout, Cout, ADD, Rin;
     reg clock, clear;
     reg [31:0] Mdatain;
+	 reg [3:0] Present_state = Default;
 
     parameter   Default = 4'b0000, T0 = 4'b0001, T1 = 4'b0010, T2 = 4'b0011, T3 = 4'b0100, T4 = 4'b0101, T5 = 4'b0110, T6 = 4'b0111, T7 = 4'b1000;
 
@@ -12,7 +13,7 @@ module ld_tb;
 		     .MDRin(MDRin), 
 		     .MARin(MARin), .PCin(PCin), .MD_read(Read),
 		     .Zlowin(Zlowin), .Zhighin(Zhighin), .Zlowout(Zlowout), .IncPC(IncPC), .Yin(Yin), .IRin(IRin),  
-		     .Mdatain(Mdatain), .MDRout(MDRout)), .Gra(Gra), .Grb(Grb), .Grc(Grc), .BAout(BAout), .Cout(Cout), .Rin(Rin);
+		     .Mdatain(Mdatain), .MDRout(MDRout), .Gra(Gra), .Grb(Grb), .Grc(Grc), .BAout(BAout), .Cout(Cout), .Rin(Rin));
 		
 	initial
 		begin
@@ -29,7 +30,6 @@ always @(Present_state) // do the required job in each state
                     MARin <= 0; Zlowin <= 0;
                     PCin <=0; MDRin <= 0; IRin <= 0; Yin <= 0;
                     IncPC <= 0; Read <= 0;
-                    R1in <= 0; R2in <= 0; R3in <= 0;
                     Gra <= 0; Grb <= 0; Grc <= 0; BAout <= 0; Cout <= 0; ADD <= 0; Rin <= 0;
             end
 
