@@ -5,9 +5,10 @@ module ld_tb;
     reg IncPC, Read, Gra, Grb, Grc, BAout, Cout, ADD, Rin;
     reg clock, clear;
     reg [31:0] Mdatain;
-	 reg [3:0] Present_state = Default;
 
     parameter   Default = 4'b0000, T0 = 4'b0001, T1 = 4'b0010, T2 = 4'b0011, T3 = 4'b0100, T4 = 4'b0101, T5 = 4'b0110, T6 = 4'b0111, T7 = 4'b1000;
+	
+	 reg [3:0] Present_state = Default;
 
 	DataPath DUT(.clock(clock), .clear(clear), 
 		     .MDRin(MDRin), 

@@ -3,7 +3,6 @@ module MAR(
     input wire [31:0] BusMuxOut,
     output wire [8:0] address
 );
-    
         reg [8:0] q;
     
         always @(posedge clock) begin

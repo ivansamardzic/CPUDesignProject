@@ -7,6 +7,7 @@ module Bus (
 	
 	input [31:0]BMInINPORT,
 	
+	
 	//Encoder
 	//23 outputs based on 32-to-5 Encoder from Figure 3
 	input R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, R8out, R9out, R10out, R11out, R12out, R13out, R14out, R15out,

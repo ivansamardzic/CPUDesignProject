@@ -18,10 +18,14 @@ module Select_Encode (
 	assign Rb = BMInIR[22:19];
 	assign Rc = BMInIR[18:15]; 
 	
-	and g1(Gra_and, Gra, Ra); 
-	and g2(Grb_and, Grb, Rb);
-	and g3(Grc_and, Grc, Rc); 	
-	or g4(enc_sel, Gra_and, Grb_and, Grc_and); 
+//	and g1(Gra_and, Gra, Ra); 
+//	and g2(Grb_and, Grb, Rb);
+//	and g3(Grc_and, Grc, Rc); 	
+//	or g4(enc_sel, Gra_and, Grb_and, Grc_and); 
+	assign Gra_and = Gra & Ra;
+	assign Grb_and = Grb & Rb;
+	assign Grc_and = Grc & Rc;
+	assign enc_sel1 = Gra_and | Grb_and | Grc_and;
 	
 	
 	//4 to 16 decoder
