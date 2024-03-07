@@ -3,10 +3,9 @@ module Bus (
 	//23 inputs based on 32:1 Multiplixer BusMux from Figure 3
 	input [31:0]BMInR0, BMInR1, BMInR2, BMInR3, BMInR4, BMInR5, BMInR6, BMInR7, BMInR8, BMInR9, BMInR10, BMInR11, BMInR12, BMInR13, BMInR14, BMInR15,
 	
-	input [31:0]BMInHI, C_sign_extended, BMInLO, BMInZhigh, BMInZlow, BMInPC, BusMuxInMDR, BMInInPort, BMInCSign, BMInMAR,
+	input [31:0]BMInHI, C_sign_extended, BMInLO, BMInZhigh, BMInZlow, BMInPC, BusMuxInMDR, BMInInPort, 
 	
 	input [31:0]BMInINPORT,
-	
 	
 	//Encoder
 	//23 outputs based on 32-to-5 Encoder from Figure 3
@@ -14,7 +13,7 @@ module Bus (
 	
 	input Strobe, 
 	
-	input HIout, LOout, Zhighout, Zlowout, PCout, MDRout, InPortout, Cout, Csignout, MARout,
+	input HIout, LOout, Zhighout, Zlowout, PCout, MDRout, InPortout, Csignout, 
 
 	output wire [31:0]BusMuxOut
 	);
@@ -48,8 +47,6 @@ module Bus (
 		if(PCout) q = BMInPC; 
 		if(MDRout) q = BusMuxInMDR;
 		if(InPortout) q = BMInInPort;
-		if(Cout) q = BMInCSign; 
-		if(MARout) q = BMInMAR;
 	end
 	assign BusMuxOut = q;
 endmodule
