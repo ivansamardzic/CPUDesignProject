@@ -9,7 +9,7 @@ module RAM(
 	 reg [31:0] temp;
 
     initial begin : INIT
-		$readmemh("ram.mif", ram); 
+	    $readmemh("ram.mem", ram); 
 	end
 
     always @(posedge Clock) begin
