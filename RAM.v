@@ -23,5 +23,6 @@ module RAM(
 	 
 	 assign DataOut = temp;
 
+	 
 endmodule
 
