@@ -61,7 +61,7 @@ always @(Present_state)
 						#15 PCout <= 0; MARin <= 0; IncPC <= 0; Zlowin <= 0;
             end
             T1: begin
-						#10 Zlowout <= 1; PCin <= 1; Read <= 1; MDRin <= 1; //Mdatain <= 32'b00000_0001_0010_0000000000000000000; 
+						#10 Zlowout <= 1; PCin <= 1; Read <= 1; MDRin <= 1; Mdatain <= 32'b00000_0001_0010_0000000000000000000; 
 						#15 Zlowout <= 0; PCin <= 0; Read <= 0; MDRin <= 0;
             end
             T2: begin

@@ -16,10 +16,10 @@ module RAM(
         if(Write) begin
             ram[address] <= DataIn;
         end
-//        if(Read) begin
-//            temp <= ram[address];
-//        end
-		  temp <= ram[address];
+        if(Read) begin
+            temp <= ram[address];
+        end
+		  //temp <= ram[0];
     end
 	 
 	 assign DataOut = temp;
