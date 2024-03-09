@@ -12,6 +12,7 @@ module DataPath(
 	input wire Gra, Grb, Grc, Rin, Rout, BAout, Csignout, Read, Write, 
 	input wire ADD, 
 	
+	input wire CONin, CONFF,  
 	//change to outs later
    //input wire Zin, IncPC, IRin,  OutPortin,  Yin,  	
 	input wire [31:0] Mdatain
@@ -40,7 +41,9 @@ module DataPath(
 	
 	MAR mar(.clear(clear), .clock(clock), .MARin(MARin), .BusMuxOut(BusMuxOut), .address(address));
 	
-	RAM ram(.Read(Read), .Write(Write), .clock(clock), .DataIn(BusMuxOut), .DataOut(Mdatain));  
+	RAM ram(.Read(Read), .Write(Write), .clock(clock), .DataIn(BusMuxOut), .address(address), .DataOut(Mdatain));  
+	
+	CON_FF con(.BMInIR(BMInIR), .BusMuxOut(BusMuxOut), .CONin(CONin), .Q(CONFF));
 	
 	
 	//Register Assignment
