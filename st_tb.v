@@ -50,7 +50,7 @@ always @(Present_state)
             Default: begin
                     PCout <= 0; Zlowout <= 0; MDRout <= 0; // initialize the signals
                     MARin <= 0; Zlowin <= 0;
-                    PCin <=0; MDRin <= 0; IRin <= 0; Yin <=
+                    PCin <=0; MDRin <= 0; IRin <= 0; Yin <= 0; 
                     IncPC <= 0; Read <= 0; ADD <= 0;
                     Mdatain <= 32'h00000000;
 						  Csignout <= 0; Grb <= 0; Gra <= 0; BAout <= 0; Rin <= 0; 
