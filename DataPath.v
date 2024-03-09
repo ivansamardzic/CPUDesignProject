@@ -66,7 +66,7 @@ module DataPath(
 			end
 		assign BMInR0 = q & ~BAout; //may need to concatenate 
 		
-		
+	register R0(clear, clock, IN[0], BusMuxOut, BMInR0);//Added one for R0 bc it wasnt there before	
 	register R1(clear, clock, IN[1], BusMuxOut, BMInR1);
 	register R2(clear, clock, IN[2], BusMuxOut, BMInR2);
 	register R3(clear, clock, IN[3], BusMuxOut, BMInR3);
