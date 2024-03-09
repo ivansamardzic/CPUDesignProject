@@ -84,7 +84,7 @@ module DataPath(
 	register R15(clear, clock, IN[15], BusMuxOut, BMInR15);
 	
 	register Z_HI_reg(clear, clock, Zhighin, C[63:32], BMInZhigh);
-	register Z_LO_reg(clear, clock, Zlowin, C[31:0], BMInZlow); //high and low FIX!!!!!!!!!!!!!!!!
+	register Z_LO_reg(clear, clock, Zlowin, C[31:0], BMInZlow);
 
 	register HI_reg(clear, clock, HIin, BusMuxOut, BMInHI);
 	register LO_reg(clear, clock, LOin, BusMuxOut, BMInLO);
