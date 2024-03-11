@@ -7,10 +7,11 @@ module Select_Encode (
 	);
 	
 	wire [3:0] Ra, Rb, Rc;  
+	
 	wire [4:0] Opcode; 
 	
-	wire [3:0] Gra_and, Grb_and, Grc_and, enc_sel;
-	 
+	reg [3:0] enc_sel;
+	
 	
 	assign C_sign_extended = {{13{BMInIR[18]}},BMInIR[18:0]};
 	assign Opcode[4:0] = BMInIR[31:27]; 
@@ -18,18 +19,17 @@ module Select_Encode (
 	assign Rb = BMInIR[22:19];
 	assign Rc = BMInIR[18:15]; 
 	
-//	and g1(Gra_and, Gra, Ra); 
-//	and g2(Grb_and, Grb, Rb);
-//	and g3(Grc_and, Grc, Rc); 	
-//	or g4(enc_sel, Gra_and, Grb_and, Grc_and); 
-	assign Gra_and = Gra & Ra;
-	assign Grb_and = Grb & Rb;
-	assign Grc_and = Grc & Rc;
-	assign enc_sel = Gra_and | Grb_and | Grc_and;
-	
 	
 	//4 to 16 decoder
 	always @(*) begin 
+		if(Gra == 1)
+			enc_sel = Ra;
+		else if (Grb == 1)
+			enc_sel = Rb;
+		else if (Grc == 1) 
+			enc_sel = Rc; 
+		
+		
 		case(enc_sel)
 			4'b0000:	begin
 					if(Rin) IN <= 16'h0001; 
