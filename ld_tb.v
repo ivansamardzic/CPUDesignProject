@@ -4,22 +4,48 @@ module ld_tb;
     reg Zlowin, PCin, MDRin, IRin, Yin;
     reg IncPC, ADD;
     reg clock, clear, MD_read, MAR_clear;
-//    reg [31:0] Mdatain;
+	 reg MARin, Zhighin;
+	 reg Csignout, Grb, Gra, Grc, Read, Rin, BAout, Cout; 
+	 reg HIin, LOin, InPortin, Cin, OutPortin, Out_Portin, Strobe, HIout, LOout, Zhighout, MARout, InPortout, Rout;
+	 reg [31:0] INPUT_UNIT;
+	 reg [31:0] OUTPUT_UNIT;
+	 
+	 reg Write, CONin, CONFF;
 
-    parameter   Default = 4'b0000, T0 = 4'b0001, T1 = 4'b0010, T2 = 4'b0011, T3 = 4'b0100, 
-	 T4 = 4'b0101, T5 = 4'b0110, T6 = 4'b0111, T7 = 4'b1000;
+    parameter   Default = 4'b0000, T0 = 4'b0001, T1 = 4'b0010, T2 = 4'b0011, T3 = 4'b0100, T4 = 4'b0101, T5 = 4'b0110, T6 = 4'b0111, T7 = 4'b1000;
     reg [3:0] Present_state = Default;
 	 
-	 reg Csignout, Grb, Gra, Read, MARin, Rin, BAout; 
 	 
-
-	DataPath D(.clock(clock), .clear(clear),  
-		     .MDRin(MDRin), .MAR_clear(MAR_clear),
-		     .PCin(PCin), .MD_read(MD_read),
-		     .Zlowin(Zlowin), .Zhighin(Zhighin), .Zlowout(Zlowout), .IncPC(IncPC), .Yin(Yin), .IRin(IRin),  
-		     .MDRout(MDRout), 
 			  
-			  .Csignout(Csignout), .Grb(Grb), .Gra(Gra), .Read(Read), .MARin(MARin), .Rin(Rin), .ADD(ADD));
+	DataPath DUT(
+		
+		.HIin(HIin), .LOin(LOin), .Zlowin(Zlowin), .Zhighin(Zhighin), 
+		.clock(clock), .clear(clear), .MAR_clear(MAR_clear),
+		.PCin(PCin), .MDRin(MDRin), .MARin(MARin), .InPortin(InPortin), 
+		.Cin(Cin), .MD_read(MD_read),
+		.IncPC(IncPC), .IRin(IRin), .OutPortin(OutPortin), .Yin(Yin),
+		.Out_Portin(Out_Portin), .Strobe(Strobe),
+		.HIout(HIout), .LOout(LOout), .Zhighout(Zhighout), .Zlowout(Zlowout),
+		.PCout(PCout), .MDRout(MDRout), .MARout(MARout), .InPortout(InPortout),
+		.Gra(Gra), .Grb(Grb), .Grc(Grc), .Rin(Rin), .Rout(Rout), .BAout(BAout),
+		.Csignout(Csignout), .Read(Read), .Write(Write),
+		.ADD(ADD),
+		.CONin(CONin), .CONFF(CONFF),
+		.INPUT_UNIT(INPUT_UNIT), .OUTPUT_UNIT(OUTPUT_UNIT)
+		);
+		
+		
+//		address
+//		Cout
+//		
+//		ADD, CONin, CONFF, Csignout, Read, Write
+		
+//		     .MDRin(MDRin), .HIin(HIin), .LOin(LOin), .InPortin(InPortin), .Cin(Cin), .Out_Portin(Out_Portin), .Strobe(Strobe), .HIout(HIout),
+//			  .LOout(LOout), .Zhighout(Zhighout), .PCout(PCout), .MARout(MARout), InPortout(InPortout), .Rout(Rout), .address(address), 
+//			  .INPUT_UNIT(INPUT_UNIT), .OUTPUT_UNIT(OUTPUT_UNIT), 
+//		     .MARin(MARin), .PCin(PCin), .MD_read(MD_read),
+//		     .Zlowin(Zlowin), .Zhighin(Zhighin), .Zlowout(Zlowout), .IncPC(IncPC), .Yin(Yin), .IRin(IRin),  
+//				.MDRout(MDRout), .Gra(Gra), .Grb(Grb), .Grc(Grc), .BAout(BAout), .Cout(Cout), .Rin(Rin), .MAR_clear(MAR_clear));
 // add test logic here
 		
 	initial

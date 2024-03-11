@@ -25,7 +25,7 @@ module Select_Encode (
 	assign Gra_and = Gra & Ra;
 	assign Grb_and = Grb & Rb;
 	assign Grc_and = Grc & Rc;
-	assign enc_sel1 = Gra_and | Grb_and | Grc_and;
+	assign enc_sel = Gra_and | Grb_and | Grc_and;
 	
 	
 	//4 to 16 decoder

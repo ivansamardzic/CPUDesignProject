@@ -3,14 +3,18 @@
 module DataPath(
 	input wire clock, clear, MAR_clear,
 	
-	input wire HIin, LOin, Zlowin, Zhighin, PCin, MDRin, MARin, InPortin, Cin, MD_read,
+	input wire HIin, LOin, Zlowin, Zhighin, 
+	input wire PCin, MDRin, MARin, InPortin, 
+	input wire Cin, MD_read,
 	input wire IncPC, IRin, OutPortin, Yin, 
 	input wire Out_Portin, Strobe, 
 	
-	input wire HIout, LOout, Zhighout, Zlowout, PCout, MDRout, MARout, InPortout, 
+	input wire HIout, LOout, Zhighout, Zlowout, 
+	input wire PCout, MDRout, MARout, InPortout, 
 	
-	input wire Gra, Grb, Grc, Rin, Rout, BAout, Csignout, Read, Write, 
-	input wire ADD, 
+	input wire Gra, Grb, Grc, Rin, Rout, BAout, 
+	input wire Csignout, Read, Write, 
+	input wire ADD,
 	
 	input wire CONin, CONFF,  
 	//change to outs later
@@ -18,6 +22,7 @@ module DataPath(
 
 	input wire [31:0] INPUT_UNIT,
 	input wire [31:0] OUTPUT_UNIT
+	
 );
 
 	wire [31:0] BMInR0, BMInR1, BMInR2, BMInR3, BMInR4, BMInR5, BMInR6, BMInR7, BMInR8, BMInR9, BMInR10, BMInR11, BMInR12, BMInR13, BMInR14, BMInR15; 
