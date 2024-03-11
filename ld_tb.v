@@ -66,7 +66,7 @@ always @(posedge clock) // finite state machine; if clock rising-edge
             T4 : #40 Present_state = T5;
 				T5 : #40 Present_state = T6;
             T6 : #40 Present_state = T7;
-            
+            T7 : #40 Present_state = T8;
         endcase
     end
 
@@ -91,28 +91,24 @@ always @(Present_state)
 						#15 Zlowout <= 0; PCin <= 0; Read <= 0; MDRin <= 0; MD_read <= 0;
             end
             T2: begin
-                  #10 MDRout <= 1; IRin <= 1; //transfers MDR contents to IR reg
-						#15 MDRout <= 0; IRin <= 0;
+                  #10 MDRout <= 1; MD_read <= 1; MDRin <= 1;  //transfers MDR contents to IR reg
+						#15 MDRout <= 0; MD_read <= 0; MDRin <= 0;
             end
-            T3: begin
+				T3: begin
+                  #10 MDRout <= 1; IRin <= 1;  
+						#15 MDRout <= 0; IRin <= 0; 
+            end
+            T4: begin
                   #10 Grb <= 1; BAout <= 1; Yin <= 1; //R2 contents get put into Yreg
 						#15 Grb <= 0; BAout <= 0; Yin <= 0; 
             end
-            T4: begin
-                  #10 Csignout <= 1; ADD <= 1; Zlowin <= 1; //contents in Creg + Yreg = ZlowReg
-						#15 Csignout <= 0; ADD <= 0; Zlowin <= 0; 
-            end
-            T5: begin
-                  #10 Zlowout <= 1; MARin <= 1; //Zreg = address 
-						#15 Zlowout <= 0; MARin <= 0;
-            end
-				T6: begin 
-						#10 Read <= 1; MDRin <= 1; MD_read <= 1;
-						#15 Read <= 0; MDRin <= 0; MD_read <= 0;
-				end
-				T7: begin
-						#10 MDRout <= 1; Gra <= 1; Rin <= 1; //In register 1
-						#15 MDRout <= 0; Gra <= 0; Rin <= 0; 
+//            T5: begin
+//                  #10 Csignout <= 1; ADD <= 1; Zlowin <= 1; //contents in Creg + Yreg = ZlowReg
+//						#15 Csignout <= 0; ADD <= 0; Zlowin <= 0; 
+//            end
+				T5: begin
+						#10 Gra <= 1; Rin <= 1; //In register 1
+						#15 Gra <= 0; Rin <= 0; 
 				end
         endcase
     end
