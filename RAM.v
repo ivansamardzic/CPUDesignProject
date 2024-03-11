@@ -19,7 +19,6 @@ module RAM(
         if(Read) begin
             temp <= ram[address];
         end
-		  //temp <= ram[0];
     end
 	 
 	 assign DataOut = temp;
