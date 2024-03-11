@@ -10,30 +10,30 @@ module ALU(input wire [31:0] Y, BusMuxOut, input wire [3:0] op, input enable, ou
 	//All uncommented operations work
 	
 	//And/Or WORKS
-	//and_32_bit and_32(Y, BusMuxOut, and_result);
-	//or_32_bit or_32(Y, BusMuxOut, or_result);
+	and_32_bit and_32(Y, BusMuxOut, and_result);
+	or_32_bit or_32(Y, BusMuxOut, or_result);
 	
 	//Neg/Not WORKS
 	//Note: There is no sign extension when preforming the operation
-	//neg_32_bit neg_32(Y, neg_result);
-	//not_32_bit not_32(Y, not_result);
+	neg_32_bit neg_32(Y, neg_result);
+	not_32_bit not_32(Y, not_result);
 	
 	//Shifts
-	//shr_32_bit shr_32(Y, BusMuxOut, shr_result);
-	//shra_32_bit shra_32(Y, BusMuxOut, shra_result);
-	//shl_32_bit shl_32(Y, BusMuxOut, shl_result);
+	shr_32_bit shr_32(Y, BusMuxOut, shr_result);
+	shra_32_bit shra_32(Y, BusMuxOut, shra_result);
+	shl_32_bit shl_32(Y, BusMuxOut, shl_result);
 	
 	//Rotates
-	//ror_32_bit ror_32(Y, BusMuxOut, ror_result);
-	//rol_32_bit rol_32(Y, BusMuxOut, rol_result);
+	ror_32_bit ror_32(Y, BusMuxOut, ror_result);
+	rol_32_bit rol_32(Y, BusMuxOut, rol_result);
 	
 	//Add/Sub
 	CarrySelectAdder_32_bit add_32(Y, BusMuxOut, add_result);
-	//sub_32_bit sub_32(Y, BusMuxOut, sub_result);
+	sub_32_bit sub_32(Y, BusMuxOut, sub_result);
 	
 	//Mul/Div
-	//Bit_Pair_32_bit mul_32(Y, BusMuxOut, mul_result);
-	//Non_Restoring_32_bit div_32(Y, BusMuxOut, Quotient, Remainder);
+	Bit_Pair_32_bit mul_32(Y, BusMuxOut, mul_result);
+	Non_Restoring_32_bit div_32(Y, BusMuxOut, Quotient, Remainder);
     
 
 	

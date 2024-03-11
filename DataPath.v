@@ -1,7 +1,7 @@
 `timescale 1ns/10ps
 
 module DataPath(
-	input wire clock, clear,
+	input wire clock, clear, MAR_clear,
 	
 	input wire HIin, LOin, Zlowin, Zhighin, PCin, MDRin, MARin, InPortin, Cin, MD_read,
 	input wire IncPC, IRin, OutPortin, Yin, 
@@ -15,16 +15,16 @@ module DataPath(
 	input wire CONin, CONFF,  
 	//change to outs later
    //input wire Zin, IncPC, IRin,  OutPortin,  Yin,  	
-	input wire [31:0] Mdatain
-	//input wire [31:0] INPUT_UNIT,
-	//input wire [31:0] OUTPUT_UNIT
+
+	input wire [31:0] INPUT_UNIT,
+	input wire [31:0] OUTPUT_UNIT
 );
 
 	wire [31:0] BMInR0, BMInR1, BMInR2, BMInR3, BMInR4, BMInR5, BMInR6, BMInR7, BMInR8, BMInR9, BMInR10, BMInR11, BMInR12, BMInR13, BMInR14, BMInR15; 
 	wire [31:0] BMInINPORT;
 	wire [31:0] BusMuxOut, C_sign_extended, BMInPC, BMInIR, BusMuxInMDR, BusMuxInMAR, BMInHI, BMInLO, BMInZhigh, BMInZlow, BMInY; 
 	wire [63:0] C; 
-	
+	wire [31:0] Mdatain;
 	wire [15:0] IN, OUT; 
 	wire [8:0] address;
 	
@@ -39,7 +39,7 @@ module DataPath(
 	
 	I_O E2(.clear(clear), .clock(clock), .Out_Portin(Out_Portin), .Strobe(Strobe), .BusMuxOut(BusMuxOut), .OUTPUT_UNIT(OUTPUT_UNIT), .INPUT_UNIT(INPUT_UNIT), .BMInINPORT(BMInINPORT));
 	
-	MAR mar(.clear(clear), .clock(clock), .MARin(MARin), .BusMuxOut(BusMuxOut), .address(address));
+	MAR mar(.clear(MAR_clear), .clock(clock), .MARin(MARin), .BusMuxOut(BusMuxOut), .address(address));
 	
 	RAM ram(.Read(Read), .Write(Write), .clock(clock), .DataIn(BusMuxOut), .address(address), .DataOut(Mdatain));  
 	
