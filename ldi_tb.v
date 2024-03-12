@@ -61,8 +61,8 @@ always @(Present_state)
 						#15 PCout <= 0; MARin <= 0; IncPC <= 0; Zlowin <= 0;
             end
             T1: begin //Puts ram data into Mdatain
-						#10 Zlowout <= 1; PCin <= 1; Read <= 1; MDRin <= 1;   
-						#15 Zlowout <= 0; PCin <= 0; Read <= 0; MDRin <= 0; 
+						#10 Zlowout <= 1; PCin <= 1; Read <= 1;  
+						#15 Zlowout <= 0; PCin <= 0; Read <= 0; 
             end
             T2: begin //MDR content on to bus
                   #10 MDRout <= 1; MD_read <= 1; MDRin <= 1; 
