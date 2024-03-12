@@ -28,7 +28,9 @@ module Select_Encode (
 			enc_sel = Rb;
 		else if (Grc == 1) 
 			enc_sel = Rc; 
-		
+			
+		if(Rin == 0) IN <= 16'h0000;
+		if(Rout == 0) OUT <= 16'h0000;
 		
 		case(enc_sel)
 			4'b0000:	begin
