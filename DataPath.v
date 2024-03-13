@@ -3,18 +3,14 @@
 module DataPath(
 	input wire clock, clear, MAR_clear,
 	
-	input wire HIin, LOin, Zlowin, Zhighin, 
-	input wire PCin, MDRin, MARin, InPortin, 
-	input wire Cin, MD_read,
+	input wire HIin, LOin, Zlowin, Zhighin, PCin, MDRin, MARin, InPortin, Cin, MD_read,
 	input wire IncPC, IRin, OutPortin, Yin, 
 	input wire Out_Portin, Strobe, 
 	
-	input wire HIout, LOout, Zhighout, Zlowout, 
-	input wire PCout, MDRout, MARout, InPortout, 
+	input wire HIout, LOout, Zhighout, Zlowout, PCout, MDRout, MARout, InPortout, 
 	
-	input wire Gra, Grb, Grc, Rin, Rout, BAout, 
-	input wire Csignout, Read, Write, 
-	input wire ADD,
+	input wire Gra, Grb, Grc, Rin, Rout, BAout, Csignout, Read, Write, 
+	input wire ADD, 
 	
 	input wire CONin, CONFF,  
 	//change to outs later
@@ -57,19 +53,19 @@ module DataPath(
 	
 	
 	//register R0
-	reg [31:0]q;
-	initial q = 32'h0;
+	reg [31:0]qR0;
+	initial qR0 = 32'h0;
 
 	always @ (posedge clock)
 			begin 
 				if (clear) begin
-					q <= 32'h0;
+					qR0 <= 32'h0;
 				end
 				else if (IN[0]) begin
-					q <= BusMuxOut;
+					qR0 <= BusMuxOut;
 				end
 			end
-		assign BMInR0 = q & ~BAout; //may need to concatenate 
+		assign BMInR0 = qR0 & ~BAout; //may need to concatenate 
 		
 	register R0(clear, clock, IN[0], BusMuxOut, BMInR0);//Added one for R0 bc it wasnt there before	
 	register R1(clear, clock, IN[1], BusMuxOut, BMInR1);
@@ -93,7 +89,7 @@ module DataPath(
 
 	register HI_reg(clear, clock, HIin, BusMuxOut, BMInHI);
 	register LO_reg(clear, clock, LOin, BusMuxOut, BMInLO);
-	register PC_reg(IncPC, clock, PCin, BusMuxOut, BMInPC);
+	register PC_reg(clear, clock, PCin, BusMuxOut, BMInPC);
 	register InPort_reg(clear, clock, InPortin, BusMuxOut, BMInInPort);
 	//register C_reg(clear, clock, Cin, BusMuxOut, BMInCSign)
 	//register OutPort_reg(clear, clock, OutPortin, BusMuxOut, BMInPC)
@@ -115,7 +111,7 @@ module DataPath(
 		);
 		
 	
-		ALU alu(.Y(BMInY), .BusMuxOut(BusMuxOut), .op(4'b0100), .enable(ADD), .C(C));
+		ALU alu(.Y(BMInY), .BusMuxOut(BusMuxOut), .ADD(ADD), .IncPC(IncPC), .C(C));
 
 	
 	
