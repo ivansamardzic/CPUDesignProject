@@ -56,7 +56,7 @@ always @(Present_state)
 						  Csignout <= 0; Grb <= 0; Gra <= 0; BAout <= 0; Rin <= 0; MAR_clear <= 1;
             end
 		
-            T0: begin //Puts PC into MAR 
+            T0: begin //Puts PC into MAR S
 						#10 PCout <= 1; MARin <= 1; IncPC <= 1; Zlowin <= 1; 
 						#15 PCout <= 0; MARin <= 0; IncPC <= 0; Zlowin <= 0;
             end
