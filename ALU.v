@@ -1,14 +1,13 @@
-module ALU(input wire [31:0] Y, BusMuxOut, input wire [3:0] op, input enable, output reg[63:0] C);
+module ALU(input wire [31:0] Y, BusMuxOut, input ADD, IncPC, output reg[63:0] C);
 	
 	
 	wire [31:0] and_result, or_result, neg_result, not_result, shr_result, shra_result, shl_result, ror_result, rol_result, add_result, sub_result, Quotient, Remainder;
 	wire [63:0] mul_result;
 
-	parameter AND = 4'b0000, OR = 4'b0001, NEGATE = 4'b0010, NOT = 4'b0011, ADD = 4'b0100, SUB = 4'b0101,
-	MUL = 4'b0110, DIV = 4'b0111, SHR = 4'b1000, SHRA = 4'b1001, SHL = 4'b1010, ROR = 4'b1011, ROL = 4'b1100;
-	//All commented operations have not been tested...
-	//All uncommented operations work
+	//parameter AND = 4'b0000, OR = 4'b0001, NEGATE = 4'b0010, NOT = 4'b0011, ADD = 4'b0100, SUB = 4'b0101,
+	//MUL = 4'b0110, DIV = 4'b0111, SHR = 4'b1000, SHRA = 4'b1001, SHL = 4'b1010, ROR = 4'b1011, ROL = 4'b1100, IncPC = 4'b1101;
 	
+	reg [3:0] op; 
 	//And/Or WORKS
 	//and_32_bit and_32(Y, BusMuxOut, and_result);
 	//or_32_bit or_32(Y, BusMuxOut, or_result);
@@ -35,50 +34,54 @@ module ALU(input wire [31:0] Y, BusMuxOut, input wire [3:0] op, input enable, ou
 	//Bit_Pair_32_bit mul_32(Y, BusMuxOut, mul_result);
 	//Non_Restoring_32_bit div_32(Y, BusMuxOut, Quotient, Remainder);
     
-
+	
 	
 	always @(*) begin 
-	if(enable)
+	if(ADD) op <= 4'b0100;
+	else if(IncPC) op <= 4'b1101; 
 	begin 
 		case(op)
-			AND	: begin 	
+			4'b0000	: begin 	
 				C [31:0] <= and_result;
 				C [63:32] <= 32'd0; end
- 			OR	: begin
+ 			4'b0001	: begin
 				C [31:0] <= or_result;
 				C [63:32] <= 32'd0; end 
-			NEGATE	: begin 
+			4'b0010	: begin 
 				C [31:0] <= neg_result;
 				C [63:32] <= 32'd0; end 
-			NOT	: begin
+			4'b0011	: begin
 				C [31:0] <= not_result;
 				C [63:32] <= 32'd0; end 
-			ADD	: begin
+			4'b0100	: begin
 				C [31:0] <= add_result;
 				C [63:32] <= 32'd0; end 
-			SUB	: begin
+			4'b0101	: begin
 				C [31:0] <= sub_result;
 				C [63:32] <= 32'd0; end 
-			MUL	: begin
+			4'b0110	: begin
 				C [31:0] <= mul_result [31:0];
 				C [63:32] <= mul_result [63:32]; end 
-			DIV	: begin
+			4'b0111	: begin
 				C [31:0] <= Quotient [31:0];
 				C [63:32] <= Remainder [31:0]; end 
-			SHR	: begin
+			4'b1000	: begin
 				C [31:0] <= shr_result;
 				C [63:32] <= 32'd0; end 
-			SHRA	: begin
+			4'b1001	: begin
 				C [31:0] <= shra_result;
 				C [63:32] <= 32'd0; end 
-			SHL	: begin
+			4'b1010	: begin
 				C [31:0] <= shl_result;
 				C [63:32] <= 32'd0; end 
-			ROR	: begin
+			4'b1011	: begin
 				C [31:0] <= ror_result;
 				C [63:32] <= 32'd0; end 
-			ROL	: begin
+			4'b1100	: begin
 				C [31:0] <= rol_result;
+				C [63:32] <= 32'd0; end 
+			4'b1101: begin
+				C [31:0] <= 1 + BusMuxOut;
 				C [63:32] <= 32'd0; end 
 	
 		endcase
