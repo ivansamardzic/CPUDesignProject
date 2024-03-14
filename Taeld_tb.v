@@ -1,7 +1,7 @@
 `timescale 1ns/10ps
 module ld_tb;
     reg PCout, Zlowout, MDRout; // add any other signals to see in your simulation
-    reg Zlowin, PCin, MDRin, IRin, Yin;
+    reg Zlowin, PCin, PCout, MDRin, IRin, Yin;
     reg IncPC, ADD;
     reg clock, clear, MD_read, MAR_clear;
 //    reg [31:0] Mdatain;
@@ -17,7 +17,7 @@ module ld_tb;
 		     .MDRin(MDRin), .MAR_clear(MAR_clear),
 		     .PCin(PCin), .MD_read(MD_read),
 		     .Zlowin(Zlowin), .Zhighin(Zhighin), .Zlowout(Zlowout), .IncPC(IncPC), .Yin(Yin), .IRin(IRin),  
-		     .MDRout(MDRout), 
+		   .MDRout(MDRout), .PCout(PCout),
 			  
 			  .Csignout(Csignout), .Grb(Grb), .Gra(Gra), .BAout(BAout), .Read(Read), .MARin(MARin), .Rin(Rin), .ADD(ADD));
 // add test logic here
