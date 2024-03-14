@@ -1,4 +1,4 @@
-module ALU(input wire [31:0] Y, BusMuxOut, input ADD, IncPC, output reg[63:0] C);
+module ALU(input wire [31:0] Y, BusMuxOut, input ADD, IncPC, AND, OR, BRANCH, output reg[63:0] C);
 	
 	
 	wire [31:0] and_result, or_result, neg_result, not_result, shr_result, shra_result, shl_result, ror_result, rol_result, add_result, sub_result, Quotient, Remainder;
@@ -9,8 +9,8 @@ module ALU(input wire [31:0] Y, BusMuxOut, input ADD, IncPC, output reg[63:0] C)
 	
 	reg [3:0] op; 
 	//And/Or WORKS
-	//and_32_bit and_32(Y, BusMuxOut, and_result);
-	//or_32_bit or_32(Y, BusMuxOut, or_result);
+	and_32_bit a(.Ra(Y), .Rb(BusMuxOut), .Rz(and_result));
+	or_32_bit o(.Ra(Y), .Rb(BusMuxOut), .Rz(or_result));
 	
 	//Neg/Not WORKS
 	//Note: There is no sign extension when preforming the operation
@@ -39,6 +39,9 @@ module ALU(input wire [31:0] Y, BusMuxOut, input ADD, IncPC, output reg[63:0] C)
 	always @(*) begin 
 	if(ADD) op <= 4'b0100;
 	else if(IncPC) op <= 4'b1101; 
+	else if(AND) op <= 4'b0000;
+	else if(OR) op <= 4'b0001; 
+	else if(BRANCH) op <= 4'b1110; 
 	begin 
 		case(op)
 			4'b0000	: begin 	
@@ -81,8 +84,11 @@ module ALU(input wire [31:0] Y, BusMuxOut, input ADD, IncPC, output reg[63:0] C)
 				C [31:0] <= rol_result;
 				C [63:32] <= 32'd0; end 
 			4'b1101: begin
-				C [31:0] <= 1 + BusMuxOut;
+				C [31:0] <= 1 + BusMuxOut; //modify this pc line to start at a specific part in ram
 				C [63:32] <= 32'd0; end 
+			4'b1110: begin
+				C [31:0] <= 1 + add_result; //modify this pc line to start at a specific part in ram
+				C [63:32] <= 32'd0; end
 	
 		endcase
 	end
