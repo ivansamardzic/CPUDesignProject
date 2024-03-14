@@ -13,26 +13,31 @@ module CON_FF(
 	always @(*) begin 
 		case (IRbits) 
 			2'b00:	begin
+							flag <= 0;
 							if(BusMuxOut == 32'd0) flag <= 1; 
 						end
 			2'b01:	begin
+							flag <= 0;
 							if(BusMuxOut != 32'd0) flag <= 1; 
 						end
 			2'b10:	begin
+							flag <= 0;
 							if(BusMuxOut[31] == 0) flag <= 1; 
 						end
 			2'b11:	begin
+							flag <= 0;
 							if(BusMuxOut[31] == 1) flag <= 1; 
 						end	
 		endcase
 	end 
 	
-	always @(CONin)
+	always @(*)
 		begin
 			if(CONin) Q <= flag;
-			else Q <= 0; 
 		end 
 	assign Q_not = !Q; 
 						
 		
 endmodule
+	
+	
