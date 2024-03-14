@@ -4,20 +4,22 @@ module DataPath(
 	input wire clock, clear, MAR_clear,
 	
 	input wire HIin, LOin, Zlowin, Zhighin, PCin, MDRin, MARin, InPortin, Cin, MD_read,
-	input wire IncPC, IRin, OutPortin, Yin, 
+	input wire IRin, OutPortin, Yin, 
 	input wire Out_Portin, Strobe, 
 	
 	input wire HIout, LOout, Zhighout, Zlowout, PCout, MDRout, MARout, InPortout, 
 	
 	input wire Gra, Grb, Grc, Rin, Rout, BAout, Csignout, Read, Write, 
-	input wire ADD, 
+	input wire IncPC, ADD, AND, OR, BRANCH, 
 	
-	input wire CONin, CONFF,  
+	input wire CONin,
 	//change to outs later
    //input wire Zin, IncPC, IRin,  OutPortin,  Yin,  	
 
 	input wire [31:0] INPUT_UNIT,
-	input wire [31:0] OUTPUT_UNIT
+	input wire [31:0] OUTPUT_UNIT,
+	
+	output wire CONFF 
 	
 );
 
@@ -67,7 +69,7 @@ module DataPath(
 			end
 		assign BMInR0 = qR0 & ~BAout; //may need to concatenate 
 		
-	register R0(clear, clock, IN[0], BusMuxOut, BMInR0);//Added one for R0 bc it wasnt there before	
+	//register R0(clear, clock, IN[0], BusMuxOut, BMInR0);//Added one for R0 bc it wasnt there before	
 	register R1(clear, clock, IN[1], BusMuxOut, BMInR1);
 	register R2(clear, clock, IN[2], BusMuxOut, BMInR2);
 	register R3(clear, clock, IN[3], BusMuxOut, BMInR3);
@@ -111,7 +113,7 @@ module DataPath(
 		);
 		
 	
-		ALU alu(.Y(BMInY), .BusMuxOut(BusMuxOut), .ADD(ADD), .IncPC(IncPC), .C(C));
+	ALU alu(.Y(BMInY), .BusMuxOut(BusMuxOut), .ADD(ADD), .IncPC(IncPC), .AND(AND), .OR(OR), .BRANCH(BRANCH), .C(C));
 
 	
 	
