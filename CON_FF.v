@@ -7,8 +7,8 @@ module CON_FF(
 	wire [1:0] IRbits; 
 	wire Q_not; 
 	reg flag; 
-	
-	assign IRbits = BMInIR [20:19];
+	 
+	assign IRbits = BMInIR [22:21]; //op code is for [22:21], they want [20:19]???
 	
 	always @(*) begin 
 		case (IRbits) 
