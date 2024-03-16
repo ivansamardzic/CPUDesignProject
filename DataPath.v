@@ -13,6 +13,7 @@ module DataPath(
 	input wire IncPC, ADD, AND, OR, BRANCH, 
 	
 	input wire CONin,
+	
 	//change to outs later
    //input wire Zin, IncPC, IRin,  OutPortin,  Yin,  	
 
@@ -92,7 +93,7 @@ module DataPath(
 	register HI_reg(clear, clock, HIin, BusMuxOut, BMInHI);
 	register LO_reg(clear, clock, LOin, BusMuxOut, BMInLO);
 	register PC_reg(clear, clock, PCin, BusMuxOut, BMInPC);
-	register InPort_reg(clear, clock, InPortin, BusMuxOut, BMInInPort);
+	//register InPort_reg(clear, clock, InPortin, BusMuxOut, BMInInPort);
 	//register C_reg(clear, clock, Cin, BusMuxOut, BMInCSign)
 	//register OutPort_reg(clear, clock, OutPortin, BusMuxOut, BMInPC)
 	register Y_reg(clear, clock, Yin, BusMuxOut, BMInY);
@@ -102,9 +103,9 @@ module DataPath(
 		.C_sign_extended(C_sign_extended), .Strobe(Strobe), .BMInINPORT(BMInINPORT), 
 		
 		.BMInR0(BMInR0), .BMInR1(BMInR1), .BMInR2(BMInR2), .BMInR3(BMInR3), .BMInR4(BMInR4), .BMInR5(BMInR5), .BMInR6(BMInR6), .BMInR7(BMInR7), .BMInR8(BMInR8), .BMInR9(BMInR9), .BMInR10(BMInR10), .BMInR11(BMInR11), .BMInR12(BMInR12), .BMInR13(BMInR13), .BMInR14(BMInR14), .BMInR15(BMInR15),
-		.BMInHI(BMInHI), .BMInLO(BMInLO), .BMInZhigh(BMInZhigh), .BMInZlow(BMInZlow), .BMInPC(BMInPC), .BusMuxInMDR(BusMuxInMDR), .BMInInPort(BMInInPort),
+		.BMInHI(BMInHI), .BMInLO(BMInLO), .BMInZhigh(BMInZhigh), .BMInZlow(BMInZlow), .BMInPC(BMInPC), .BusMuxInMDR(BusMuxInMDR),
 
-		.Csignout(Csignout),
+		.Csignout(Csignout), 
 		
 		.R0out(OUT[0]), .R1out(OUT[1]), .R2out(OUT[2]), .R3out(OUT[3]), .R4out(OUT[4]), .R5out(OUT[5]), .R6out(OUT[6]), .R7out(OUT[7]), .R8out(OUT[8]), .R9out(OUT[9]), .R10out(OUT[10]), .R11out(OUT[11]), .R12out(OUT[12]), .R13out(OUT[13]), .R14out(OUT[14]), .R15out(OUT[15]),
 		.HIout(HIout), .LOout(LOout), .Zhighout(Zhighout), .Zlowout(Zlowout), .PCout(PCout), .MDRout(MDRout), .InPortout(InPortout),
