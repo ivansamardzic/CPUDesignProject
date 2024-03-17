@@ -1,7 +1,7 @@
 `timescale 1ns/10ps
 module ld_tb;
     reg PCout, Zlowout, MDRout; // add any other signals to see in your simulation
-    reg Zlowin, PCin, PCout, MDRin, IRin, Yin;
+    reg Zlowin, PCin, MDRin, IRin, Yin;
     reg IncPC, ADD;
     reg clock, clear, MD_read, MAR_clear;
 //    reg [31:0] Mdatain;
