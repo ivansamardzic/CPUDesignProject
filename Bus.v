@@ -3,7 +3,7 @@ module Bus (
 	//23 inputs based on 32:1 Multiplixer BusMux from Figure 3
 	input [31:0]BMInR0, BMInR1, BMInR2, BMInR3, BMInR4, BMInR5, BMInR6, BMInR7, BMInR8, BMInR9, BMInR10, BMInR11, BMInR12, BMInR13, BMInR14, BMInR15,
 	
-	input [31:0]BMInHI, C_sign_extended, BMInLO, BMInZhigh, BMInZlow, BMInPC, BusMuxInMDR, BMInInPort, 
+	input [31:0]BMInHI, C_sign_extended, BMInLO, BMInZhigh, BMInZlow, BMInPC, BusMuxInMDR, 
 	
 	input [31:0]BMInINPORT,
 	
@@ -46,7 +46,7 @@ module Bus (
 		if(Zlowout) q = BMInZlow;
 		if(PCout) q = BMInPC; 
 		if(MDRout) q = BusMuxInMDR;
-		if(InPortout) q = BMInInPort;
+		if(InPortout) q = BMInINPORT;
 	end
 	assign BusMuxOut = q;
 endmodule
