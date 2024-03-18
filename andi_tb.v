@@ -1,5 +1,5 @@
 `timescale 1ns/10ps
-module and_tb;
+module andi_tb;
     reg PCout, Zlowout, MDRout; // add any other signals to see in your simulation
     reg Zlowin, PCin, MDRin, IRin, Yin;
     reg IncPC, AND;
