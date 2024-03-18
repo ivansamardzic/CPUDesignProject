@@ -66,7 +66,7 @@ always @(Present_state)
                     MD_read <= 0;
 						  Csignout <= 0; Grb <= 0; Gra <= 0; BAout <= 0; Rin <= 0; MAR_clear <= 1;
             end
-				
+
 				T0: begin //Puts PC into MAR S
 						#10 PCout <= 1; MARin <= 1; IncPC <= 1; Zlowin <= 1; 
 						#15 PCout <= 0; MARin <= 0; IncPC <= 0; Zlowin <= 0;
@@ -96,7 +96,6 @@ always @(Present_state)
 						#15 Zlowout <= 0; Gra <= 0; Rin <= 0; 
 				end
 				
-		
             T7: begin //Puts PC into MAR S
 						#10 PCout <= 1; MARin <= 1; IncPC <= 1; Zlowin <= 1; MAR_clear <= 0;
 						#15 PCout <= 0; MARin <= 0; IncPC <= 0; Zlowin <= 0;
@@ -106,20 +105,24 @@ always @(Present_state)
 						#15 Zlowout <= 0; PCin <= 0; Read <= 0; 
             end
             T9: begin //MDR content on to bus
+
                   #10  MD_read <= 1; MDRin <= 1; 
 						#15  MD_read <= 0; MDRin <= 0;
             end
 				T10: begin //IR has opcode 
                   #10 IRin <= 1; MDRout <= 1;
 						#15 IRin <= 0; MDRout <= 0;
+
             end
             T11: begin //Yin contains 0 from R4
                   #10 Grb <= 1; Rout <= 1; Yin <= 1; 
 						#15 Grb <= 0; Rout <= 0; Yin <= 0; 
             end
             T12: begin
+
                   #10 Csignout <= 1; AND <= 1; Zlowin <= 1; //contents in Creg AND Yreg = ZlowReg
 						#15 Csignout <= 0; AND <= 0; Zlowin <= 0; 
+
             end
 				T13: begin
 						#10 Zlowout <= 1; Gra <= 1; Rin <= 1; //In register 3
