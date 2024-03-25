@@ -65,16 +65,12 @@ always @(Present_state)
 						#15 PCout <= 0; MARin <= 0; IncPC <= 0; Zlowin <= 0;
             end
             T1: begin //Puts ram data into Mdatain
-						#10 Zlowout <= 1; PCin <= 1; Read <= 1; MAR_clear <= 0;
-						#15 Zlowout <= 0; PCin <= 0; Read <= 0; 
+						#10 Zlowout <= 1; PCin <= 1; Read <= 1;  MD_read <= 1; MDRin <= 1; 
+						#15 Zlowout <= 0; PCin <= 0; Read <= 0;  MD_read <= 0; MDRin <= 0;
             end
             T2: begin //MDR content on to bus
-                  #10 MDRout <= 1; MD_read <= 1; MDRin <= 1; 
-						#15 MDRout <= 0; MD_read <= 0; MDRin <= 0;
-            end
-				T3: begin //IR has opcode 
-                  #10 IRin <= 1;  
-						#15 IRin <= 0; 
+                  #10 MDRout <= 1; IRin <= 1;
+						#15 MDRout <= 0; IRin <= 0;
             end
             T4: begin //Yin contains 0 from R0
                   #10 Grb <= 1; BAout <= 1; Yin <= 1; 
@@ -91,21 +87,17 @@ always @(Present_state)
 				
 				//JUMP INSTRUCTION
 		
-            T7: begin //Puts PC into MAR 
+            T7: begin //Puts PC into MAR S
 						#10 PCout <= 1; MARin <= 1; IncPC <= 1; Zlowin <= 1; 
 						#15 PCout <= 0; MARin <= 0; IncPC <= 0; Zlowin <= 0;
             end
             T8: begin //Puts ram data into Mdatain
-						#10 Zlowout <= 1; PCin <= 1; Read <= 1; 
-						#15 Zlowout <= 0; PCin <= 0; Read <= 0; 
+						#10 Zlowout <= 1; PCin <= 1; Read <= 1;  MD_read <= 1; MDRin <= 1; 
+						#15 Zlowout <= 0; PCin <= 0; Read <= 0;  MD_read <= 0; MDRin <= 0;
             end
             T9: begin //MDR content on to bus
-                  #10 MDRout <= 1; MD_read <= 1; MDRin <= 1; 
-						#15 MDRout <= 0; MD_read <= 0; MDRin <= 0;
-            end
-				T10: begin //IR has opcode 
-                  #10 IRin <= 1;  
-						#15 IRin <= 0; 
+                  #10 MDRout <= 1; IRin <= 1;
+						#15 MDRout <= 0; IRin <= 0;
             end
             T11: begin
                   #10 Gra <= 1; Rout <= 1; PCin <= 1; 
@@ -114,5 +106,3 @@ always @(Present_state)
         endcase
     end
 endmodule
-
-
