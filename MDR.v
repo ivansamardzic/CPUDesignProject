@@ -1,7 +1,7 @@
 module MDR(
 	input clear, clock, MDRin,
 	input [31:0]BusMuxOut, Mdatain,
-	input read,												
+	input MD_read,												
 	
 	output wire [31:0]BusMuxInMDR	
 	);
@@ -14,7 +14,7 @@ module MDR(
 			if (clear) q <= {32{1'b0}};
 			else if (MDRin) 
 				begin
-					if(read) q <= Mdatain; 
+					if(MD_read) q <= Mdatain; 
 					else q <= BusMuxOut; 
 				end
 		end

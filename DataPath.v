@@ -35,7 +35,7 @@ module DataPath(
 	
 	
 	//MDR mdr(BuxMuxOut, Mdatain, MD_read, clear, clock, MDRin, MDRout);
-	MDR mdr(.clear(clear), .clock(clock), .MDRin(MDRin), .BusMuxOut(BusMuxOut), .Mdatain(Mdatain), .read(MD_read), .BusMuxInMDR(BusMuxInMDR));
+	MDR mdr(.clear(clear), .clock(clock), .MDRin(MDRin), .BusMuxOut(BusMuxOut), .Mdatain(Mdatain), .MD_read(MD_read), .BusMuxInMDR(BusMuxInMDR));
 	
 	register IR_reg(clear, clock, IRin, BusMuxOut, BMInIR); 
 	
