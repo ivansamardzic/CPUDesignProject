@@ -1,12 +1,38 @@
 `timescale 1ns/10ps
-
 module control_unit (
-    output reg Gra, Grb, Grc, Rin, ..., Rout, // define the inputs and outputs to your Control Unit here
-    Yin, Zin, PCout, IncPC, ..., MARin,
-    Read, Write, ..., Clear,
-    ADD, AND, ..., SHR,
-    input [31:0] IR,
-    input Clock, Reset, Stop, ..., Con_FF
+	//Going CCW
+	
+	//Green section
+	output reg PCout, MDRout, Zhighout, Zlowout, HIout, LOout,
+
+	//Yellow section
+	output reg Rin, Rout, Gra, Grb, Grc,
+
+	//Dark blue section, not sure if we use Zin ---- added Zhighin, Zlowin even though not in diagram
+	output reg BAout, Csignout, OutPortin, MDRin, MARin, Yin, IRin, PCin, CONin, LOin, HIin, Zhighin, Zlowin,
+
+	//Light green section
+	output reg ADD, SUB, MUL, DIV,
+	output reg AND, OR, 
+	output reg SHR, SHRA, SHL,
+	output reg ROR, ROL,
+	output reg NEG, NOT,
+	output reg IncPC,
+
+	//Light blue section
+	output reg MD_read, Write
+
+	//Greyish section
+	output reg InPortout
+
+	//Red section
+	input clock, reset, stop, CONFF,
+	input [31:0] IR_reg,
+
+	//Dark green section, MEMread & MEMwrite are not in diagram but added here
+	output run, clear,
+
+	//Brown section, interrupt functionality is not necessary
 );
 
 parameter reset_state = 4'b0000, fetch0 = 4'b0001, fetch1 = 4'b0010, fetch2 = 4'b0011,
