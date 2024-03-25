@@ -1,7 +1,7 @@
 `timescale 1ns/10ps
 
 module DataPath(
-	input wire clock, clear, MAR_clear,
+	input wire clock, clear, MAR_clear, reset, stop,
 	
 	input wire HIin, LOin, Zlowin, Zhighin, PCin, MDRin, MARin, InPortin, Cin, MD_read,
 	input wire IRin, OutPortin, Yin, 
