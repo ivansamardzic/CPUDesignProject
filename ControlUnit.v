@@ -35,73 +35,72 @@ module control_unit (
 	//Brown section, interrupt functionality is not necessary
 );
 
-	// 0 to 78 in binary
-	parameter 			reset_state = 8'b00000000, T0 = 8'b00000001, T1 = 8'b00000010, T2 = 8'b00000011,
-						//Load
-						LD_T3  = 8'b00000100, LD_T4  = 8'b00000101, LD_T5  = 8'b00000110, LD_T6 = 8'b00000111, LD_T7 = 8'b00001000,
-                        //Load Immediate
-						LDI_T3 = 8'b00001001, LDI_T4 = 8'b00001010, LDI_T5 = 8'b00001011,
-                        //Store
-						ST_T3 = 8'b00001100, ST_T4 = 8'b00001101, ST_T5 = 8'b00001110, ST_T6 = 8'b00001111,
-                        //Add 
-						ADD_T3 = 8'b00010000, ADD_T4 = 8'b00010001, ADD_T5 = 8'b00010010,
-                        //Add Immediate
-						ADDI_T3 = 8'b00010011, ADDI_T4 = 8'b00010100, ADDI_T5 = 8'b00010101,
-                        //Subtract
-						SUB_T3 = 8'b00010110, SUB_T4 = 8'b00010111, SUB_T5 = 8'b00011000,
-                        //Multiply
-						MUL_T3 = 8'b00011001, MUL_T4 = 8'b00011010, MUL_T5 = 8'b00011011, MUL_T6 = 8'b00011100,
-                        //Divide
-						DIV_T3 = 8'b00011101, DIV_T4 = 8'b00011110, DIV_T5 = 8'b00011111, DIV_T6 = 8'b00100000,
-                        //And
-						AND_T3 = 8'b00100001, AND_T4 = 8'b00100010, AND_T5 = 8'b00100011,
-                        //And Immediate
-						ANDI_T3 = 8'b00100100, ANDI_T4 = 8'b00100101, ANDI_T5 = 8'b00100110,
-                        //Or
-						OR_T3 = 8'b00100111, OR_T4 = 8'b00101000, OR_T5 = 8'b00101001,
-                        //Or Immediate
-						ORI_T3 = 8'b00101010, ORI_T4 = 8'b00101011, ORI_T5 = 8'b00101100,
-                        //Shift Right
-						SHR_T3 = 8'b00101101, SHR_T4 = 8'b00101110, SHR_T5 = 8'b00101111,
-                        //Shift Right Arithmetic
-						SHRA_T3 = 8'b00110000, SHRA_T4 = 8'b00110001, SHRA_T5 = 8'b00110010,
-                        //Shift Left
-						SHL_T3 = 8'b00110011, SHL_T4 = 8'b00110100, SHL_T5 = 8'b00110101,
-                        //Rotate Right
-						ROR_T3 = 8'b00110110, ROR_T4 = 8'b00110111, ROR_T5 = 8'b00111000,
-                        //Rotate Left
-						ROL_T3 = 8'b00111001, ROL_T4 = 8'b00111010, ROL_T5 = 8'b00111011,
-                        //Negate
-						NEG_T3 = 8'b00111100, NEG_T4 = 8'b00111101,
-                        //Not
-						NOT_T3 = 8'b00111110, NOT_T4 = 8'b00111111,
-                        //Branch
-						BR_T3 = 8'b01000000, BR_T4 = 8'b01000001, BR_T5 = 8'b01000010, BR_T6 = 8'b01000011,
-                        //Jump
-						JR_T3 = 8'b01000100,
-                        //Jump and Link
-						JAL_T3 = 8'b01000101, JAL_T4 = 8'b01000110,
-                        //Input
-						IN_T3 = 8'b01000111, IN_T4 = 8'b01001000,
-                        //Output    
-						OUT_T3 = 8'b01001001,
-                        //Move from HI
-						MFHI_T3 = 8'b01001010,
-                        //Move from LO
-						MFLO_T3 = 8'b01001011,
-                        //NOP
-						NOP_T3  = 8'b01001100,
-                        //Halt
-						HALT_T3 = 8'b01001101;
-	
-						
-	reg [7:0] present_state = 8'b01001110;
+	parameter 			reset_state = 8'b00000000, T0 = 8'b11111000, T1 = 8'b11111001, T2 = 8'b11111010,
+					// Load
+					LD_T3  = 8'b00000011, 	LD_T4  = 8'b00000100, 	LD_T5  = 8'b00000101, 	LD_T6 = 8'b00000110, LD_T7 = 8'b00000111,
+					// Load Immediate
+					LDI_T3 = 8'b00001011, 	LDI_T4 = 8'b00001100, 	LDI_T5 = 8'b00001101,
+					// Store
+					ST_T3  = 8'b00010011, 	ST_T4  = 8'b00010100, 	ST_T5  = 8'b00010101, 	ST_T6 = 8'b00010110,
+					// Add
+					ADD_T3  = 8'b00011011, 	ADD_T4  = 8'b00011100, 	ADD_T5  = 8'b00011101,
+					// Add Immediate
+					ADDI_T3 = 8'b01100011, 	ADDI_T4 = 8'b01100100, 	ADDI_T5 = 8'b01100101,
+					// Subtract
+					SUB_T3  = 8'b00100011, 	SUB_T4  = 8'b00100100, 	SUB_T5  = 8'b00100101,
+					// Multiply
+					MUL_T3  = 8'b01111011, 	MUL_T4  = 8'b01111100, 	MUL_T5  = 8'b01111101, 	MUL_T6 = 8'b01111110,
+					// Divide
+					DIV_T3  = 8'b10000011, 	DIV_T4  = 8'b10000100, 	DIV_T5  = 8'b10000101, 	DIV_T6 = 8'b10000110,
+					// And
+					AND_T3  = 8'b01010011, 	AND_T4  = 8'b01010100, 	AND_T5  = 8'b01010101,
+					// And Immediate
+					ANDI_T3 = 8'b01101011, 	ANDI_T4 = 8'b01101100, 	ANDI_T5 = 8'b01101101,
+					// Or
+					OR_T3   = 8'b01011011, 	OR_T4   = 8'b01011100,  OR_T5   = 8'b01011110,
+					// Or Immediate
+					ORI_T3  = 8'b01110011, 	ORI_T4  = 8'b01110100, 	ORI_T5  = 8'b01110110,
+					// Shift Right
+					SHR_T3  = 8'b00101011, 	SHR_T4  = 8'b00101100, 	SHR_T5  = 8'b00101110,
+					// Shift Right Arithmetic
+					SHRA_T3 = 8'b00110011, 	SHRA_T4 = 8'b00110100, 	SHRA_T5 = 8'b00110110,
+					// Shift Left
+					SHL_T3  = 8'b00111011, 	SHL_T4  = 8'b00111100, 	SHL_T5  = 8'b00111110,
+					// Rotate Right
+					ROR_T3  = 8'b01000011, 	ROR_T4  = 8'b01000100, 	ROR_T5  = 8'b01000110,
+					// Rotate Left
+					ROL_T3  = 8'b01001011, 	ROL_T4  = 8'b01001100, 	ROL_T5  = 8'b01001110,
+					// Negate
+					NEG_T3  = 8'b10001011, 	NEG_T4  = 8'b10001100,
+					// Not
+					NOT_T3  = 8'b10010011, 	NOT_T4  = 8'b10010100,
+					// Branch
+					BR_T3 = 8'b10011011, 	BR_T4 = 8'b10011100, 	BR_T5 = 8'b10011101, 	BR_T6 = 8'b10011110,
+					// Jump
+					JR_T3 = 8'b10100011,
+					// Jump and Link
+					JAL_T3 = 8'b10101011, 	JAL_T4 = 8'b10101100,
+					// In
+					IN_T3   = 8'b10110011, 	IN_T4 = 8'b10110100,
+					// Out
+					OUT_T3  = 8'b10111011,
+					// Move from High
+					MFHI_T3 = 8'b11000011,
+					// Move from Low
+					MFLO_T3 = 8'b11001011,
+					// Nothing
+					NOP_T3  = 8'b11010011,
+					// Halt
+					HALT_T3 = 8'b11011011;
+
+					
+	reg [7:0]present_state = 8'b11111111;
 	reg run = 1;
 
 	always @ (negedge clock, posedge reset) begin
 		
 			
-		if (reset == 1'b1) begin // check for reset case
+		if (reset == 1'b1) begin
 			present_state = reset_state;
 		end
 		
@@ -114,36 +113,36 @@ module control_unit (
 				T1				:	present_state = T2;
 				T2 : begin
 						
-					case (IR[31:24]) // checks all 8 bits
+					case (IR[31:27]) // checks all 8 bits
 
-						8'b00000100 : present_state = LD_T3;
-						8'b00001001 : present_state = LDI_T3;
-						8'b00001100 : present_state = ST_T3;
-						8'b00010000 : present_state = ADD_T3;
-						8'b00010011 : present_state = ADDI_T3;
-						8'b00010110 : present_state = SUB_T3;
-						8'b00011001 : present_state = MUL_T3;
-						8'b00011101 : present_state = DIV_T3;
-						8'b00100001 : present_state = AND_T3;
-						8'b00100100 : present_state = ANDI_T3;
-						8'b00100111 : present_state = OR_T3;
-						8'b00101010 : present_state = ORI_T3;
-						8'b00101101 : present_state = SHR_T3;
-						8'b00110000 : present_state = SHRA_T3;
-						8'b00110011 : present_state = SHL_T3;
-						8'b00110110 : present_state = ROR_T3;
-						8'b00111001 : present_state = ROL_T3;
-						8'b00111100 : present_state = NEG_T3;
-						8'b00111110 : present_state = NOT_T3;
-						8'b01000000 : present_state = BR_T3;
-						8'b01000100 : present_state = JR_T3;
-						8'b01000101 : present_state = JAL_T3;
-						8'b01000111 : present_state = IN_T3;
-						8'b01001001 : present_state = OUT_T3;
-						8'b01001010 : present_state = MFHI_T3;
-						8'b01001011 : present_state = MFLO_T3;
-						8'b01001100 : present_state = NOP_T3;
-						8'b01001101 : present_state = HALT_T3;
+						5'b00000 : present_state = LD_T3;
+						5'b00001 : present_state = LDI_T3;
+						5'b00010 : present_state = ST_T3;
+						5'b00011 : present_state = ADD_T3;
+						5'b01100 : present_state = ADDI_T3;
+						5'b00100 : present_state = SUB_T3;
+						5'b01111 : present_state = MUL_T3;
+						5'100000 : present_state = DIV_T3;
+						5'b01010 : present_state = AND_T3;
+						5'b01101 : present_state = ANDI_T3;
+						5'b01011 : present_state = OR_T3;
+						5'b01110 : present_state = ORI_T3;
+						5'b00101 : present_state = SHR_T3;
+						5'b00110 : present_state = SHRA_T3;
+						5'b00111 : present_state = SHL_T3;
+						5'b01000 : present_state = ROR_T3;
+						5'b01001 : present_state = ROL_T3;
+						5'b10001 : present_state = NEG_T3;
+						5'b10010 : present_state = NOT_T3;
+						5'b10011 : present_state = BR_T3;
+						5'b10100 : present_state = JR_T3;
+						5'b10101 : present_state = JAL_T3;
+						5'b10110 : present_state = IN_T3;
+						5'b10011 : present_state = OUT_T3;
+						5'b11000 : present_state = MFHI_T3;
+						5'b11001 : present_state = MFLO_T3;
+						5'b11010 : present_state = NOP_T3;
+						5'b11011 : present_state = HALT_T3;
 					
 					endcase
 				end
