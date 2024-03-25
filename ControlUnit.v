@@ -36,50 +36,66 @@ module control_unit (
 );
 
 	// 0 to 78 in binary
-	parameter 				reset_state = 8'b00000000, T0 = 8'b00000001, T1 = 8'b00000010, T2 = 8'b00000011,
-						
-						// load and store
-						LD_T3  = 8'b00000100, 	LD_T4  = 8'b00000101, 	LD_T5  = 8'b00000110, 	LD_T6 = 8'b00000111, LD_T7 = 8'b00001000,
-						LDI_T3 = 8'b00001001, 	LDI_T4 = 8'b00001010, 	LDI_T5 = 8'b00001011,
+	parameter 			reset_state = 8'b00000000, T0 = 8'b00000001, T1 = 8'b00000010, T2 = 8'b00000011,
+						//Load
+						LD_T3  = 8'b00000100, LD_T4  = 8'b00000101, LD_T5  = 8'b00000110, LD_T6 = 8'b00000111, LD_T7 = 8'b00001000,
+                        //Load Immediate
+						LDI_T3 = 8'b00001001, LDI_T4 = 8'b00001010, LDI_T5 = 8'b00001011,
+                        //Store
 						ST_T3 = 8'b00001100, ST_T4 = 8'b00001101, ST_T5 = 8'b00001110, ST_T6 = 8'b00001111,
-	
-						// ALU operations
+                        //Add 
 						ADD_T3 = 8'b00010000, ADD_T4 = 8'b00010001, ADD_T5 = 8'b00010010,
+                        //Add Immediate
 						ADDI_T3 = 8'b00010011, ADDI_T4 = 8'b00010100, ADDI_T5 = 8'b00010101,
+                        //Subtract
 						SUB_T3 = 8'b00010110, SUB_T4 = 8'b00010111, SUB_T5 = 8'b00011000,
+                        //Multiply
 						MUL_T3 = 8'b00011001, MUL_T4 = 8'b00011010, MUL_T5 = 8'b00011011, MUL_T6 = 8'b00011100,
+                        //Divide
 						DIV_T3 = 8'b00011101, DIV_T4 = 8'b00011110, DIV_T5 = 8'b00011111, DIV_T6 = 8'b00100000,
+                        //And
 						AND_T3 = 8'b00100001, AND_T4 = 8'b00100010, AND_T5 = 8'b00100011,
+                        //And Immediate
 						ANDI_T3 = 8'b00100100, ANDI_T4 = 8'b00100101, ANDI_T5 = 8'b00100110,
+                        //Or
 						OR_T3 = 8'b00100111, OR_T4 = 8'b00101000, OR_T5 = 8'b00101001,
+                        //Or Immediate
 						ORI_T3 = 8'b00101010, ORI_T4 = 8'b00101011, ORI_T5 = 8'b00101100,
+                        //Shift Right
 						SHR_T3 = 8'b00101101, SHR_T4 = 8'b00101110, SHR_T5 = 8'b00101111,
+                        //Shift Right Arithmetic
 						SHRA_T3 = 8'b00110000, SHRA_T4 = 8'b00110001, SHRA_T5 = 8'b00110010,
+                        //Shift Left
 						SHL_T3 = 8'b00110011, SHL_T4 = 8'b00110100, SHL_T5 = 8'b00110101,
+                        //Rotate Right
 						ROR_T3 = 8'b00110110, ROR_T4 = 8'b00110111, ROR_T5 = 8'b00111000,
+                        //Rotate Left
 						ROL_T3 = 8'b00111001, ROL_T4 = 8'b00111010, ROL_T5 = 8'b00111011,
+                        //Negate
 						NEG_T3 = 8'b00111100, NEG_T4 = 8'b00111101,
+                        //Not
 						NOT_T3 = 8'b00111110, NOT_T4 = 8'b00111111,
-	
-						// branch instruction
+                        //Branch
 						BR_T3 = 8'b01000000, BR_T4 = 8'b01000001, BR_T5 = 8'b01000010, BR_T6 = 8'b01000011,
-	
-						// jump instructions
+                        //Jump
 						JR_T3 = 8'b01000100,
+                        //Jump and Link
 						JAL_T3 = 8'b01000101, JAL_T4 = 8'b01000110,
-	
-						// in/out and mfhi/lo
+                        //Input
 						IN_T3 = 8'b01000111, IN_T4 = 8'b01001000,
+                        //Output    
 						OUT_T3 = 8'b01001001,
+                        //Move from HI
 						MFHI_T3 = 8'b01001010,
+                        //Move from LO
 						MFLO_T3 = 8'b01001011,
-	
-						// NOTE: Check control sequences for nop and halt
+                        //NOP
 						NOP_T3  = 8'b01001100,
+                        //Halt
 						HALT_T3 = 8'b01001101;
 	
 						
-	reg [7:0]present_state = 8'b01001110;
+	reg [7:0] present_state = 8'b01001110;
 	reg run = 1;
 
 	always @ (negedge clock, posedge reset) begin
