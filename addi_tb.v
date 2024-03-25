@@ -63,8 +63,8 @@ always @(Present_state)
                     MARin <= 0; Zlowin <= 0;
                     PCin <=0; MDRin <= 0; IRin <= 0; Yin <= 0;
                     IncPC <= 0; Read <= 0; ADD <= 0;
-                    MD_read <= 0;
-						  Csignout <= 0; Grb <= 0; Gra <= 0; BAout <= 0; Rin <= 0; MAR_clear <= 1;
+                    MD_read <= 0; MAR_clear <= 0;
+						  Csignout <= 0; Grb <= 0; Gra <= 0; BAout <= 0; Rin <= 0; 
             end
 				T0: begin //Puts PC into MAR S
 						#10 PCout <= 1; MARin <= 1; IncPC <= 1; Zlowin <= 1; 
@@ -93,7 +93,7 @@ always @(Present_state)
 				
 				
             T7: begin //Puts PC into MAR S
-						#10 PCout <= 1; MARin <= 1; IncPC <= 1; Zlowin <= 1; MAR_clear <= 0;
+						#10 PCout <= 1; MARin <= 1; IncPC <= 1; Zlowin <= 1;
 						#15 PCout <= 0; MARin <= 0; IncPC <= 0; Zlowin <= 0;
             end
             T8: begin //Puts ram data into Mdatain
