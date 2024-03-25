@@ -79,7 +79,7 @@ module control_unit (
 					// Jump
 					JR_T3 = 8'b10100011,
 					// Jump and Link
-					JAL_T3 = 8'b10101011, 	JAL_T4 = 8'b10101100,
+					JAL_T3 = 8'b10101011, 	JAL_T4 = 8'b10101100, JAL_T5 = 8'b010101101,
 					// In
 					IN_T3   = 8'b10110011, 	IN_T4 = 8'b10110100,
 					// Out
@@ -234,7 +234,8 @@ module control_unit (
 				JR_T3 : present_state = T0;
 					
 				JAL_T3 : present_state = JAL_T4;
-				JAL_T4 : present_state = T0;
+				JAL_T4 : present_state = JAL_T5;
+				JAL_T5 : present_state = T0;
 					
 				IN_T3 : present_state = IN_T4;
 				IN_T4 : present_state = T0;
