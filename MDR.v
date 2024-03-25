@@ -9,7 +9,7 @@ module MDR(
 	reg [31:0]q;
 	initial q = 8'h00000000;
 	
-	always @ (posedge clock)
+	always @ (*)
 		begin
 			if (clear) q <= {32{1'b0}};
 			else if (MDRin) 
