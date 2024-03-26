@@ -1,5 +1,5 @@
 `timescale 1ns/10ps
-module control_unit (
+module ControlUnit (
 	//Green section
 	output reg PCout, MDRout, Zhighout, Zlowout, HIout, LOout,
 
@@ -7,7 +7,7 @@ module control_unit (
 	output reg Rin, Rout, Gra, Grb, Grc,
 
 	//Dark blue section, not sure if we use Zin ---- added Zhighin, Zlowin even though not in diagram
-	output reg BAout, Csignout, OutPortin, MDRin, MARin, Yin, IRin, PCin, CONin, LOin, HIin, Zhighin, Zlowin,
+	output reg BAout, Csignout, Out_Portin, MDRin, MARin, Yin, IRin, PCin, CONin, LOin, HIin, Zhighin, Zlowin,
 
 	//Light green section
 	output reg ADD, SUB, MUL, DIV,
@@ -15,20 +15,20 @@ module control_unit (
 	output reg SHR, SHRA, SHL,
 	output reg ROR, ROL,
 	output reg NEG, NOT,
-	output reg IncPC, BRANCH
+	output reg IncPC, BRANCH,
 
 	//Light blue section
-	output reg MD_read, Write
+	output reg MD_read, Write,
 
 	//Greyish section
-	output reg InPortout
+	output reg InPortout,
+	
+	//Dark green section
+	output reg clear,
 
 	//Red section
 	input clock, reset, stop, CONFF,
-	input [31:0] IR_reg,
-
-	//Dark green section
-	output run, clear,
+	input [31:0] IR_reg
 );
 
 	parameter 			reset_state = 8'b00000000, T0 = 8'b11111000, T1 = 8'b11111001, T2 = 8'b11111010,
@@ -109,7 +109,7 @@ module control_unit (
 				T1:	present_state = T2;
 				T2: begin
 						
-					case (IR[31:27])
+					case (IR_reg[31:27])
 
 						5'b00000 : present_state = LD_T3;
 						5'b00001 : present_state = LDI_T3;
@@ -118,7 +118,7 @@ module control_unit (
 						5'b01100 : present_state = ADDI_T3;
 						5'b00100 : present_state = SUB_T3;
 						5'b01111 : present_state = MUL_T3;
-						5'100000 : present_state = DIV_T3;
+						5'b10000 : present_state = DIV_T3;
 						5'b01010 : present_state = AND_T3;
 						5'b01101 : present_state = ANDI_T3;
 						5'b01011 : present_state = OR_T3;
@@ -247,7 +247,8 @@ module control_unit (
 			endcase
 		end
 	end
-//----------------------------------------------Everything above done by sere----------------------------------------------
+	
+	
 always @(present_state) // do the job for each state
 begin
     if (run) begin // only change state if program is supposed to be running
@@ -263,9 +264,9 @@ begin
                         MDRin <= 0; MDRout <= 0; MARin <= 0; 
 						PCin <= 0; PCout <= 0; IRin <= 0;
 						Zhighin <= 0; Zlowin <= 0; Zhighout <= 0; Zlowout <= 0;
-                        OutPortin <= 0; InPortout <= 0;
+                        Out_Portin <= 0; InPortout <= 0;
 						HIin <= 0; LOin <= 0; HIout <= 0; LOout <= 0;
-						Csignout <= 0; Yin <= 0; ConIn <= 0;
+						Csignout <= 0; Yin <= 0; CONin <= 0;
                         ADD <= 0; SUB <= 0; MUL <= 0; DIV <= 0;
 						AND <= 0; OR <= 0;
 						SHR <= 0; SHRA <= 0; SHL <= 0;
@@ -282,8 +283,8 @@ begin
 					end
 				
 					T1 : begin
-						#10 Zlowout <= 1; PCin <= 1; Read <= 1;  MD_read <= 1; MDRin <= 1; 
-						#15 Zlowout <= 0; PCin <= 0; Read <= 0;  MD_read <= 0; MDRin <= 0;
+						#10 Zlowout <= 1; PCin <= 1;  MD_read <= 1; MDRin <= 1; 
+						#15 Zlowout <= 0; PCin <= 0;  MD_read <= 0; MDRin <= 0;
 					end
 					
 					T2 : begin
@@ -349,7 +350,7 @@ begin
 					end
 					
 					ST_T5 : begin
-						#10 Zlowout <= 1; MARin <= 1; MAR_clear <= 0; 
+						#10 Zlowout <= 1; MARin <= 1; //MAR_clear <= 0; 
 						#15 Zlowout <= 0; MARin <= 0; 
 					end
 					
@@ -681,8 +682,8 @@ begin
                     //--------------------------------------------------------------------------------
 					// In (DONE)
 					IN_T3 : begin
-						#10 Strobe <= 1; 
-						#15 Strobe <= 0;
+						//#10 Strobe <= 1; 
+						//#15 Strobe <= 0;
 					end
 					
 					IN_T4 : begin
