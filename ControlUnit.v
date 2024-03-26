@@ -27,7 +27,7 @@ module control_unit (
 	input clock, reset, stop, CONFF,
 	input [31:0] IR_reg,
 
-	//Dark green section, MEMread & MEMwrite are not in diagram but added here
+	//Dark green section
 	output run, clear,
 );
 
@@ -84,7 +84,7 @@ module control_unit (
 					MFHI_T3 = 8'b11000011,
 					// Move from Low
 					MFLO_T3 = 8'b11001011,
-					// Nothing
+					// No Operation
 					NOP_T3  = 8'b11010011,
 					// Halt
 					HALT_T3 = 8'b11011011;
@@ -109,7 +109,7 @@ module control_unit (
 				T1:	present_state = T2;
 				T2: begin
 						
-					case (IR[31:27]) // checks all 8 bits
+					case (IR[31:27])
 
 						5'b00000 : present_state = LD_T3;
 						5'b00001 : present_state = LDI_T3;
