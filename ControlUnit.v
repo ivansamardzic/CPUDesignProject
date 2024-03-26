@@ -247,7 +247,7 @@ module control_unit (
 			endcase
 		end
 	end
-//----------------------------------------------Everything above is done by Sere in the ControlUnit.v file----------------------------------------------
+//----------------------------------------------Everything above done by sere----------------------------------------------
 always @(present_state) // do the job for each state
 begin
     if (run) begin // only change state if program is supposed to be running
@@ -293,27 +293,29 @@ begin
                     //--------------------------------------------------------------------------------
                     // Load (Allan's States do not match up with ours, take a look)
 					LD_T3 : begin
-						Grb <= 1; BAout <= 1; Yin <= 1;
-						#15 Grb <= 0; BAout <= 0; Yin <= 0;
+						#10 Grb <= 1; BAout <= 1; Yin <= 1; 
+						#15 Grb <= 0; BAout <= 0; Yin <= 0; 
 					end
 					
 					LD_T4 : begin
-						Csignout <= 1; ADD <= 1; Zlowin <= 1;
+						#10 Csignout <= 1; ADD <= 1; Zlowin <= 1;
 						#15 Csignout <= 0; ADD <= 0; Zlowin <= 0;
 					end
 					
+                    //this single step from allan's corresponds to T13-15 in ld_tb.v, take a look
+                    //not sure whether to add our 3 steps instead of this one
 					LD_T5 : begin
-						Zlowout <= 1; MARin <= 1;
+						#10 Zlowout <= 1; MARin <= 1;
 						#15 Zlowout <= 0; MARin <= 0; 
 					end
 					
 					LD_T6 : begin
-						MD_read <= 1; MDRin <= 1;
+						#10 MD_read <= 1; MDRin <= 1;
 						#15 MD_read <= 0; MDRin <= 0;
 					end
 					
 					LD_T7 : begin
-						MDRout <= 1; Gra <= 1; Rin <= 1;
+						#10 MDRout <= 1; Gra <= 1; Rin <= 1; 
 						#15 MDRout <= 0; Gra <= 0; Rin <= 0;
 					end
 				
@@ -357,19 +359,19 @@ begin
 					end
                         
                     //--------------------------------------------------------------------------------
-					// Add (NEEDS TO BE FIGURED OUT)
+					// Add (DONE I THINK)
 					ADD_T3 : begin 
-						Grb <= 1; Rout <= 1; Yin <= 1;
-						#15 Grb <= 0; Rout <= 0; Yin <= 0;
+						#10 Grb <= 1; Rout <= 1; Yin <= 1; 
+						#15 Grb <= 0; Rout <= 0; Yin <= 0; 
 					end
 					
 					ADD_T4 : begin 
-						Grc <= 1; Rout <= 1; ADD <= 1; Zlowin <= 1;
-						#15 Grc <= 0; Rout <= 0; ADD <= 0; Zlowin <= 0;
+						#10 Rout <= 1; ADD <= 1; Zlowin <= 1; Grc <= 1;
+						#15 Rout <= 0; ADD <= 0; Zlowin <= 0; Grc <= 0;
 					end
 					
 					ADD_T5 : begin 
-						Zlowout <= 1; Gra <= 1; Rin <= 1;
+						#10 Zlowout <= 1; Gra <= 1; Rin <= 1;
 						#15 Zlowout <= 0; Gra <= 0; Rin <= 0;
 					end
 					
@@ -391,26 +393,26 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Subtract (NEEDS TO BE FIGURED OUT)
+					// Subtract (DONE I THINK)
 					SUB_T3 : begin 
-						Grb <= 1; Rout <= 1; Yin <= 1;
+						#10 Grb <= 1; Rout <= 1; Yin <= 1; 
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
 					end
 					
 					SUB_T4 : begin 
-						Grc <= 1; Rout <= 1; SUB <= 1; Zlowin <= 1;
-						#15 Grc <= 0; Rout <= 1; SUB <= 0; Zlowin <= 0;
+						#10 Rout <= 1; SUB <= 1; Zlowin <= 1; Grc <= 1;
+						#15 Rout <= 0; SUB <= 0; Zlowin <= 0; Grc <= 0;
 					end
 					
 					SUB_T5 : begin 
-						Zlowout <= 1; Gra <= 1; Rin <= 1;
+						#10 Zlowout <= 1; Gra <= 1; Rin <= 1;
 						#15 Zlowout <= 0; Gra <= 0; Rin <= 0;
 					end
 					
                     //--------------------------------------------------------------------------------
 					// Multiply (NEEDS TO BE FIGURED OUT)
 					MUL_T3 : begin
-						Gra <= 1; Rout <= 1; Yin <= 1;
+						#10 Gra <= 1; Rout <= 1; Yin <= 1;
 						#15 Gra <= 0; Rout <= 0; Yin <= 0;
 					end
 					
@@ -452,19 +454,19 @@ begin
 					end
 					
 					//--------------------------------------------------------------------------------
-					// And (NEEDS TO BE FIGURED OUT)
+					// And (DONE I THINK)
 					AND_T3 : begin
-						Grb <= 1; Rout <= 1; Yin <= 1;
+						#10 Grb <= 1; Rout <= 1; Yin <= 1; 
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
 					end
 					
 					AND_T4 : begin
-						Grc <= 1; Rout <= 1; AND <= 1; Zlowin <= 1;
-						#15 Grc <= 0; Rout <= 0; AND <= 0; Zlowin <= 0;
+						#10 Rout <= 1; AND <= 1; Zlowin <= 1; Grc <= 1;
+						#15 Rout <= 0; AND <= 0; Zlowin <= 0; Grc <= 0;
 					end
 					
 					AND_T5 : begin
-						Zlowout <= 1; Gra <= 1; Rin <= 1;
+						#10 Zlowout <= 1; Gra <= 1; Rin <= 1;
 						#15 Zlowout <= 0; Gra <= 0; Rin <= 0;
 					end
 				
@@ -486,19 +488,19 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Or (NEEDS TO BE FIGURED OUT)
+					// Or (DONE I THINK)
 					OR_T3 : begin
-						Grb <= 1; Rout <= 1; Yin <= 1;
+						#10 Grb <= 1; Rout <= 1; Yin <= 1; 
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
 					end
 					
 					OR_T4 : begin
-						Grc <= 1; Rout <= 1; OR <= 1; Zlowin <= 1;
-						#15 Grc <= 0; Rout <= 0; OR <= 0; Zlowin <= 0;
+						#10 Rout <= 1; OR <= 1; Zlowin <= 1; Grc <= 1;
+						#15 Rout <= 0; OR <= 0; Zlowin <= 0; Grc <= 0;
 					end
 					
 					OR_T5 : begin
-						Zlowout <= 1; Gra <= 1; Rin <= 1;
+						#10 Zlowout <= 1; Gra <= 1; Rin <= 1;
 						#15 Zlowout <= 0; Gra <= 0; Rin <= 0;
 					end
 				
@@ -520,111 +522,111 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Shift Right (NEEDS TO BE FIGURED OUT)
+					// Shift Right (DONE I THINK)
 					SHR_T3 : begin
-						Grb <= 1; Rout <= 1; Yin <= 1;
+						#10 Grb <= 1; Rout <= 1; Yin <= 1; 
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
 					end
 					
 					SHR_T4 : begin
-						Grc <= 1; Rout <= 1; SHR <= 1; Zlowin <= 1;
-						#15 Grc <= 0; Rout <= 0; SHR <= 0; Zlowin <= 0;
+						#10 Rout <= 1; SHR <= 1; Zlowin <= 1; Grc <= 1;
+						#15 Rout <= 0; SHR <= 0; Zlowin <= 0; Grc <= 0;
 					end
 					
 					SHR_T5 : begin
-						Zlowout <= 1; Gra <= 1; Rin <= 1;
+						#10 Zlowout <= 1; Gra <= 1; Rin <= 1;
 						#15 Zlowout <= 0; Gra <= 0; Rin <= 0;
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Shift Right Arithmetic (NEEDS TO BE FIGURED OUT)
+					// Shift Right Arithmetic (DONE I THINK)
 					SHRA_T3 : begin
-						Grb <= 1; Rout <= 1; Yin <= 1;
+						#10 Grb <= 1; Rout <= 1; Yin <= 1;
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
 					end
 					
 					SHRA_T4 : begin
-						Grc <= 1; Rout <= 1; SHRA <= 1; Zlowin <= 1;
-						#15 Grc <= 0; Rout <= 0; SHRA <= 0; Zlowin <= 0;
+						#10 Rout <= 1; SHRA <= 1; Zlowin <= 1; Grc <= 1;
+						#15 Rout <= 0; SHRA <= 0; Zlowin <= 0; Grc <= 0;
 					end
 					
 					SHRA_T5 : begin
-						Zlowout <= 1; Gra <= 1; Rin <= 1;
+						#10 Zlowout <= 1; Gra <= 1; Rin <= 1;
 						#15 Zlowout <= 0; Gra <= 0; Rin <= 0;
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Shift Left (NEEDS TO BE FIGURED OUT)
+					// Shift Left (DONE I THINK)
 					SHL_T3 : begin
-						Grb <= 1; Rout <= 1; Yin <= 1;
+						#10 Grb <= 1; Rout <= 1; Yin <= 1;
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
 					end
 					
 					SHL_T4 : begin
-						Grc <= 1; Rout <= 1; SHL <= 1; Zlowin <= 1;
-						#15 Grc <= 0; Rout <= 0; SHL <= 0; Zlowin <= 0;
+						#10 Rout <= 1; SHL <= 1; Zlowin <= 1; Grc <= 1;
+						#15 Rout <= 0; SHL <= 0; Zlowin <= 0; Grc <= 0;
 					end
 					
 					SHL_T5 : begin
-						Zlowout <= 1; Gra <= 1; Rin <= 1;
+						#10 Zlowout <= 1; Gra <= 1; Rin <= 1;
 						#15 Zlowout <= 0; Gra <= 0; Rin <= 0;
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Rotate Right (NEEDS TO BE FIGURED OUT)
+					// Rotate Right (DONE I THINK)
 					ROR_T3 : begin
-						Grb <= 1; Rout <= 1; Yin <= 1;
+						#15 Grb <= 1; Rout <= 1; Yin <= 1;
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
 					end
 					
 					ROR_T4 : begin
-						Grc <= 1; Rout <= 1; ROR <= 1; Zlowin <= 1;
-						#15 Grc <= 0; Rout <= 0; ROR <= 0; Zlowin <= 0;
+						#10 Rout <= 1; ROR <= 1; Zlowin <= 1; Grc <= 1;
+						#15 Rout <= 0; ROR <= 0; Zlowin <= 0; Grc <= 0;
 					end
 					
 					ROR_T5 : begin
-						Zlowout <= 1; Gra <= 1; Rin <= 1;
+						#10 Zlowout <= 1; Gra <= 1; Rin <= 1;
 						#15 Zlowout <= 0; Gra <= 0; Rin <= 0;
 					end
 					
                     //--------------------------------------------------------------------------------
-					// Rotate Left (NEEDS TO BE FIGURED OUT)
+					// Rotate Left (DONE I THINK)
 					ROL_T3 : begin
-						Grb <= 1; Rout <= 1; Yin <= 1;
+						#10 Grb <= 1; Rout <= 1; Yin <= 1;
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
 					end
 					
 					ROL_T4 : begin
-						Grc <= 1; Rout <= 1; ROL <= 1; Zlowin <= 1;
-						#15 Grc <= 0; Rout <= 0; ROL <= 0; Zlowin <= 0;
+						#10 Rout <= 1; ROL <= 1; Zlowin <= 1; Grc <= 1;
+						#15 Rout <= 0; ROL <= 0; Zlowin <= 0; Grc <= 0;
 					end
 					
 					ROL_T5 : begin
-						Zlowout <= 1; Gra <= 1; Rin <= 1;
+						#10 Zlowout <= 1; Gra <= 1; Rin <= 1;
 						#15 Zlowout <= 0; Gra <= 0; Rin <= 0;
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Negate (NEEDS TO BE FIGURED OUT)
+					// Negate (DONE I THINK)
 					NEG_T3 : begin
-						Grb <= 1; Rout <= 1; NEG <= 1; Zlowin <= 1;
-						#15 Grb <= 0; Rout <= 0; NEG <= 0; Zlowin <= 0;
+						#10 Grb <= 1; Rout <= 1; Zlowin <= 1; NEG <= 1; 
+						#15 Grb <= 0; Rout <= 0; Zlowin <= 0; NEG <= 0;
 					end
 					
 					NEG_T4 : begin
-						Zlowout <= 1; Gra <= 1; Rin <= 1;
+						#10 Zlowout <= 1; Gra <= 1; Rin <= 1;
 						#15 Zlowout <= 0; Gra <= 0; Rin <= 0;
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Not (NEEDS TO BE FIGURED OUT)
+					// Not (DONE I THINK)
 					NOT_T3 : begin
-						Grb <= 1; Rout <= 1; NOT <= 1; Zlowin <= 1;
-						#15 Grb <= 0; Rout <= 0; NOT <= 0; Zlowin <= 0;
+						#10 Grb <= 1; Rout <= 1; Zlowin <= 1; NOT <= 1;
+						#15 Grb <= 0; Rout <= 0; Zlowin <= 0; NOT <= 0;
 					end
 					
 					NOT_T4 : begin
-						Zlowout <= 1; Gra <= 1; Rin <= 1;
+						#10 Zlowout <= 1; Gra <= 1; Rin <= 1;
 						#15 Zlowout <= 0; Gra <= 0; Rin <= 0;
 					end
 				
