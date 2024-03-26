@@ -1,7 +1,5 @@
 `timescale 1ns/10ps
 module control_unit (
-	//Going CCW
-	
 	//Green section
 	output reg PCout, MDRout, Zhighout, Zlowout, HIout, LOout,
 
@@ -17,7 +15,7 @@ module control_unit (
 	output reg SHR, SHRA, SHL,
 	output reg ROR, ROL,
 	output reg NEG, NOT,
-	output reg IncPC,
+	output reg IncPC, BRANCH
 
 	//Light blue section
 	output reg MD_read, Write
@@ -31,8 +29,6 @@ module control_unit (
 
 	//Dark green section, MEMread & MEMwrite are not in diagram but added here
 	output run, clear,
-
-	//Brown section, interrupt functionality is not necessary
 );
 
 	parameter 			reset_state = 8'b00000000, T0 = 8'b11111000, T1 = 8'b11111001, T2 = 8'b11111010,
@@ -107,11 +103,11 @@ module control_unit (
 		else begin // check other cases
 			
 			case (present_state)
-				8'b11111111 :	present_state = reset_state;
-				reset_state : 	present_state = T0;
-				T0				:	present_state = T1;
-				T1				:	present_state = T2;
-				T2 : begin
+				8'b11111111:	present_state = reset_state;
+				reset_state: 	present_state = T0;
+				T0:	present_state = T1;
+				T1:	present_state = T2;
+				T2: begin
 						
 					case (IR[31:27]) // checks all 8 bits
 
@@ -152,7 +148,7 @@ module control_unit (
 				LD_T5 : present_state = LD_T6;
 				LD_T6 : present_state = LD_T7;
 				LD_T7 : present_state = T0;
-				
+
 				LDI_T3 : present_state = LDI_T4;
 				LDI_T4 : present_state = LDI_T5;
 				LDI_T5 : present_state = T0;
@@ -261,21 +257,20 @@ begin
 						clear <= 1; run <= 1;
 					
 						MD_read <= 0; Write <= 0;
-						Rin <= 0; Rout <= 0; BAout <= 0; Gra <= 0; Grb <= 0; Grc <= 0;
+                        Gra <= 0; Grb <= 0; Grc <= 0;
+						Rin <= 0; Rout <= 0; BAout <= 0; 
 						IncPC <= 0;
+                        MDRin <= 0; MDRout <= 0; MARin <= 0; 
 						PCin <= 0; PCout <= 0; IRin <= 0;
-						MDRin <= 0; MDRout <= 0; MARin <= 0; 
 						Zhighin <= 0; Zlowin <= 0; Zhighout <= 0; Zlowout <= 0;
+                        OutPortin <= 0; InPortout <= 0;
 						HIin <= 0; LOin <= 0; HIout <= 0; LOout <= 0;
-						Csignout <= 0;
-						Yin <= 0;
-						ConIn <= 0;
-						OutPortin <= 0; InPortout <= 0;
+						Csignout <= 0; Yin <= 0; ConIn <= 0;
                         ADD <= 0; SUB <= 0; MUL <= 0; DIV <= 0;
 						AND <= 0; OR <= 0;
 						SHR <= 0; SHRA <= 0; SHL <= 0;
 						ROR <= 0; ROL <= 0;
-						NEG <= 0; NOT <= 0;
+						NEG <= 0; NOT <= 0; BRANCH <= 0;
 						#15 clear <= 0;
 					end
 				
@@ -296,7 +291,7 @@ begin
 						#15 MDRout <= 0; IRin <= 0;
 					end
                     //--------------------------------------------------------------------------------
-                    // Load
+                    // Load (Allan's States do not match up with ours, take a look)
 					LD_T3 : begin
 						Grb <= 1; BAout <= 1; Yin <= 1;
 						#15 Grb <= 0; BAout <= 0; Yin <= 0;
@@ -323,46 +318,46 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Load Immediate
+					// Load Immediate (DONE)
 					LDI_T3 : begin
-						Grb <= 1; BAout <= 1; Yin <= 1;
-						#15 Grb <= 0; BAout <= 0; Yin <= 0;
+						#10 Grb <= 1; BAout <= 1; Yin <= 1; 
+						#15 Grb <= 0; BAout <= 0; Yin <= 0; 
 					end
 					
 					LDI_T4 : begin
-						Csignout <= 1; ADD <= 1; Zlowin <= 1;
+						#10 Csignout <= 1; ADD <= 1; Zlowin <= 1;
 						#15 Csignout <= 0; ADD <= 0; Zlowin <= 0;
 					end
 					
 					LDI_T5 : begin
-						Zlowout <= 1; Gra <= 1; Rin <= 1;
+						#10 Zlowout <= 1; Gra <= 1; Rin <= 1;
 						#15 Zlowout <= 0; Gra <= 0; Rin <= 0;
 					end
 					
                     //--------------------------------------------------------------------------------
-					// Store
+					// Store (DONE)
 					ST_T3 : begin
-						Grb <= 1; BAout <= 1; Yin <= 1;
-						#15 Grb <= 0; BAout <= 0; Yin <= 0;
+						#10 Grb <= 1; BAout <= 1; Yin <= 1; 
+						#15 Grb <= 0; BAout <= 0; Yin <= 0; 
 					end
 					
 					ST_T4 : begin
-						Csignout <= 1; ADD <= 1; Zlowin <= 1;
+						#10 Csignout <= 1; ADD <= 1; Zlowin <= 1;
 						#15 Csignout <= 0; ADD <= 0; Zlowin <= 0;
 					end
 					
 					ST_T5 : begin
-						Zlowout <= 1; MARin <= 1;
-						#15 Zlowout <= 0; MARin <= 0;
+						#10 Zlowout <= 1; MARin <= 1; MAR_clear <= 0; 
+						#15 Zlowout <= 0; MARin <= 0; 
 					end
 					
 					ST_T6 : begin
-						Gra <= 1; Rout <= 1; Write <= 1;
-						#15 Gra <= 0; Rout <= 0; Write <= 0;
+						#10 Gra <= 1; BAout <= 1; Write <= 1; 
+						#15 Gra <= 0; BAout <= 0; Write <= 0; 
 					end
                         
                     //--------------------------------------------------------------------------------
-					// Add
+					// Add (NEEDS TO BE FIGURED OUT)
 					ADD_T3 : begin 
 						Grb <= 1; Rout <= 1; Yin <= 1;
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
@@ -396,7 +391,7 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Subtract
+					// Subtract (NEEDS TO BE FIGURED OUT)
 					SUB_T3 : begin 
 						Grb <= 1; Rout <= 1; Yin <= 1;
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
@@ -413,7 +408,7 @@ begin
 					end
 					
                     //--------------------------------------------------------------------------------
-					// Multiply
+					// Multiply (NEEDS TO BE FIGURED OUT)
 					MUL_T3 : begin
 						Gra <= 1; Rout <= 1; Yin <= 1;
 						#15 Gra <= 0; Rout <= 0; Yin <= 0;
@@ -435,7 +430,7 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Divide
+					// Divide (NEEDS TO BE FIGURED OUT)
 					DIV_T3 : begin
 						Gra <= 1; Rout <= 1; Yin <= 1;
 						#15 Gra <= 0; Rout <= 0; Yin <= 0;
@@ -457,7 +452,7 @@ begin
 					end
 					
 					//--------------------------------------------------------------------------------
-					// And
+					// And (NEEDS TO BE FIGURED OUT)
 					AND_T3 : begin
 						Grb <= 1; Rout <= 1; Yin <= 1;
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
@@ -491,7 +486,7 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Or
+					// Or (NEEDS TO BE FIGURED OUT)
 					OR_T3 : begin
 						Grb <= 1; Rout <= 1; Yin <= 1;
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
@@ -525,7 +520,7 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Shift Right
+					// Shift Right (NEEDS TO BE FIGURED OUT)
 					SHR_T3 : begin
 						Grb <= 1; Rout <= 1; Yin <= 1;
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
@@ -542,7 +537,7 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Shift Right Arithmetic
+					// Shift Right Arithmetic (NEEDS TO BE FIGURED OUT)
 					SHRA_T3 : begin
 						Grb <= 1; Rout <= 1; Yin <= 1;
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
@@ -559,7 +554,7 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Shift Left
+					// Shift Left (NEEDS TO BE FIGURED OUT)
 					SHL_T3 : begin
 						Grb <= 1; Rout <= 1; Yin <= 1;
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
@@ -576,7 +571,7 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Rotate Right
+					// Rotate Right (NEEDS TO BE FIGURED OUT)
 					ROR_T3 : begin
 						Grb <= 1; Rout <= 1; Yin <= 1;
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
@@ -593,7 +588,7 @@ begin
 					end
 					
                     //--------------------------------------------------------------------------------
-					// Rotate Left
+					// Rotate Left (NEEDS TO BE FIGURED OUT)
 					ROL_T3 : begin
 						Grb <= 1; Rout <= 1; Yin <= 1;
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
@@ -610,7 +605,7 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Negate
+					// Negate (NEEDS TO BE FIGURED OUT)
 					NEG_T3 : begin
 						Grb <= 1; Rout <= 1; NEG <= 1; Zlowin <= 1;
 						#15 Grb <= 0; Rout <= 0; NEG <= 0; Zlowin <= 0;
@@ -622,7 +617,7 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Not
+					// Not (NEEDS TO BE FIGURED OUT)
 					NOT_T3 : begin
 						Grb <= 1; Rout <= 1; NOT <= 1; Zlowin <= 1;
 						#15 Grb <= 0; Rout <= 0; NOT <= 0; Zlowin <= 0;
@@ -635,38 +630,33 @@ begin
 				
 				
                     //--------------------------------------------------------------------------------
-					// Branch
+					// Branch (DONE)
 					BR_T3  : begin
-						Gra <= 1; Rout <= 1; ConIn <= 1;
-						#15 Gra <= 0; Rout <= 0; ConIn <= 0;
+						#10 Gra <= 1; Rout <= 1; CONin <= 1;
+						#15 Gra <= 0; Rout <= 0; CONin <= 0;
 					end
 					
 					BR_T4  : begin
-						PCout <= 1; Yin <= 1;
+						#10 PCout <= 1; Yin <= 1;
 						#15 PCout <= 0; Yin <= 0;
 					end
 					
 					BR_T5  : begin
-						Csignout <= 1; ADD <= 1; Zlowin <= 1;
-						#15 Csignout <= 0; ADD <= 0; Zlowin <= 0;
+						#10 Csignout <= 1; BRANCH <= 1; Zlowin <= 1; 
+						#15 Csignout <= 0; BRANCH <= 0; Zlowin <= 0;
 					end
 					
 					BR_T6  : begin
-						Zlowout <= 1;
-						
-						if (ConFF) begin
-							PCin <= 1;
-						end
-						
+						#10 Zlowout <= 1; 
+						if (CONFF) PCin <= 1; 
 						#15 Zlowout <= 0; PCin <= 0;
 					end
 				
-				
                     //--------------------------------------------------------------------------------
-					// Return
+					// Jump to Register (DONE)
 					JR_T3 : begin
-						Gra <= 1; Rout <= 1; PCin <= 1;
-						#15 Gra <= 0; Rout <= 0; PCin <= 0;
+						#10 Gra <= 1; Rout <= 1; PCin <= 1; 
+						#15 Gra <= 0; Rout <= 0; PCin <= 0; 
 					end
 					
                     //--------------------------------------------------------------------------------
@@ -687,45 +677,46 @@ begin
                     end
 				
                     //--------------------------------------------------------------------------------
-					// In Port
+					// In (DONE)
 					IN_T3 : begin
-						// do nothing here, inport is getting data here
+						#10 Strobe <= 1; 
+						#15 Strobe <= 0;
 					end
 					
 					IN_T4 : begin
-						InPortout <= 1; Gra <= 1; Rin <= 1;
+						#10 InPortout <= 1; Gra <= 1; Rin <= 1; 
 						#15 InPortout <= 0; Gra <= 0; Rin <= 0;
 					end
 					
 					//--------------------------------------------------------------------------------
-					// Out Port
+					// Out (DONE)
 					OUT_T3 : begin
-						Gra <= 1; Rout <= 1; OutPortin <= 1;
-						#15 Gra <= 0; Rout <= 0; OutPortin <= 0;
+						#10 Gra <= 1; Rout <= 1; Out_Portin <= 1; 
+						#15 Gra <= 0; Rout <= 0; Out_Portin <= 0; 
 					end
 					
 					//--------------------------------------------------------------------------------
-					// Move from HI
+					// Move from HI (DONE)
 					MFHI_T3 : begin
-						HIout <= 1; Gra <= 1; Rin <= 1;
+						#10 HIout <= 1; Gra <= 1; Rin <= 1;
 						#15 HIout <= 0; Gra <= 0; Rin <= 0;
 					end
 					
                     //--------------------------------------------------------------------------------
-					// Move from LO
+					// Move from LO (DONE)
 					MFLO_T3 : begin
-						LOout <= 1; Gra <= 1; Rin <= 1;
+						#10 LOout <= 1; Gra <= 1; Rin <= 1;
 						#15 LOout <= 0; Gra <= 0; Rin <= 0;
 					end
 				
                     //--------------------------------------------------------------------------------
-					// NOP
+					// No Op (DONE)
 					NOP_T3 : begin
-						// do nothing, will change back to T0 on next clock cycle
+						//Nothing to do
 					end
 					
                     //--------------------------------------------------------------------------------
-					// Halt
+					// Halt (DONE)
 					HALT_T3 : begin
 						run <= 0;
 					end
