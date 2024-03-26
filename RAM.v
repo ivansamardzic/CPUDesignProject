@@ -9,7 +9,7 @@ module RAM(
 	 reg [31:0] temp;
 
     initial begin
-	    $readmemh("C:/Users/21is8/Documents/CPUDesignProject/ram.mem", ram); 
+	    $readmemh("C:/Users/21is8/Documents/CPUDesignProject/MemContents.mem", ram); 
 	end
 
     always @(posedge clock) begin
