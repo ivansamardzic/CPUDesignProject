@@ -1,11 +1,8 @@
-module ALU(input wire [31:0] Y, BusMuxOut, input ADD, IncPC, AND, OR, BRANCH, output reg[63:0] C);
+module ALU(input wire [31:0] Y, BusMuxOut, input ADD, IncPC, AND, OR, BRANCH, NEGATE, NOT, SUB, MUL, DIV, SHR, SHRA, SHL, ROR, ROL, output reg[63:0] C);
 	
 	
 	wire [31:0] and_result, or_result, neg_result, not_result, shr_result, shra_result, shl_result, ror_result, rol_result, add_result, sub_result, Quotient, Remainder;
 	wire [63:0] mul_result;
-
-	//parameter AND = 4'b0000, OR = 4'b0001, NEGATE = 4'b0010, NOT = 4'b0011, ADD = 4'b0100, SUB = 4'b0101,
-	//MUL = 4'b0110, DIV = 4'b0111, SHR = 4'b1000, SHRA = 4'b1001, SHL = 4'b1010, ROR = 4'b1011, ROL = 4'b1100, IncPC = 4'b1101;
 	
 	reg [3:0] op; 
 	//And/Or WORKS
@@ -14,25 +11,25 @@ module ALU(input wire [31:0] Y, BusMuxOut, input ADD, IncPC, AND, OR, BRANCH, ou
 	
 	//Neg/Not WORKS
 	//Note: There is no sign extension when preforming the operation
-	//neg_32_bit neg_32(Y, neg_result);
-	//not_32_bit not_32(Y, not_result);
+	neg_32_bit neg_32(Y, neg_result);
+	not_32_bit not_32(Y, not_result);
 	
 	//Shifts
-	//shr_32_bit shr_32(Y, BusMuxOut, shr_result);
-	//shra_32_bit shra_32(Y, BusMuxOut, shra_result);
-	//shl_32_bit shl_32(Y, BusMuxOut, shl_result);
+	shr_32_bit shr_32(Y, BusMuxOut, shr_result);
+	shra_32_bit shra_32(Y, BusMuxOut, shra_result);
+	shl_32_bit shl_32(Y, BusMuxOut, shl_result);
 	
 	//Rotates
-	//ror_32_bit ror_32(Y, BusMuxOut, ror_result);
-	//rol_32_bit rol_32(Y, BusMuxOut, rol_result);
+	ror_32_bit ror_32(Y, BusMuxOut, ror_result);
+	rol_32_bit rol_32(Y, BusMuxOut, rol_result);
 	
 	//Add/Sub
 	CarrySelectAdder_32_bit add_32(.a(Y), .b(BusMuxOut), .sum(add_result));
-	//sub_32_bit sub_32(Y, BusMuxOut, sub_result);
+	sub_32_bit sub_32(Y, BusMuxOut, sub_result);
 	
 	//Mul/Div
-	//Bit_Pair_32_bit mul_32(Y, BusMuxOut, mul_result);
-	//Non_Restoring_32_bit div_32(Y, BusMuxOut, Quotient, Remainder);
+	Bit_Pair_32_bit mul_32(Y, BusMuxOut, mul_result);
+	Non_Restoring_32_bit div_32(Y, BusMuxOut, Quotient, Remainder);
     
 	
 	
@@ -40,8 +37,19 @@ module ALU(input wire [31:0] Y, BusMuxOut, input ADD, IncPC, AND, OR, BRANCH, ou
 	if(ADD) op <= 4'b0100;
 	else if(IncPC) op <= 4'b1101; 
 	else if(AND) op <= 4'b0000;
-	else if(OR) op <= 4'b0001; 
-	else if(BRANCH) op <= 4'b1110; 
+	else if(OR) op <= 4'b0001;
+	else if(BRANCH) op <= 4'b1110;
+	else if(NEGATE) op <= 4'b0010; 
+	else if(NOT) op <= 4'b0011;
+	else if(ADD) op <= 4'b0100;
+	else if(SUB) op <= 4'b0101;
+	else if(MUL) op <= 4'b0110;
+	else if(DIV) op <= 4'b0111;
+	else if(SHR) op <= 4'b1000;
+	else if(SHRA) op <= 4'b1001;
+	else if(SHL) op <= 4'b1010;
+	else if(ROR) op <= 4'b1011;
+	else if(ROL) op <= 4'b1100;
 	begin 
 		case(op)
 			4'b0000	: begin 	
@@ -87,7 +95,7 @@ module ALU(input wire [31:0] Y, BusMuxOut, input ADD, IncPC, AND, OR, BRANCH, ou
 				C [31:0] <= 1 + BusMuxOut; //modify this pc line to start at a specific part in ram
 				C [63:32] <= 32'd0; end 
 			4'b1110: begin
-				C [31:0] <= 1 + add_result; //modify this pc line to start at a specific part in ram
+				C [31:0] <= add_result; //modify this pc line to start at a specific part in ram
 				C [63:32] <= 32'd0; end
 	
 		endcase

@@ -1,26 +1,29 @@
 `timescale 1ns/10ps
 
 module DataPath(
-	input wire clock, clear, MAR_clear, reset, stop,
+
+	input wire clock, reset, stop,
+
+	//input wire clear, MAR_clear,
 	
-	input wire HIin, LOin, Zlowin, Zhighin, PCin, MDRin, MARin, InPortin, Cin, MD_read,
-	input wire IRin, OutPortin, Yin, 
-	input wire Out_Portin, Strobe, 
+	//input wire HIin, LOin, Zlowin, Zhighin, PCin, MDRin, MARin, InPortin, Cin, MD_read,
+	//input wire IRin, OutPortin, Yin, 
+	//input wire Out_Portin, Strobe, 
 	
-	input wire HIout, LOout, Zhighout, Zlowout, PCout, MDRout, MARout, InPortout, 
+	//input wire HIout, LOout, Zhighout, Zlowout, PCout, MDRout, MARout, InPortout, 
 	
-	input wire Gra, Grb, Grc, Rin, Rout, BAout, Csignout, Read, Write, 
-	input wire IncPC, ADD, AND, OR, BRANCH, 
+	//input wire Gra, Grb, Grc, Rin, Rout, BAout, Csignout, Read, Write, 
+	//input wire IncPC, ADD, AND, OR, BRANCH, 
 	
-	input wire CONin,
+	//input wire CONin,
 	
 	//change to outs later
    //input wire Zin, IncPC, IRin,  OutPortin,  Yin,  	
 
 	input wire [31:0] INPUT_UNIT,
-	input wire [31:0] OUTPUT_UNIT,
+	input wire [31:0] OUTPUT_UNIT
 	
-	output wire CONFF 
+	//output wire CONFF 
 	
 );
 
@@ -31,6 +34,15 @@ module DataPath(
 	wire [31:0] Mdatain;
 	wire [15:0] IN, OUT; 
 	wire [8:0] address;
+	wire HIin, LOin, Zlowin, Zhighin, PCin, MDRin, MARin, InPortin, Cin, MD_read;
+	wire IRin, OutPortin, Yin;
+	wire Out_Portin, Strobe;
+	wire HIout, LOout, Zhighout, Zlowout, PCout, MDRout, MARout, InPortout;
+	wire Gra, Grb, Grc, Rin, Rout, BAout, Csignout, Read, Write;
+	wire IncPC, ADD, AND, OR, BRANCH;
+	wire CONin;
+	wire CONFF;
+	
 	
 	
 	
@@ -43,9 +55,9 @@ module DataPath(
 	
 	I_O E2(.clear(clear), .clock(clock), .Out_Portin(Out_Portin), .Strobe(Strobe), .BusMuxOut(BusMuxOut), .OUTPUT_UNIT(OUTPUT_UNIT), .INPUT_UNIT(INPUT_UNIT), .BMInINPORT(BMInINPORT));
 	
-	MAR mar(.clear(MAR_clear), .clock(clock), .MARin(MARin), .BusMuxOut(BusMuxOut), .address(address));
+	MAR mar(.clear(clear), .clock(clock), .MARin(MARin), .BusMuxOut(BusMuxOut), .address(address));
 	
-	RAM ram(.Read(Read), .Write(Write), .clock(clock), .DataIn(BusMuxOut), .address(address), .DataOut(Mdatain));  
+	RAM ram(.Read(MD_read), .Write(Write), .clock(clock), .DataIn(BusMuxOut), .address(address), .DataOut(Mdatain));  
 	
 	CON_FF con(.BMInIR(BMInIR), .BusMuxOut(BusMuxOut), .CONin(CONin), .Q(CONFF));
 	
@@ -115,6 +127,24 @@ module DataPath(
 		
 	
 	ALU alu(.Y(BMInY), .BusMuxOut(BusMuxOut), .ADD(ADD), .IncPC(IncPC), .AND(AND), .OR(OR), .BRANCH(BRANCH), .C(C));
+	
+	
+	ControlUnit CU(
+		.PCout(PCout), .MDRout(MDRout), .Zhighout(Zhighout), .Zlowout(Zlowout), .HIout(HIout), .LOout(LOout),
+		.Rin(Rin), .Rout(Rout), .Gra(Gra), .Grb(Grb), .Grc(Grc),
+		.BAout(BAout), .Csignout(Csignout), .Out_Portin(Out_Portin), .MDRin(MDRin), .MARin(MARin), .Yin(Yin), .IRin(IRin), .PCin(PCin), .CONin(CONin), .LOin(LOin), .HIin(HIin), .Zhighin(Zhighin), .Zlowin(Zlowin),
+		.ADD(ADD), .SUB(SUB), .MUL(MUL), .DIV(DIV),
+		.AND(AND), .OR(OR), 
+		.SHR(SHR), .SHRA(SHRA), .SHL(SHL),
+		.ROR(ROR), .ROL(ROL),
+		.NEG(NEG), .NOT(NOT),
+		.IncPC(IncPC), .BRANCH(BRANCH),
+		.MD_read(MD_read), .Write(Write),
+		.InPortout(InPortout),
+		.clear(clear),
+		.clock(clock), .reset(reset), .stop(stop), .CONFF(CONFF),
+		.IR_reg(BMInIR)
+		);
 
 	
 	

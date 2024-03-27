@@ -93,7 +93,7 @@ module ControlUnit (
 	reg [7:0]present_state = 8'b11111111;
 	reg run = 1;
 
-	always @ (negedge clock, posedge reset) begin
+	always @ (posedge clock, posedge reset) begin
 		
 			
 		if (reset == 1'b1) begin
@@ -103,11 +103,11 @@ module ControlUnit (
 		else begin // check other cases
 			
 			case (present_state)
-				8'b11111111:	present_state = reset_state;
-				reset_state: 	present_state = T0;
-				T0:	present_state = T1;
-				T1:	present_state = T2;
-				T2: begin
+				8'b11111111:	#40 present_state = reset_state;
+				reset_state: 	#40 present_state = T0;
+				T0:	#40 present_state = T1;
+				T1:	#40 present_state = T2;
+				T2: #40 begin
 						
 					case (IR_reg[31:27])
 
@@ -143,106 +143,106 @@ module ControlUnit (
 					endcase
 				end
 
-				LD_T3 : present_state = LD_T4;
-				LD_T4 : present_state = LD_T5;
-				LD_T5 : present_state = LD_T6;
-				LD_T6 : present_state = LD_T7;
-				LD_T7 : present_state = T0;
+				LD_T3 : #40 present_state = LD_T4;
+				LD_T4 : #40 present_state = LD_T5;
+				LD_T5 : #40 present_state = LD_T6;
+				LD_T6 : #40 present_state = LD_T7;
+				LD_T7 : #40 present_state = T0;
 
-				LDI_T3 : present_state = LDI_T4;
-				LDI_T4 : present_state = LDI_T5;
-				LDI_T5 : present_state = T0;
+				LDI_T3 : #40 present_state = LDI_T4;
+				LDI_T4 : #40 present_state = LDI_T5;
+				LDI_T5 : #40 present_state = T0;
 					
-				ST_T3 : present_state = ST_T4;
-				ST_T4 : present_state = ST_T5;
-				ST_T5 : present_state = ST_T6;
-				ST_T6 : present_state = T0;
+				ST_T3 : #40 present_state = ST_T4;
+				ST_T4 : #40 present_state = ST_T5;
+				ST_T5 : #40 present_state = ST_T6;
+				ST_T6 : #40 present_state = T0;
 
-				ADD_T3 : present_state = ADD_T4;
-				ADD_T4 : present_state = ADD_T5;
-				ADD_T5 : present_state = T0;
+				ADD_T3 : #40 present_state = ADD_T4;
+				ADD_T4 : #40 present_state = ADD_T5;
+				ADD_T5 : #40 present_state = T0;
 					
-				ADDI_T3 : present_state = ADDI_T4;
-				ADDI_T4 : present_state = ADDI_T5;
-				ADDI_T5 : present_state = T0;
+				ADDI_T3 : #40 present_state = ADDI_T4;
+				ADDI_T4 : #40 present_state = ADDI_T5;
+				ADDI_T5 : #40 present_state = T0;
 
-				SUB_T3 : present_state = SUB_T4;
-				SUB_T4 : present_state = SUB_T5;
-				SUB_T5 : present_state = T0;
+				SUB_T3 : #40 present_state = SUB_T4;
+				SUB_T4 : #40 present_state = SUB_T5;
+				SUB_T5 : #40 present_state = T0;
 					
-				MUL_T3 : present_state = MUL_T4;
-				MUL_T4 : present_state = MUL_T5;
-				MUL_T5 : present_state = MUL_T6;
-				MUL_T6 : present_state = T0;
+				MUL_T3 : #40 present_state = MUL_T4;
+				MUL_T4 : #40 present_state = MUL_T5;
+				MUL_T5 : #40 present_state = MUL_T6;
+				MUL_T6 : #40 present_state = T0;
 
-				DIV_T3 : present_state = DIV_T4;
-				DIV_T4 : present_state = DIV_T5;
-				DIV_T5 : present_state = DIV_T6;
-				DIV_T6 : present_state = T0;
+				DIV_T3 : #40 present_state = DIV_T4;
+				DIV_T4 : #40 present_state = DIV_T5;
+				DIV_T5 : #40 present_state = DIV_T6;
+				DIV_T6 : #40 present_state = T0;
 					
-				AND_T3 : present_state = AND_T4;
-				AND_T4 : present_state = AND_T5;
-				AND_T5 : present_state = T0;
+				AND_T3 : #40 present_state = AND_T4;
+				AND_T4 : #40 present_state = AND_T5;
+				AND_T5 : #40 present_state = T0;
 					
-				ANDI_T3 : present_state = ANDI_T4;
-				ANDI_T4 : present_state = ANDI_T5;
-				ANDI_T5 : present_state = T0;
+				ANDI_T3 : #40 present_state = ANDI_T4;
+				ANDI_T4 : #40 present_state = ANDI_T5;
+				ANDI_T5 : #40 present_state = T0;
 					
-				OR_T3 : present_state = OR_T4;
-				OR_T4 : present_state = OR_T5;
-				OR_T5 : present_state = T0;
+				OR_T3 : #40 present_state = OR_T4;
+				OR_T4 : #40 present_state = OR_T5;
+				OR_T5 : #40 present_state = T0;
 					
-				ORI_T3 : present_state = ORI_T4;
-				ORI_T4 : present_state = ORI_T5;
-				ORI_T5 : present_state = T0;
+				ORI_T3 : #40 present_state = ORI_T4;
+				ORI_T4 : #40 present_state = ORI_T5;
+				ORI_T5 : #40 present_state = T0;
 					
-				SHR_T3 : present_state = SHR_T4;
-				SHR_T4 : present_state = SHR_T5;
-				SHR_T5 : present_state = T0;
+				SHR_T3 : #40 present_state = SHR_T4;
+				SHR_T4 : #40 present_state = SHR_T5;
+				SHR_T5 : #40 present_state = T0;
 					
-				SHRA_T3 : present_state = SHRA_T4;
-				SHRA_T4 : present_state = SHRA_T5;
-				SHRA_T5 : present_state = T0;
+				SHRA_T3 : #40 present_state = SHRA_T4;
+				SHRA_T4 : #40 present_state = SHRA_T5;
+				SHRA_T5 : #40 present_state = T0;
 					
-				SHL_T3 : present_state = SHL_T4;
-				SHL_T4 : present_state = SHL_T5;
-				SHL_T5 : present_state = T0;
+				SHL_T3 : #40 present_state = SHL_T4;
+				SHL_T4 : #40 present_state = SHL_T5;
+				SHL_T5 : #40 present_state = T0;
 					
-				ROR_T3 : present_state = ROR_T4;
-				ROR_T4 : present_state = ROR_T5;
-				ROR_T5 : present_state = T0;
+				ROR_T3 : #40 present_state = ROR_T4;
+				ROR_T4 : #40 present_state = ROR_T5;
+				ROR_T5 : #40 present_state = T0;
 					
-				ROL_T3 : present_state = ROL_T4;
-				ROL_T4 : present_state = ROL_T5;
-				ROL_T5 : present_state = T0;
+				ROL_T3 : #40 present_state = ROL_T4;
+				ROL_T4 : #40 present_state = ROL_T5;
+				ROL_T5 : #40 present_state = T0;
 					
-				NEG_T3 : present_state = NEG_T4;
-				NEG_T4 : present_state = T0;
+				NEG_T3 : #40 present_state = NEG_T4;
+				NEG_T4 : #40 present_state = T0;
 					
-				NOT_T3 : present_state = NOT_T4;
-				NOT_T4 : present_state = T0;
+				NOT_T3 : #40 present_state = NOT_T4;
+				NOT_T4 : #40 present_state = T0;
 					
-				BR_T3 : present_state = BR_T4;
-				BR_T4 : present_state = BR_T5;
-				BR_T5 : present_state = BR_T6;
-				BR_T6 : present_state = T0;
+				BR_T3 : #40 present_state = BR_T4;
+				BR_T4 : #40 present_state = BR_T5;
+				BR_T5 : #40 present_state = BR_T6;
+				BR_T6 : #40 present_state = T0;
 					
-				JR_T3 : present_state = T0;
+				JR_T3 : #40 present_state = T0;
 					
-				JAL_T3 : present_state = JAL_T4;
-				JAL_T4 : present_state = JAL_T5;
-				JAL_T5 : present_state = T0;
+				JAL_T3 : #40 present_state = JAL_T4;
+				JAL_T4 : #40 present_state = JAL_T5;
+				JAL_T5 : #40 present_state = T0;
 					
-				IN_T3 : present_state = IN_T4;
-				IN_T4 : present_state = T0;
+				IN_T3 : #40 present_state = IN_T4;
+				IN_T4 : #40 present_state = T0;
 					
-				OUT_T3 : present_state = T0;
+				OUT_T3 : #40 present_state = T0;
 					
-				MFHI_T3 : present_state = T0;
-				MFLO_T3 : present_state = T0;
+				MFHI_T3 : #40 present_state = T0;
+				MFLO_T3 : #40 present_state = T0;
 					
-				NOP_T3  : present_state = T0; 
-				HALT_T3 : present_state = HALT_T3;
+				NOP_T3  : #40 present_state = T0; 
+				HALT_T3 : #40 present_state = HALT_T3;
 				
 			endcase
 		end
@@ -360,7 +360,7 @@ begin
 					end
                         
                     //--------------------------------------------------------------------------------
-					// Add (DONE I THINK)
+					// Add (DONE)
 					ADD_T3 : begin 
 						#10 Grb <= 1; Rout <= 1; Yin <= 1; 
 						#15 Grb <= 0; Rout <= 0; Yin <= 0; 
