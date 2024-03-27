@@ -1,23 +1,30 @@
 `timescale 1ns/10ps
 module add_tb;
-    reg PCout, Zlowout, MDRout, R2out, R3out; // add any other signals to see in your simulation
-    reg MARin, Zlowin, PCin, MDRin, IRin, Yin;
-    reg IncPC, Read, ADD, R1in, R2in, R3in;
-    reg clock, clear;
-    reg [31:0] Mdatain;
+    reg PCout, Zlowout, MDRout; // add any other signals to see in your simulation
+    reg Zlowin, PCin, MDRin, IRin, Yin;
+    reg IncPC, ADD;
+    reg clock, clear, MD_read, MAR_clear;
+	 reg Rout; 
+//    reg [31:0] Mdatain;
 
-    parameter   Default = 4'b0000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load2a = 4'b0011,
-                Reg_load2b = 4'b0100, Reg_load3a = 4'b0101, Reg_load3b = 4'b0110, T0 = 4'b0111,
-                T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100;
-    reg [3:0] Present_state = Default;
+    parameter   Default = 5'b00000, T0 = 5'b00001, T1 = 5'b00010, T2 = 5'b00011, T3 = 5'b00100, 
+	 T4 = 5'b00101, T5 = 5'b00110, T6 = 5'b00111, T7 = 5'b01000, T8 = 5'b01001, T9 = 5'b01010, T10 = 5'b01011,
+	 T11 = 5'b01100, T12 = 5'b01101, T13 = 5'b01110, T14 = 5'b01111, T15 = 5'b10000, T16 = 5'b10001, T17 = 5'b10010, T18 = 5'b10011, T19 = 5'b10100; 
+    reg [4:0] Present_state = Default;
+	 
+	 reg Csignout, Grb, Gra, Grc, Read, Write, MARin, Rin, BAout; 
 
-	DataPath DUT(.clock(clock), .clear(clear), 
-		     .R1in(R1in), .R2in(R2in), .R3in(R3in),
-			  .R2out(R2out), .R3out(R3out),  
-		     .MDRin(MDRin), 
-		     .MARin(MARin), .PCin(PCin), .MD_read(Read),
-		     .Zlowin(Zlowin), .Zlowout(Zlowout), .IncPC(IncPC), .Yin(Yin), .IRin(IRin),  
-		     .Mdatain(Mdatain), .MDRout(MDRout));
+	 
+
+	DataPath D(.clock(clock), .clear(clear),  
+		     .MDRin(MDRin), .MAR_clear(MAR_clear),
+		     .PCin(PCin), .MD_read(MD_read),
+		     .Zlowin(Zlowin), .Zhighin(Zhighin), .Zlowout(Zlowout), .IncPC(IncPC), .Yin(Yin), .IRin(IRin),  
+		     .MDRout(MDRout), 
+			  
+			  .PCout(PCout), .Rout(Rout), 
+			  
+			  .Csignout(Csignout), .Grb(Grb), .Gra(Gra), .Grc(Grc), .BAout(BAout), .Read(Read), .Write(Write), .MARin(MARin), .Rin(Rin), .ADD(ADD));
 // add test logic here
 		
 	initial
@@ -30,95 +37,119 @@ module add_tb;
 always @(posedge clock) // finite state machine; if clock rising-edge
     begin
         case (Present_state)
-            Default : #40 Present_state = Reg_load1a;
-            Reg_load1a : #40 Present_state = Reg_load1b;
-            Reg_load1b : #40 Present_state = Reg_load2a;
-            Reg_load2a : #40 Present_state = Reg_load2b;
-            Reg_load2b : #40 Present_state = Reg_load3a;
-            Reg_load3a : #40 Present_state = Reg_load3b;
-            Reg_load3b : #40 Present_state = T0;
+            Default : #40 Present_state = T0;
             T0 : #40 Present_state = T1;
             T1 : #40 Present_state = T2;
             T2 : #40 Present_state = T3;
             T3 : #40 Present_state = T4;
             T4 : #40 Present_state = T5;
+				T5 : #40 Present_state = T6;
+            T6 : #40 Present_state = T7;
+            T7 : #40 Present_state = T8;
+				T8 : #40 Present_state = T9;
+				T9 : #40 Present_state = T10;
+				T10 : #40 Present_state = T11;
+				T11 : #40 Present_state = T12;
+				T12 : #40 Present_state = T13;
+				T13 : #40 Present_state = T14;
+				T14 : #40 Present_state = T15;
+				T15 : #40 Present_state = T16;
+				T16 : #40 Present_state = T17;
+				T17 : #40 Present_state = T18; 
+				T18 : #40 Present_state = T19; 
         endcase
     end
 
-always @(Present_state) // do the required job in each state
-    begin
-        case (Present_state) // assert the required signals in each clock cycle
+always @(Present_state)
+   begin
+        case (Present_state) 
             Default: begin
                     PCout <= 0; Zlowout <= 0; MDRout <= 0; // initialize the signals
-                    R2out <= 0; R3out <= 0; MARin <= 0; Zlowin <= 0;
+                    MARin <= 0; Zlowin <= 0;
                     PCin <=0; MDRin <= 0; IRin <= 0; Yin <= 0;
                     IncPC <= 0; Read <= 0; ADD <= 0;
-                    R1in <= 0; R2in <= 0; R3in <= 0; Mdatain <= 32'h00000000;
+                    MD_read <= 0; MAR_clear <= 0; Rout <= 0; 
+						  Csignout <= 0; Grb <= 0; Gra <= 0; Grc <= 0; BAout <= 0; Rin <= 0;
             end
-		//------------------------------------------------------------
-            Reg_load1a: begin
-			Mdatain <= 32'h00000012; //sends data to MDMux
-			Read = 0; MDRin = 0; // does nothing
-			#10 Read <= 1; MDRin <= 1; //sets BusMuxInMDR to Mdatain 
-			#15 Read <= 0; MDRin <= 0; //read selects Busmux out, MDRin disables MDR
+				T0: begin //Puts PC into MAR S
+						#10 PCout <= 1; MARin <= 1; IncPC <= 1; Zlowin <= 1; 
+						#15 PCout <= 0; MARin <= 0; IncPC <= 0; Zlowin <= 0;
             end
-            Reg_load1b: begin
-			#10 MDRout <= 1; R2in <= 1; //MDRout = 1 sets BusMuxOut to BusMuxInMDR aka Mdatain
-			//R2in = 1 enables R2in, sets BMInR2 to BusMuxOut 
-			#15 MDRout <= 0; R2in <= 0; //MDRout dissables bus change, R2in dissables register R2 change
+            T1: begin //Puts ram data into Mdatain
+						#10 Zlowout <= 1; PCin <= 1; Read <= 1;  MD_read <= 1; MDRin <= 1; 
+						#15 Zlowout <= 0; PCin <= 0; Read <= 0;  MD_read <= 0; MDRin <= 0;
             end
-		//------------------------------------------------------------
-            Reg_load2a: begin
-                    Mdatain <= 32'h4;
-                    #10 Read <= 1; MDRin <= 1;
-                    #15 Read <= 0; MDRin <= 0;
-						  //puts Mdatain to BusMuxInMDR
+            T2: begin //MDR content on to bus
+                  #10 MDRout <= 1; IRin <= 1;
+						#15 MDRout <= 0; IRin <= 0;
             end
-            Reg_load2b: begin
-                    #10 MDRout <= 1; R3in <= 1;
-                    #15 MDRout <= 0; R3in <= 0; // initialize R3 with the value $14
-						  //puts BusMuxInMDR to BusMuxOut to Register 3 (BMInR3)
-            end
-		//------------------------------------------------------------
-            Reg_load3a: begin
-                    Mdatain <= 32'h00000018;
-                    #10 Read <= 1; MDRin <= 1;
-                    #15 Read <= 0; MDRin <= 0;
-							//puts Mdatain to BusMuxInMDR
-            end
-            Reg_load3b: begin
-                    #10 MDRout <= 1; R1in <= 1;
-                    #15 MDRout <= 0; R1in <= 0; // initialize R1 with the value $18
-						  //puts BusMuxInMDR to BusMuxOut to Register 1 (BMInR1)
-            end
-		//------------------------------------------------------------
-		
-            T0: begin // see if you need to de-assert these signals
-                    #10 PCout <= 1; MARin <= 1; IncPC <= 1; Zlowin <= 1;
-		    #15 PCout <= 0; MARin <= 0; IncPC <= 0; Zlowin <= 0;
-						  
-            end
-            T1: begin
-                    #10 Zlowout <= 1; PCin <= 1; Read <= 1; MDRin <= 1;
-                    Mdatain <= 4'b0100; // opcode for “ADD, R2, R2, R3"
-		    #15 Zlowout <= 0; PCin <= 0; Read <= 0; MDRin <= 0;
-            end
-            T2: begin
-                    #10 MDRout <= 1; IRin <= 1; //transfers MDR contents to IR reg
-		    #15 MDRout <= 0; IRin <= 0;
-            end
-            T3: begin
-                    #10 R2out <= 1; Yin <= 1; //transfers R2 contents to Y reg
-			#15 R2out <= 0; Yin <= 0;
+            T3: begin //Yin contains 0 from R0
+                  #10 Grb <= 1; BAout <= 1; Yin <= 1; 
+						#15 Grb <= 0; BAout <= 0; Yin <= 0; 
             end
             T4: begin
-                    #10 R3out <= 1; ADD <= 1; Zlowin <= 1; //transfers R3 to bus, does ADD, Z takes in ADD result
-		    #15 R3out <= 0; ADD <= 0; Zlowin <= 0;
+                  #10 Csignout <= 1; ADD <= 1; Zlowin <= 1; //contents in Creg + Yreg = ZlowReg
+						#15 Csignout <= 0; ADD <= 0; Zlowin <= 0; 
             end
-            T5: begin
-                    #10 Zlowout <= 1; R1in <= 1; //transfers zlow contents into R1 
-		    #15 Zlowout <= 0; R1in <= 0;
+				T5: begin
+						#10 Zlowout <= 1; Gra <= 1; Rin <= 1; //In register 2
+						#15 Zlowout <= 0; Gra <= 0; Rin <= 0; 
+				end
+				
+				//LDI
+				T6: begin //Puts PC into MAR S
+						#10 PCout <= 1; MARin <= 1; IncPC <= 1; Zlowin <= 1; 
+						#15 PCout <= 0; MARin <= 0; IncPC <= 0; Zlowin <= 0;
             end
+            T7: begin //Puts ram data into Mdatain
+						#10 Zlowout <= 1; PCin <= 1; Read <= 1;  MD_read <= 1; MDRin <= 1; 
+						#15 Zlowout <= 0; PCin <= 0; Read <= 0;  MD_read <= 0; MDRin <= 0;
+            end
+            T8: begin //MDR content on to bus
+                  #10 MDRout <= 1; IRin <= 1;
+						#15 MDRout <= 0; IRin <= 0;
+            end
+            T9: begin //Yin contains 0 from R0
+                  #10 Grb <= 1; BAout <= 1; Yin <= 1; 
+						#15 Grb <= 0; BAout <= 0; Yin <= 0; 
+            end
+            T10: begin
+                  #10 Csignout <= 1; ADD <= 1; Zlowin <= 1; //contents in Creg + Yreg = ZlowReg
+						#15 Csignout <= 0; ADD <= 0; Zlowin <= 0; 
+            end
+				T11: begin
+						#10 Zlowout <= 1; Gra <= 1; Rin <= 1; //In register 2
+						#15 Zlowout <= 0; Gra <= 0; Rin <= 0; 
+				end
+				
+				//ADD
+				
+            T12: begin //Puts PC into MAR S
+						#10 PCout <= 1; MARin <= 1; IncPC <= 1; Zlowin <= 1; 
+						#15 PCout <= 0; MARin <= 0; IncPC <= 0; Zlowin <= 0;
+            end
+            T13: begin //Puts ram data into Mdatain
+						#10 Zlowout <= 1; PCin <= 1; Read <= 1; MD_read <= 1; MDRin <= 1; 
+						#15 Zlowout <= 0; PCin <= 0; Read <= 0; MD_read <= 0; MDRin <= 0;
+            end
+				T14: begin //IR has opcode 
+                  #10 MDRout <= 1; IRin <= 1;  
+						#15 MDRout <= 0; IRin <= 0; 
+            end
+            T15: begin //Yin contains 0 from R4
+                  #10 Grb <= 1; BAout <= 1; Yin <= 1; 
+						#15 Grb <= 0; BAout <= 0; Yin <= 0; 
+            end
+            T16: begin
+                  #10 Grc <= 1; BAout <= 1; ADD <= 1; Zlowin <= 1; //contents in Creg + Yreg = ZlowReg
+						#15 Grc <= 0; BAout <= 0; ADD <= 0; Zlowin <= 0; 
+            end
+				T17: begin
+						#10 Zlowout <= 1; Gra <= 1; Rin <= 1; //In register 3
+						#15 Zlowout <= 0; Gra <= 0; Rin <= 0; 
+				end
+					
+				
         endcase
     end
 endmodule
