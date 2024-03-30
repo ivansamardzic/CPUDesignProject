@@ -3,6 +3,6 @@ module neg_32_bit(
     output wire [31:0]Rz
 );
 
-	assign Rz = ~Ra + 1'b1; 
+	assign Rz = ~Ra + 1; 
 
 endmodule

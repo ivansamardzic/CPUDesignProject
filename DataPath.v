@@ -39,7 +39,7 @@ module DataPath(
 	wire Out_Portin, Strobe;
 	wire HIout, LOout, Zhighout, Zlowout, PCout, MDRout, MARout, InPortout;
 	wire Gra, Grb, Grc, Rin, Rout, BAout, Csignout, Read, Write;
-	wire IncPC, ADD, AND, OR, BRANCH;
+	wire IncPC, ADD, AND, OR, BRANCH, NEGATE, NOT, SUB, MUL, DIV, SHR, SHRA, SHL, ROR, ROL;
 	wire CONin;
 	wire CONFF;
 	
@@ -153,7 +153,7 @@ module DataPath(
 		.AND(AND), .OR(OR), 
 		.SHR(SHR), .SHRA(SHRA), .SHL(SHL),
 		.ROR(ROR), .ROL(ROL),
-		.NEG(NEG), .NOT(NOT),
+		.NEGATE(NEGATE), .NOT(NOT),
 		.IncPC(IncPC), .BRANCH(BRANCH),
 		.MD_read(MD_read), .Write(Write),
 		.InPortout(InPortout),

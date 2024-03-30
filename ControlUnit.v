@@ -14,7 +14,7 @@ module ControlUnit (
 	output reg AND, OR, 
 	output reg SHR, SHRA, SHL,
 	output reg ROR, ROL,
-	output reg NEG, NOT,
+	output reg NEGATE, NOT,
 	output reg IncPC, BRANCH,
 
 	//Light blue section
@@ -53,23 +53,23 @@ module ControlUnit (
 					// And Immediate
 					ANDI_T3 = 8'b01101011, 	ANDI_T4 = 8'b01101100, 	ANDI_T5 = 8'b01101101,
 					// Or
-					OR_T3   = 8'b01011011, 	OR_T4   = 8'b01011100,  OR_T5   = 8'b01011110,
+					OR_T3   = 8'b01011011, 	OR_T4   = 8'b01011100,  OR_T5   = 8'b01011101,
 					// Or Immediate
-					ORI_T3  = 8'b01110011, 	ORI_T4  = 8'b01110100, 	ORI_T5  = 8'b01110110,
+					ORI_T3  = 8'b01110011, 	ORI_T4  = 8'b01110100, 	ORI_T5  = 8'b01110101,
 					// Shift Right
-					SHR_T3  = 8'b00101011, 	SHR_T4  = 8'b00101100, 	SHR_T5  = 8'b00101110,
+					SHR_T3  = 8'b00101011, 	SHR_T4  = 8'b00101100, 	SHR_T5  = 8'b00101101,
 					// Shift Right Arithmetic
-					SHRA_T3 = 8'b00110011, 	SHRA_T4 = 8'b00110100, 	SHRA_T5 = 8'b00110110,
+					SHRA_T3 = 8'b00110011, 	SHRA_T4 = 8'b00110100, 	SHRA_T5 = 8'b00110101,
 					// Shift Left
-					SHL_T3  = 8'b00111011, 	SHL_T4  = 8'b00111100, 	SHL_T5  = 8'b00111110,
+					SHL_T3  = 8'b00111011, 	SHL_T4  = 8'b00111100, 	SHL_T5  = 8'b00111101,
 					// Rotate Right
-					ROR_T3  = 8'b01000011, 	ROR_T4  = 8'b01000100, 	ROR_T5  = 8'b01000110,
+					ROR_T3  = 8'b01000011, 	ROR_T4  = 8'b01000100, 	ROR_T5  = 8'b01000101,
 					// Rotate Left
-					ROL_T3  = 8'b01001011, 	ROL_T4  = 8'b01001100, 	ROL_T5  = 8'b01001110,
+					ROL_T3  = 8'b01001011, 	ROL_T4  = 8'b01001100, 	ROL_T5  = 8'b01001101,
 					// Negate
-					NEG_T3  = 8'b10001011, 	NEG_T4  = 8'b10001100,
+					NEG_T3  = 8'b10001011, 	NEG_T4  = 8'b10001100,  NEG_T5  = 8'b10001101,
 					// Not
-					NOT_T3  = 8'b10010011, 	NOT_T4  = 8'b10010100,
+					NOT_T3  = 8'b10010011, 	NOT_T4  = 8'b10010100,  NOT_T5  = 8'b10010101,
 					// Branch
 					BR_T3 = 8'b10011011, 	BR_T4 = 8'b10011100, 	BR_T5 = 8'b10011101, 	BR_T6 = 8'b10011110,
 					// Jump
@@ -217,10 +217,12 @@ module ControlUnit (
 				ROL_T5 : #40 present_state = T0;
 					
 				NEG_T3 : #40 present_state = NEG_T4;
-				NEG_T4 : #40 present_state = T0;
+				NEG_T4 : #40 present_state = NEG_T5;
+				NEG_T5 : #40 present_state = T0;
 					
 				NOT_T3 : #40 present_state = NOT_T4;
-				NOT_T4 : #40 present_state = T0;
+				NOT_T4 : #40 present_state = NOT_T5;
+				NOT_T5 : #40 present_state = T0;
 					
 				BR_T3 : #40 present_state = BR_T4;
 				BR_T4 : #40 present_state = BR_T5;
@@ -271,7 +273,7 @@ begin
 						AND <= 0; OR <= 0;
 						SHR <= 0; SHRA <= 0; SHL <= 0;
 						ROR <= 0; ROL <= 0;
-						NEG <= 0; NOT <= 0; BRANCH <= 0;
+						NEGATE <= 0; NOT <= 0; BRANCH <= 0;
 						#15 clear <= 0;
 					end
 				
@@ -610,11 +612,16 @@ begin
                     //--------------------------------------------------------------------------------
 					// Negate (DONE I THINK)
 					NEG_T3 : begin
-						#10 Grb <= 1; Rout <= 1; Zlowin <= 1; NEG <= 1; 
-						#15 Grb <= 0; Rout <= 0; Zlowin <= 0; NEG <= 0;
+						#10 Grb <= 1; Rout <= 1; Yin <= 1;
+						#15 Grb <= 0; Rout <= 0; Yin <= 0;
 					end
 					
 					NEG_T4 : begin
+						#10 Rout <= 1; Zlowin <= 1; NEGATE <= 1; Grc <= 1;
+						#15 Rout <= 0; Zlowin <= 0; NEGATE <= 0; Grc <= 0;
+					end
+					
+					NEG_T5 : begin
 						#10 Zlowout <= 1; Gra <= 1; Rin <= 1;
 						#15 Zlowout <= 0; Gra <= 0; Rin <= 0;
 					end
@@ -622,11 +629,16 @@ begin
                     //--------------------------------------------------------------------------------
 					// Not (DONE I THINK)
 					NOT_T3 : begin
-						#10 Grb <= 1; Rout <= 1; Zlowin <= 1; NOT <= 1;
-						#15 Grb <= 0; Rout <= 0; Zlowin <= 0; NOT <= 0;
+						#10 Grb <= 1; Rout <= 1; Yin <= 1;
+						#15 Grb <= 0; Rout <= 0; Yin <= 0;
 					end
 					
 					NOT_T4 : begin
+						#10 Rout <= 1; Zlowin <= 1; NOT <= 1; Grc <= 1;
+						#15 Rout <= 0; Zlowin <= 0; NOT <= 0; Grc <= 0;
+					end
+					
+					NOT_T5 : begin
 						#10 Zlowout <= 1; Gra <= 1; Rin <= 1;
 						#15 Zlowout <= 0; Gra <= 0; Rin <= 0;
 					end

@@ -19,7 +19,7 @@ D0000000 //     nop
 6BB8000F //     andi	R7, R7, 0xF
 40818000 //     ror	    R1, R0, R3
 73880009 //     ori	    R7, R1, 9
-30B98000 //     shra	R1, R7, R3
+30B98000 //     shra	R1, R7, R3		
 29118000 //     shr	    R2, R2, R3
 1100008E //     st		0x8E, R2
 49018000 //     rol	    R2, R0, R3
