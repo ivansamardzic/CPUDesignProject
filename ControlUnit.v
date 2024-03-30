@@ -443,7 +443,7 @@ begin
 					
 					DIV_T4 : begin
 						#10 Grb <= 1; Rout <= 1; DIV <= 1; Zhighin <= 1; Zlowin <= 1;
-						#15 Grb <= 0; Rout <= 0; DIV <= 0; Zhighin <= 1; Zlowin <= 0;
+						#15 Grb <= 0; Rout <= 0; DIV <= 0; Zhighin <= 0; Zlowin <= 0;
 					end
 					
 					DIV_T5 : begin
