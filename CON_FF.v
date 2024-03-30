@@ -1,14 +1,15 @@
 module CON_FF(
 	input wire [31:0] BMInIR, BusMuxOut,
 	input wire CONin, 
-	output reg Q
+	output wire Q
 	); 
 	
 	wire [1:0] IRbits; 
 	wire Q_not; 
 	reg flag; 
+	reg temp;
 	 
-	assign IRbits = BMInIR [22:21]; //op code is for [22:21], they want [20:19]???
+	assign IRbits = BMInIR [20:19]; //op code is for [22:21], they want [20:19]???
 	
 	always @(*) begin 
 		case (IRbits) 
@@ -33,9 +34,10 @@ module CON_FF(
 	
 	always @(*)
 		begin
-			if(CONin) Q <= flag;
+			if(CONin) temp <= flag;
 		end 
 	assign Q_not = !Q; 
+	assign Q = temp;
 						
 		
 endmodule
