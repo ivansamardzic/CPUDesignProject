@@ -69,18 +69,34 @@ module DataPath(
 	
 	//register R0
 	reg [31:0]qR0;
+	reg [31:0]tempR0;
 	initial qR0 = 32'h0;
+	initial tempR0 = 32'h0;
 
-	always @ (posedge clock)
-			begin 
-				if (clear) begin
-					qR0 <= 32'h0;
-				end
-				else if (IN[0]) begin
-					qR0 <= BusMuxOut;
-				end
-			end
-		assign BMInR0 = qR0 & ~BAout; //may need to concatenate 
+//	always @ (posedge clock)
+//			begin 
+//				if (clear) begin
+//					qR0 <= 32'h0;
+//				end
+//				else if (IN[0]) begin
+//					qR0 <= BusMuxOut;
+//				end
+//			end
+//		assign BMInR0 = qR0 & ~BAout; //may need to concatenate 
+
+	always @ (BAout) 
+		begin
+			if (BAout) tempR0 <= 32'h0;
+			else tempR0 <= qR0;
+		end
+	
+	always @ (posedge clock) 
+		begin
+			if (clear) qR0 <= 32'h00000000;
+			else if (IN[0]) qR0 <= BusMuxOut;
+		end
+
+	assign BMInR0 = tempR0;
 		
 	//register R0(clear, clock, IN[0], BusMuxOut, BMInR0);//Added one for R0 bc it wasnt there before	
 	register R1(clear, clock, IN[1], BusMuxOut, BMInR1);
