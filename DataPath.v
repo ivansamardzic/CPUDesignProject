@@ -142,7 +142,7 @@ module DataPath(
 		);
 		
 	
-	ALU alu(.Y(BMInY), .BusMuxOut(BusMuxOut), .ADD(ADD), .IncPC(IncPC), .AND(AND), .OR(OR), .BRANCH(BRANCH), .C(C));
+	ALU alu(.Y(BMInY), .BusMuxOut(BusMuxOut), .ADD(ADD), .IncPC(IncPC), .AND(AND), .OR(OR), .BRANCH(BRANCH), .NEGATE(NEGATE), .NOT(NOT), .SUB(SUB), .MUL(MUL), .DIV(DIV), .SHR(SHR), .SHRA(SHRA), .SHL(SHL), .ROR(ROR), .ROL(ROL), .C(C));
 	
 	
 	ControlUnit CU(
