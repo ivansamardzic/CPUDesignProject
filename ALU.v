@@ -29,7 +29,7 @@ module ALU(input wire [31:0] Y, BusMuxOut, input ADD, IncPC, AND, OR, BRANCH, NE
 	
 	//Mul/Div
 	Bit_Pair_32_bit mul_32(Y, BusMuxOut, mul_result);
-	Non_Restoring_32_bit div_32(Y, BusMuxOut, Quotient, Remainder);
+	Non_Restoring_32_bit div_32(BusMuxOut, Y, Quotient, Remainder);
     
 	
 	
