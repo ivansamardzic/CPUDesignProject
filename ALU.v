@@ -41,7 +41,6 @@ module ALU(input wire [31:0] Y, BusMuxOut, input ADD, IncPC, AND, OR, BRANCH, NE
 	else if(BRANCH) op <= 4'b1110;
 	else if(NEGATE) op <= 4'b0010; 
 	else if(NOT) op <= 4'b0011;
-	else if(ADD) op <= 4'b0100;
 	else if(SUB) op <= 4'b0101;
 	else if(MUL) op <= 4'b0110;
 	else if(DIV) op <= 4'b0111;
