@@ -418,39 +418,39 @@ begin
 					end
 					
 					MUL_T4 : begin
-						Grb <= 1; Rout <= 1; MUL <= 1; Zlowin <= 1; Zhighin <= 1;
+						#10 Grb <= 1; Rout <= 1; MUL <= 1; Zlowin <= 1; Zhighin <= 1;
 						#15 Grb <= 0; Rout <= 0; MUL <= 0; Zlowin <= 0; Zhighin <= 0;
 					end
 					
 					MUL_T5 : begin
-						Zlowout <= 1; LOin <= 1;
+						#10 Zlowout <= 1; LOin <= 1;
 						#15 Zlowout <= 0; LOin <= 0;
 					end
 					
 					MUL_T6 : begin
-						Zhighout <= 1; HIin <= 1;
+						#10 Zhighout <= 1; HIin <= 1;
 						#15 Zhighout <= 0; HIin <= 0;
 					end
 				
                     //--------------------------------------------------------------------------------
 					// Divide (NEEDS TO BE FIGURED OUT)
 					DIV_T3 : begin
-						Gra <= 1; Rout <= 1; Yin <= 1;
+						#10 Gra <= 1; Rout <= 1; Yin <= 1;
 						#15 Gra <= 0; Rout <= 0; Yin <= 0;
 					end
 					
 					DIV_T4 : begin
-						Grb <= 1; Rout <= 1; DIV <= 1; Zhighin <= 1; Zlowin <= 1;
+						#10 Grb <= 1; Rout <= 1; DIV <= 1; Zhighin <= 1; Zlowin <= 1;
 						#15 Grb <= 0; Rout <= 0; DIV <= 0; Zhighin <= 1; Zlowin <= 0;
 					end
 					
 					DIV_T5 : begin
-						Zlowout <= 1; LOin <= 1;
+						#10 Zlowout <= 1; LOin <= 1;
 						#15 Zlowout <= 0; LOin <= 0;
 					end
 					
 					DIV_T6 : begin
-						Zhighout <= 1; HIin <= 1;
+						#10 Zhighout <= 1; HIin <= 1;
 						#15 Zhighout <= 0; HIin <= 0;
 					end
 					
