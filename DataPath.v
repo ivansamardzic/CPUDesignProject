@@ -96,7 +96,7 @@ module DataPath(
 			else if (IN[0]) qR0 <= BusMuxOut;
 		end
 
-	assign BMInR0 = tempR0;
+	assign BMInR0 = tempR0 & ~BAout;
 		
 	//register R0(clear, clock, IN[0], BusMuxOut, BMInR0);//Added one for R0 bc it wasnt there before	
 	register R1(clear, clock, IN[1], BusMuxOut, BMInR1);
