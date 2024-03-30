@@ -25,7 +25,7 @@ module ALU(input wire [31:0] Y, BusMuxOut, input ADD, IncPC, AND, OR, BRANCH, NE
 	
 	//Add/Sub
 	CarrySelectAdder_32_bit add_32(.a(Y), .b(BusMuxOut), .sum(add_result));
-	sub_32_bit sub_32(Y, BusMuxOut, sub_result);
+	sub_32_bit sub_32( .a(Y), .b(BusMuxOut), .sum(sub_result));
 	
 	//Mul/Div
 	Bit_Pair_32_bit mul_32(Y, BusMuxOut, mul_result);
