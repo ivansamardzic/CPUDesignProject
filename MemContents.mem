@@ -69,7 +69,7 @@ D8000000 //     halt            --> Program will halt
 00000000
 00000000
 00000000
-00000094 //     preload 0x94 (line 3)   --> overwritten with 0x27 (line 28)
+00000094 //     preload 0x94 (line 3)   --> overwritten with 0x37 (line 28)
 00000000
 00000000
 00000000
