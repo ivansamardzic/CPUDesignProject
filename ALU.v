@@ -10,7 +10,6 @@ module ALU(input wire [31:0] Y, BusMuxOut, input ADD, IncPC, AND, OR, BRANCH, NE
 	or_32_bit o(.Ra(Y), .Rb(BusMuxOut), .Rz(or_result));
 	
 	//Neg/Not WORKS
-	//Note: There is no sign extension when preforming the operation
 	neg_32_bit neg_32(Y, neg_result);
 	not_32_bit not_32(Y, not_result);
 	

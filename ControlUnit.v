@@ -31,7 +31,7 @@ module ControlUnit (
 	input [31:0] IR_reg
 );
 
-	parameter 			reset_state = 8'b00000000, T0 = 8'b11111000, T1 = 8'b11111001, T2 = 8'b11111010,
+	parameter 		reset_state = 8'b00000000, T0 = 8'b11111000, T1 = 8'b11111001, T2 = 8'b11111010,
 					// Load
 					LD_T3  = 8'b00000011, 	LD_T4  = 8'b00000100, 	LD_T5  = 8'b00000101, 	LD_T6 = 8'b00000110, LD_T7 = 8'b00000111,
 					// Load Immediate
@@ -294,7 +294,7 @@ begin
 						#15 MDRout <= 0; IRin <= 0;
 					end
                     //--------------------------------------------------------------------------------
-                    // Load (Allan's States do not match up with ours, take a look)
+                    // Load (Done)
 					LD_T3 : begin
 						#10 Grb <= 1; BAout <= 1; Yin <= 1; 
 						#15 Grb <= 0; BAout <= 0; Yin <= 0; 
@@ -304,9 +304,7 @@ begin
 						#10 Csignout <= 1; ADD <= 1; Zlowin <= 1;
 						#15 Csignout <= 0; ADD <= 0; Zlowin <= 0;
 					end
-					
-                    //this single step from allan's corresponds to T13-15 in ld_tb.v, take a look
-                    //not sure whether to add our 3 steps instead of this one
+
 					LD_T5 : begin
 						#10 Zlowout <= 1; MARin <= 1;
 						#15 Zlowout <= 0; MARin <= 0; 
@@ -396,7 +394,7 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Subtract (DONE I THINK)
+					// Subtract (DONE)
 					SUB_T3 : begin 
 						#10 Grb <= 1; Rout <= 1; Yin <= 1; 
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
@@ -413,7 +411,7 @@ begin
 					end
 					
                     //--------------------------------------------------------------------------------
-					// Multiply (NEEDS TO BE FIGURED OUT)
+					// Multiply (DONE)
 					MUL_T3 : begin
 						#10 Gra <= 1; Rout <= 1; Yin <= 1;
 						#15 Gra <= 0; Rout <= 0; Yin <= 0;
@@ -435,7 +433,7 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Divide (NEEDS TO BE FIGURED OUT)
+					// Divide (DONE)
 					DIV_T3 : begin
 						#10 Gra <= 1; Rout <= 1; Yin <= 1;
 						#15 Gra <= 0; Rout <= 0; Yin <= 0;
@@ -457,7 +455,7 @@ begin
 					end
 					
 					//--------------------------------------------------------------------------------
-					// And (DONE I THINK)
+					// And (DONE)
 					AND_T3 : begin
 						#10 Grb <= 1; Rout <= 1; Yin <= 1; 
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
@@ -491,7 +489,7 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Or (DONE I THINK)
+					// Or (DONE)
 					OR_T3 : begin
 						#10 Grb <= 1; Rout <= 1; Yin <= 1; 
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
@@ -525,7 +523,7 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Shift Right (DONE I THINK)
+					// Shift Right (DONE)
 					SHR_T3 : begin
 						#10 Grb <= 1; Rout <= 1; Yin <= 1; 
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
@@ -542,7 +540,7 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Shift Right Arithmetic (DONE I THINK)
+					// Shift Right Arithmetic (DONE)
 					SHRA_T3 : begin
 						#10 Grb <= 1; Rout <= 1; Yin <= 1;
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
@@ -559,7 +557,7 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Shift Left (DONE I THINK)
+					// Shift Left (DONE)
 					SHL_T3 : begin
 						#10 Grb <= 1; Rout <= 1; Yin <= 1;
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
@@ -576,7 +574,7 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Rotate Right (DONE I THINK)
+					// Rotate Right (DONE)
 					ROR_T3 : begin
 						#15 Grb <= 1; Rout <= 1; Yin <= 1;
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
@@ -593,7 +591,7 @@ begin
 					end
 					
                     //--------------------------------------------------------------------------------
-					// Rotate Left (DONE I THINK)
+					// Rotate Left (DONE)
 					ROL_T3 : begin
 						#10 Grb <= 1; Rout <= 1; Yin <= 1;
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
@@ -610,7 +608,7 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Negate (DONE I THINK)
+					// Negate (DONE)
 					NEG_T3 : begin
 						#10 Grb <= 1; Rout <= 1; Yin <= 1;
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;
@@ -627,7 +625,7 @@ begin
 					end
 				
                     //--------------------------------------------------------------------------------
-					// Not (DONE I THINK)
+					// Not (DONE)
 					NOT_T3 : begin
 						#10 Grb <= 1; Rout <= 1; Yin <= 1;
 						#15 Grb <= 0; Rout <= 0; Yin <= 0;

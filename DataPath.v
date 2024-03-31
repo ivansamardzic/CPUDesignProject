@@ -142,13 +142,17 @@ module DataPath(
 		);
 		
 	
-	ALU alu(.Y(BMInY), .BusMuxOut(BusMuxOut), .ADD(ADD), .IncPC(IncPC), .AND(AND), .OR(OR), .BRANCH(BRANCH), .NEGATE(NEGATE), .NOT(NOT), .SUB(SUB), .MUL(MUL), .DIV(DIV), .SHR(SHR), .SHRA(SHRA), .SHL(SHL), .ROR(ROR), .ROL(ROL), .C(C));
+	ALU alu(
+		.Y(BMInY), .BusMuxOut(BusMuxOut), .ADD(ADD), .IncPC(IncPC), .AND(AND), .OR(OR), .BRANCH(BRANCH), 
+		.NEGATE(NEGATE), .NOT(NOT), .SUB(SUB), .MUL(MUL), .DIV(DIV), .SHR(SHR), .SHRA(SHRA), .SHL(SHL), 
+		.ROR(ROR), .ROL(ROL), .C(C));
 	
 	
 	ControlUnit CU(
 		.PCout(PCout), .MDRout(MDRout), .Zhighout(Zhighout), .Zlowout(Zlowout), .HIout(HIout), .LOout(LOout),
 		.Rin(Rin), .Rout(Rout), .Gra(Gra), .Grb(Grb), .Grc(Grc),
-		.BAout(BAout), .Csignout(Csignout), .Out_Portin(Out_Portin), .MDRin(MDRin), .MARin(MARin), .Yin(Yin), .IRin(IRin), .PCin(PCin), .CONin(CONin), .LOin(LOin), .HIin(HIin), .Zhighin(Zhighin), .Zlowin(Zlowin),
+		.BAout(BAout), .Csignout(Csignout), .Out_Portin(Out_Portin), .MDRin(MDRin), .MARin(MARin), .Yin(Yin), .IRin(IRin), 
+		.PCin(PCin), .CONin(CONin), .LOin(LOin), .HIin(HIin), .Zhighin(Zhighin), .Zlowin(Zlowin),
 		.ADD(ADD), .SUB(SUB), .MUL(MUL), .DIV(DIV),
 		.AND(AND), .OR(OR), 
 		.SHR(SHR), .SHRA(SHRA), .SHL(SHL),
