@@ -15,7 +15,7 @@ module ControlUnit (
 	output reg SHR, SHRA, SHL,
 	output reg ROR, ROL,
 	output reg NEGATE, NOT,
-	output reg IncPC, BRANCH,
+	output reg IncPC, BRANCH, 
 
 	//Light blue section
 	output reg MD_read, Write,
@@ -24,7 +24,9 @@ module ControlUnit (
 	output reg InPortout,
 	
 	//Dark green section
-	output reg clear,
+	output reg clear, Strobe,
+	
+	//output reg [31:0] INPUT_UNIT,
 
 	//Red section
 	input clock, reset, stop, CONFF,
@@ -134,7 +136,7 @@ module ControlUnit (
 						5'b10100 : present_state = JR_T3;
 						5'b10101 : present_state = JAL_T3;
 						5'b10110 : present_state = IN_T3;
-						5'b10011 : present_state = OUT_T3;
+						5'b10111 : present_state = OUT_T3;
 						5'b11000 : present_state = MFHI_T3;
 						5'b11001 : present_state = MFLO_T3;
 						5'b11010 : present_state = NOP_T3;
@@ -273,7 +275,7 @@ begin
 						AND <= 0; OR <= 0;
 						SHR <= 0; SHRA <= 0; SHL <= 0;
 						ROR <= 0; ROL <= 0;
-						NEGATE <= 0; NOT <= 0; BRANCH <= 0;
+						NEGATE <= 0; NOT <= 0; BRANCH <= 0; Strobe <= 0; 
 						#15 clear <= 0;
 					end
 				
@@ -692,8 +694,8 @@ begin
                     //--------------------------------------------------------------------------------
 					// In (DONE)
 					IN_T3 : begin
-						//#10 Strobe <= 1; 
-						//#15 Strobe <= 0;
+						#10 Strobe <= 1; 
+						#15 Strobe <= 0;
 					end
 					
 					IN_T4 : begin

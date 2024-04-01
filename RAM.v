@@ -9,7 +9,7 @@ module RAM(
 	 reg [31:0] temp;
 
     initial begin
-	    $readmemh("C:/Users/QueensWin10x64/Documents/PersonalProjects/CPUDesignProject/MemContents.mem", ram); 
+	    $readmemh("C:/Users/21is8/Documents/CPUDesignProject/MemContents.mem", ram); 
 	end
 
     always @(*) begin

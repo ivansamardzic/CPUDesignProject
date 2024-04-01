@@ -10,6 +10,7 @@ module ControlUnit_tb;
     initial
 		begin
 		    clock = 0;
+			 INPUT_UNIT = 32'h80;
 		forever #10 clock = ~ clock;
 		end
 

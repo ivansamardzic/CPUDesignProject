@@ -34,6 +34,7 @@ module DataPath(
 	wire [31:0] Mdatain;
 	wire [15:0] IN, OUT; 
 	wire [8:0] address;
+	//wire [31:0] INPUT_UNIT, OUTPUT_UNIT;
 	wire HIin, LOin, Zlowin, Zhighin, PCin, MDRin, MARin, InPortin, Cin, MD_read;
 	wire IRin, OutPortin, Yin;
 	wire Out_Portin, Strobe;
@@ -163,7 +164,7 @@ module DataPath(
 		.InPortout(InPortout),
 		.clear(clear),
 		.clock(clock), .reset(reset), .stop(stop), .CONFF(CONFF),
-		.IR_reg(BMInIR)
+		.IR_reg(BMInIR), .Strobe(Strobe)
 		);
 
 	
