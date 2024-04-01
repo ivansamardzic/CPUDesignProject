@@ -20,6 +20,9 @@ add wave -position end  sim:/ControlUnit_tb/DUT/R14/q
 add wave -position end  sim:/ControlUnit_tb/DUT/R15/q
 add wave -position end  sim:/ControlUnit_tb/DUT/HI_reg/q
 add wave -position end  sim:/ControlUnit_tb/DUT/LO_reg/q
+add wave -position end  sim:/ControlUnit_tb/DUT/IN
+add wave -position end  sim:/ControlUnit_tb/DUT/OUT
 add wave -position end  sim:/ControlUnit_tb/DUT/ram/ram[71]
-add wave -position end  sim:/ControlUnit_tb/DUT/ram/ram[142]
+add wave -position end  sim:/ControlUnit_tb/DUT/ram/ram[170]
+add wave -position 30  sim:/ControlUnit_tb/DUT/ram/ram[142]
 add wave -position end  sim:/ControlUnit_tb/DUT/ram/ram[240]
