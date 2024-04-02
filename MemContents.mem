@@ -39,24 +39,24 @@ CB000000 //     mflo	R6
 0E300000 //     ldi	    R12, 0(R6)
 0EB80003 //     ldi	    R13, 3(R7)
 AE780000 //     jal     R12
-b2000000 //---------------------------------Phase 4 Stuff
-120000aa
-0880002e
-0b800001
-0a800028
-ba000000
-0aafffff
-9a800008
-030000f0
-0b37ffff
-d0000000
-9b0ffffd
-2a238000
-9a0ffff7
-020000aa
-a0800000
-0a000055
-ba000000 //--------------------------------End Phase 4 Stuff
+b2000000 //		 in 		R4 
+120000aa //		 st 		0xAA, R4
+0880002e //		 ldi 		R1, 0x2E
+0b800001 //     ldi 		R7, 1
+0a800028 //		 ldi 		R5, 40
+ba000000 //		 out 		R4				--> Loop
+0aafffff //		 ldi 		R5, -1(R5)
+9a800008 //		 brzr 	R5, 8 
+030000f0 //		 ld 		R6, 0xF0
+0b37ffff //		 ldi 		R6, -1(R6)	--> Loop 2
+d0000000	//		 nop
+9b0ffffd //		 brnz 	R6, -3
+2a238000 //		 shr 		R4, R4, R7
+9a0ffff7 //		 brnz 	R4, -9
+020000aa //		 ld R4, 	0xAA
+a0800000 //		 jr 		R1 
+0a000055 // 	 ldi 		R4, 0x55		--> End Loop
+ba000000 //		 out 		R4
 D8000000 //     halt            --> Program will halt
 00000000
 00000000
@@ -238,7 +238,7 @@ A7800000 //     jr		R15             --> return from subA procedure
 00000000
 00000000
 00000000
-00000005
+00000005 //		 preload 0xFFFF (line 50)   --> changed to 0x5 for shorter simulation
 00000000
 00000000
 00000000
